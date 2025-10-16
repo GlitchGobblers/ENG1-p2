@@ -1,6 +1,6 @@
 ## CONTRIBUTING
 
-**All changes must be made in feature (and pull requests) branches** - never commit directly to the main branch.
+**I think we should use branches to work on features** - It keeps the commit history clean, and separate.
 
 Use this naming pattern for your branches:
 
