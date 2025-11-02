@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private FitViewport viewport;
-    private Texture image;
 
     Texture ballmanTexture;
     Sprite playerSprite;
@@ -23,7 +22,6 @@ public class Main extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         viewport = new FitViewport(16, 9);
-        image = new Texture("libgdx.png");
         ballmanTexture = new Texture("ballman.png");
         playerSprite = new Sprite(ballmanTexture);
         playerSprite.setSize(1, 1);
@@ -84,6 +82,6 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        image.dispose();
+        ballmanTexture.dispose();
     }
 }
