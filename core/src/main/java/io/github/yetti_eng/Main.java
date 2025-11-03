@@ -47,16 +47,16 @@ public class Main extends ApplicationAdapter {
 
     private void input() {
         player.resetMovement();
-        if (InputHelper.anyOfTheseKeysPressed(Input.Keys.RIGHT, Input.Keys.D)) {
+        if (InputHelper.moveRightPressed()) {
             player.addMovement(1, 0);
         }
-        if (InputHelper.anyOfTheseKeysPressed(Input.Keys.LEFT, Input.Keys.A)) {
+        if (InputHelper.moveLeftPressed()) {
             player.addMovement(-1, 0);
         }
-        if (InputHelper.anyOfTheseKeysPressed(Input.Keys.UP, Input.Keys.W)) {
+        if (InputHelper.moveUpPressed()) {
             player.addMovement(0, 1);
         }
-        if (InputHelper.anyOfTheseKeysPressed(Input.Keys.DOWN, Input.Keys.S)) {
+        if (InputHelper.moveDownPressed()) {
             player.addMovement(0, -1);
         }
     }
