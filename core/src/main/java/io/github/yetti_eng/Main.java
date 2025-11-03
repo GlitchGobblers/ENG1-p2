@@ -1,10 +1,15 @@
 package io.github.yetti_eng;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.yetti_eng.entities.Player;
@@ -21,6 +26,11 @@ public class Main extends ApplicationAdapter {
     Player player;
     Wall testWall;
 
+    private FreeTypeFontGenerator robotoGenerator;
+    private final FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
+    private BitmapFont roboto32;
+    private Label timerText;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -31,6 +41,12 @@ public class Main extends ApplicationAdapter {
 
         player = new Player(ballmanTexture, 5, 5);
         testWall = new Wall(wallTexture, 10, 5);
+
+        robotoGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-VariableFont_wdth,wght.ttf"));
+        fontParameter.size = 32;
+        roboto32 = robotoGenerator.generateFont(fontParameter);
+        timerText = new Label(null, new Label.LabelStyle(roboto32, Color.BLACK.cpy()));
+        timerText.setPosition(0, 10);
     }
 
     @Override
@@ -88,9 +104,18 @@ public class Main extends ApplicationAdapter {
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+
         // batch.draw(image, 4, 4, 8, 1);
         player.draw(batch);
         testWall.draw(batch);
+
+        // TODO
+        // int timeRemaining = getCurrentTimeRemaining();
+        // String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
+        String text = "TEST";
+        timerText.setText(text);
+        timerText.draw(batch, 1.0f);
+
         batch.end();
     }
 
@@ -99,5 +124,6 @@ public class Main extends ApplicationAdapter {
         batch.dispose();
         ballmanTexture.dispose();
         wallTexture.dispose();
+        robotoGenerator.dispose();
     }
 }
