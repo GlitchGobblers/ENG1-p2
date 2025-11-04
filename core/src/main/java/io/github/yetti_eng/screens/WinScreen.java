@@ -1,6 +1,5 @@
 package io.github.yetti_eng.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.YettiGame;
@@ -15,9 +14,7 @@ public class WinScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -35,24 +32,15 @@ public class WinScreen implements Screen {
         game.viewport.update(width, height, true);
     }
 
+    @Override
+    public void pause() {}
 
     @Override
-    public void pause() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }

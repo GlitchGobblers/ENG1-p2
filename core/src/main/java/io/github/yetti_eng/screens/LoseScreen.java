@@ -14,9 +14,7 @@ public class LoseScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -34,24 +32,15 @@ public class LoseScreen implements Screen {
         game.viewport.update(width, height, true);
     }
 
+    @Override
+    public void pause() {}
 
     @Override
-    public void pause() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }
