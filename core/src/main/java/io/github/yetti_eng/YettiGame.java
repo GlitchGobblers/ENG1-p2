@@ -39,6 +39,7 @@ public class YettiGame extends Game {
 
     @Override
     public void dispose() {
+        super.dispose();
         batch.dispose();
         robotoGenerator.dispose();
     }
