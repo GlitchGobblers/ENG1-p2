@@ -102,8 +102,8 @@ public class GameScreen implements Screen {
 
         if (timer.hasElapsed()) {
             timer.finish();
-            // TODO: lose screen logic
-            System.out.println("Timer elapsed!");
+            game.setScreen(new LoseScreen(game));
+            dispose();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -117,7 +117,7 @@ public class GameScreen implements Screen {
     }
 
     private void draw(float delta) {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        ScreenUtils.clear(0.15f, 0.6f, 0.2f, 1f);
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
