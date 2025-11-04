@@ -10,8 +10,8 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 // Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
 public abstract class Entity extends Sprite {
-    protected float speed;
-    protected Vector2 movement;
+    private float speed;
+    private final Vector2 movement;
     private final Rectangle hitbox;
 
     public Entity(Texture tex, float x, float y, float width, float height, float speed) {
@@ -44,8 +44,8 @@ public abstract class Entity extends Sprite {
     }
 
     // Consolidated "moveLeft()", "moveUp()" etc. into a single "doMove()" method to reduce repetition
-    public void doMove() {
-        float speedThisFrame = getSpeedThisFrame();
+    public void doMove(float delta) {
+        float speedThisFrame = getSpeedThisFrame(delta);
         translateX(movement.x * speedThisFrame);
         translateY(movement.y * speedThisFrame);
         hitbox.setPosition(getX(), getY());
@@ -55,12 +55,8 @@ public abstract class Entity extends Sprite {
         return hitbox.overlaps(other.getHitbox());
     }
 
-    public float getSpeed() {
-        return speed;
-    }
-
-    public float getSpeedThisFrame() {
-        return speed * Gdx.graphics.getDeltaTime();
+    public float getSpeedThisFrame(float delta) {
+        return speed * delta;
     }
 
     public Rectangle getHitbox() {

@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
     private void logic(float delta) {
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
-            player.doMove();
+            player.doMove(delta);
         }
 
         // Detect collision with objects
@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
             // If the player just collided with an object, move in the opposite direction
             // TODO: Make the player able to move laterally even when colliding with a wall
             player.reverseMovement();
-            player.doMove();
+            player.doMove(delta);
         }
 
         // Clamp to edges of screen
