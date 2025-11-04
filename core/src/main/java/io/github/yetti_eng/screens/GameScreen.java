@@ -72,7 +72,10 @@ public class GameScreen implements Screen {
     }
 
     private void logic(float delta) {
-        player.doMove();
+        // Only move the player if the game isn't paused
+        if (!game.isPaused()) {
+            player.doMove();
+        }
 
         // Detect collision with objects
         if (player.collidedWith(testWall)) {
@@ -93,27 +96,24 @@ public class GameScreen implements Screen {
         player.setY(MathUtils.clamp(player.getY(), 0, worldHeight - playerHeight));
 
         // Timer
-        // For testing purposes
-        if (!timer.isActive()) {
-            timerText.setStyle(new Label.LabelStyle(game.font, Color.RED.cpy()));
-        } else {
-            timerText.setStyle(new Label.LabelStyle(game.font, Color.BLACK.cpy()));
-        }
-
         if (timer.hasElapsed()) {
             timer.finish();
             game.setScreen(new LoseScreen(game));
             dispose();
         }
 
+        int timeRemaining = timer.getRemainingTime();
+        String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
+        timerText.setText(text);
+        timerText.setStyle(new Label.LabelStyle(game.font, (timer.isActive() ? Color.BLACK : Color.RED).cpy()));
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            if (timer.isActive()) {
-                timer.pause();
+            if (game.isPaused()) {
+                game.resume();
             } else {
-                timer.play();
+                game.pause();
             }
         }
-        // For testing purposes END
     }
 
     private void draw(float delta) {
@@ -126,9 +126,6 @@ public class GameScreen implements Screen {
         player.draw(game.batch);
         testWall.draw(game.batch);
 
-        int timeRemaining = timer.getRemainingTime();
-        String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
-        timerText.setText(text);
         timerText.draw(game.batch, 1.0f);
 
         game.batch.end();

@@ -22,6 +22,8 @@ public class YettiGame extends Game {
     private final FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
     public BitmapFont font;
 
+    private boolean paused;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -47,5 +49,24 @@ public class YettiGame extends Game {
      */
     public static float scaled(float original) {
         return original * WORLD_SCALE;
+    }
+
+    /**
+     * @return true if the game is currently paused; false otherwise.
+     */
+    public boolean isPaused() {
+        return paused;
+    }
+
+    @Override
+    public void pause() {
+        paused = true;
+        super.pause();
+    }
+
+    @Override
+    public void resume() {
+        paused = false;
+        super.resume();
     }
 }
