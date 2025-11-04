@@ -126,6 +126,10 @@ public class GameScreen implements Screen {
         player.draw(game.batch);
         testWall.draw(game.batch);
 
+        if (game.isPaused()) {
+            game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
+        }
+
         timerText.draw(game.batch, 1.0f);
 
         game.batch.end();
