@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import static io.github.yetti_eng.YettiGame.scaled;
+
 // Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
 public abstract class Entity extends Sprite {
     protected float speed;
@@ -14,6 +16,15 @@ public abstract class Entity extends Sprite {
 
     public Entity(Texture tex, float x, float y, float width, float height, float speed) {
         super(tex);
+
+        // Scale all measurements to world size
+        x = scaled(x);
+        y = scaled(y);
+        width = scaled(width);
+        height = scaled(height);
+        speed = scaled(speed);
+
+        // Set this Entity's bounds and hitbox
         setBounds(x, y, width, height);
         this.hitbox = new Rectangle(x, y, width, height);
         this.speed = speed;

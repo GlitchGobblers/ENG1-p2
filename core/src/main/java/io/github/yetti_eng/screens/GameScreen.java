@@ -1,75 +1,61 @@
-package io.github.yetti_eng;
+package io.github.yetti_eng.screens;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import io.github.yetti_eng.InputHelper;
+import io.github.yetti_eng.Timer;
+import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.entities.Wall;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class Main extends ApplicationAdapter {
-    private static final int TIMER_LENGTH = 300; // 300s = 5min
+import static io.github.yetti_eng.YettiGame.scaled;
 
-    private SpriteBatch batch;
-    private FitViewport viewport;
+public class GameScreen implements Screen {
+    private final YettiGame game;
+
+    private static final int TIMER_LENGTH = 300; // 300s = 5min
 
     private Texture ballmanTexture;
     private Texture wallTexture;
 
-    Player player;
-    Wall testWall;
-
-    private FreeTypeFontGenerator robotoGenerator;
-    private final FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
-    private BitmapFont roboto32;
+    private Player player;
+    private Wall testWall;
 
     private Timer timer;
     private Label timerText;
 
-    @Override
-    public void create() {
-        batch = new SpriteBatch();
-        viewport = new FitViewport(16, 9);
+    public GameScreen(final YettiGame game) {
+        this.game = game;
+    }
 
+    @Override
+    public void show() {
         ballmanTexture = new Texture("ballman.png");
         wallTexture = new Texture("wall.png");
 
         player = new Player(ballmanTexture, 5, 5);
         testWall = new Wall(wallTexture, 10, 5);
 
-        robotoGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-VariableFont_wdth,wght.ttf"));
-        fontParameter.size = 32;
-        roboto32 = robotoGenerator.generateFont(fontParameter);
-
         timer = new Timer(TIMER_LENGTH);
-        timer.play(); // TODO: move this to after leaving the menu screen
-        timerText = new Label(null, new Label.LabelStyle(roboto32, Color.BLACK.cpy()));
-        timerText.setPosition(0, 10);
+        timer.play();
+        timerText = new Label(null, new Label.LabelStyle(game.font, Color.BLACK.cpy()));
+        timerText.setPosition(scaled(0), scaled(5));
     }
 
     @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
+    public void render(float delta) {
+        input(delta);
+        logic(delta);
+        draw(delta);
     }
 
-    @Override
-    public void render() {
-        input();
-        logic();
-        draw();
-    }
-
-    private void input() {
+    private void input(float delta) {
         player.resetMovement();
         if (InputHelper.moveRightPressed()) {
             player.addMovement(1, 0);
@@ -85,7 +71,7 @@ public class Main extends ApplicationAdapter {
         }
     }
 
-    private void logic() {
+    private void logic(float delta) {
         player.doMove();
 
         // Detect collision with objects
@@ -97,8 +83,8 @@ public class Main extends ApplicationAdapter {
         }
 
         // Clamp to edges of screen
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
+        float worldWidth = game.viewport.getWorldWidth();
+        float worldHeight = game.viewport.getWorldHeight();
 
         float playerWidth = player.getWidth();
         float playerHeight = player.getHeight();
@@ -109,15 +95,15 @@ public class Main extends ApplicationAdapter {
         // Timer
         // For testing purposes
         if (!timer.isActive()) {
-            timerText.setStyle(new Label.LabelStyle(roboto32, Color.RED.cpy()));
+            timerText.setStyle(new Label.LabelStyle(game.font, Color.RED.cpy()));
         } else {
-            timerText.setStyle(new Label.LabelStyle(roboto32, Color.BLACK.cpy()));
+            timerText.setStyle(new Label.LabelStyle(game.font, Color.BLACK.cpy()));
         }
 
         if (timer.hasElapsed()) {
             timer.finish();
+            // TODO: lose screen logic
             System.out.println("Timer elapsed!");
-            timer.finish();
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -130,29 +116,47 @@ public class Main extends ApplicationAdapter {
         // For testing purposes END
     }
 
-    private void draw() {
+    private void draw(float delta) {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
+        game.viewport.apply();
+        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+        game.batch.begin();
 
         // batch.draw(image, 4, 4, 8, 1);
-        player.draw(batch);
-        testWall.draw(batch);
+        player.draw(game.batch);
+        testWall.draw(game.batch);
 
         int timeRemaining = timer.getRemainingTime();
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
-        timerText.draw(batch, 1.0f);
+        timerText.draw(game.batch, 1.0f);
 
-        batch.end();
+        game.batch.end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        game.viewport.update(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+        timer.pause();
+    }
+
+    @Override
+    public void resume() {
+        timer.play();
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
         ballmanTexture.dispose();
         wallTexture.dispose();
-        robotoGenerator.dispose();
     }
 }
