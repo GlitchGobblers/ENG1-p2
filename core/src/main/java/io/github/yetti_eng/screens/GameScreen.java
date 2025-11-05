@@ -17,6 +17,7 @@ import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.entities.Wall;
 import io.github.yetti_eng.events.DoorEvent;
 import io.github.yetti_eng.events.KeyEvent;
+import io.github.yetti_eng.events.PointsEvent;
 import io.github.yetti_eng.events.WinEvent;
 
 import java.util.ArrayList;
@@ -33,9 +34,10 @@ public class GameScreen implements Screen {
     private Texture exitTexture;
     private Texture keyTexture;
     private Texture doorTexture;
+    private Texture duckTexture;
 
     private Player player;
-    private ArrayList<Entity> entities = new ArrayList<>();
+    private final ArrayList<Entity> entities = new ArrayList<>();
 
     private Timer timer;
     private Label timerText;
@@ -51,12 +53,14 @@ public class GameScreen implements Screen {
         exitTexture = new Texture("exit.png");
         keyTexture = new Texture("key.png");
         doorTexture = new Texture("door.png");
+        duckTexture = new Texture("duck.png");
 
         player = new Player(ballmanTexture, 5, 5);
         entities.add(new Wall(wallTexture, 10, 5));
         entities.add(new Item(new WinEvent(), "exit", exitTexture, 14, 5));
         entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, true));
+        entities.add(new Item(new PointsEvent(), "long_boi", duckTexture, 7.5f, 8));
 
         timer = new Timer(TIMER_LENGTH);
         timer.play();
@@ -183,5 +187,9 @@ public class GameScreen implements Screen {
     public void dispose() {
         ballmanTexture.dispose();
         wallTexture.dispose();
+        exitTexture.dispose();
+        keyTexture.dispose();
+        doorTexture.dispose();
+        duckTexture.dispose();
     }
 }
