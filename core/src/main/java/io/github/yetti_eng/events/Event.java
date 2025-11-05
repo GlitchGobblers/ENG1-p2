@@ -14,7 +14,7 @@ public abstract class Event {
      * @return true if the Item was successfully interacted with
      *         (the Event activated successfully); false otherwise.
      */
-    public abstract boolean activate(Item item, Player player);
+    public abstract boolean activate(final YettiGame game, Player player, Item item);
 
     public abstract int getScoreModifier();
 

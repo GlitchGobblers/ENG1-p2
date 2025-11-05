@@ -13,4 +13,8 @@ public class Player extends Entity {
         // Player should be slightly smaller than 1 tile so as not to get stuck on walls
         super(tex, x, y, 0.9f, 0.9f, PLAYER_SPEED, false);
     }
+
+    public boolean hasUsedItem(String itemID) {
+        return usedItems.stream().anyMatch(i -> i.ID.equals(itemID));
+    }
 }

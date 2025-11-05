@@ -1,6 +1,5 @@
 package io.github.yetti_eng.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +13,9 @@ public abstract class Entity extends Sprite {
     private boolean solid;
     private final Vector2 movement;
     private final Rectangle hitbox;
+
+    private boolean visible = true;
+    private boolean enabled = true;
 
     public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
         super(tex);
@@ -53,16 +55,43 @@ public abstract class Entity extends Sprite {
         hitbox.setPosition(getX(), getY());
     }
 
+    Rectangle getHitbox() {
+        return hitbox;
+    }
+
     public boolean collidedWith(Entity other) {
-        return hitbox.overlaps(other.getHitbox());
+        // If disabled, do not check for collisions
+        return enabled && hitbox.overlaps(other.getHitbox());
+    }
+
+    public void show() {
+        visible = true;
+    }
+
+    public void hide() {
+        visible = false;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void enable() {
+        enabled = true;
+        show();
+    }
+
+    public void disable() {
+        enabled = false;
+        hide();
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public float getSpeedThisFrame(float delta) {
         return speed * delta;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
     }
 
     void setSolid(boolean solid) {

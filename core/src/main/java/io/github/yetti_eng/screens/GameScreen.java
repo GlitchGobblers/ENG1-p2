@@ -11,8 +11,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
+import io.github.yetti_eng.entities.Entity;
+import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.entities.Wall;
+import io.github.yetti_eng.events.DoorEvent;
+import io.github.yetti_eng.events.KeyEvent;
+import io.github.yetti_eng.events.WinEvent;
+
+import java.util.ArrayList;
 
 import static io.github.yetti_eng.YettiGame.scaled;
 
@@ -23,9 +30,12 @@ public class GameScreen implements Screen {
 
     private Texture ballmanTexture;
     private Texture wallTexture;
+    private Texture exitTexture;
+    private Texture keyTexture;
+    private Texture doorTexture;
 
     private Player player;
-    private Wall testWall;
+    private ArrayList<Entity> entities = new ArrayList<>();
 
     private Timer timer;
     private Label timerText;
@@ -38,9 +48,15 @@ public class GameScreen implements Screen {
     public void show() {
         ballmanTexture = new Texture("ballman.png");
         wallTexture = new Texture("wall.png");
+        exitTexture = new Texture("exit.png");
+        keyTexture = new Texture("key.png");
+        doorTexture = new Texture("door.png");
 
         player = new Player(ballmanTexture, 5, 5);
-        testWall = new Wall(wallTexture, 10, 5);
+        entities.add(new Wall(wallTexture, 10, 5));
+        entities.add(new Item(new WinEvent(), "exit", exitTexture, 14, 5));
+        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, true));
 
         timer = new Timer(TIMER_LENGTH);
         timer.play();
@@ -78,13 +94,21 @@ public class GameScreen implements Screen {
         }
 
         // Detect collision with objects
-        // TODO: get all objects from the map and check "solid" property
-        if (player.collidedWith(testWall)) {
-            // If the player just collided with an object, move in the opposite direction
-            // TODO: Make the player able to move laterally even when colliding with a wall
-            player.reverseMovement();
-            player.doMove(delta);
-        }
+        entities.forEach(e -> {
+            if (player.collidedWith(e) && e.isEnabled()) {
+                // Check for collision with solid objects
+                if (e.isSolid()) {
+                    // If the player just collided with a solid object, move in the opposite direction
+                    // TODO: Make the player able to move laterally even when colliding with a solid object
+                    player.reverseMovement();
+                    player.doMove(delta);
+                }
+                // Check for interaction with items
+                if (e instanceof Item item) {
+                    item.interact(game, player);
+                }
+            }
+        });
 
         // Clamp to edges of screen
         float worldWidth = game.viewport.getWorldWidth();
@@ -125,7 +149,8 @@ public class GameScreen implements Screen {
 
         // batch.draw(image, 4, 4, 8, 1);
         player.draw(game.batch);
-        testWall.draw(game.batch);
+        // Draw only visible entities
+        entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
 
         if (game.isPaused()) {
             game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
