@@ -8,7 +8,7 @@ public class KeyEvent extends Event {
     @Override
     public boolean activate(YettiGame game, Player player, Item item) {
         item.disable();
-        // TODO: spawn fading text that says "Got check-in code" or similar
+        game.spawnInteractionText(player, "Got check-in code");
         return true;
     }
 

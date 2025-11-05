@@ -8,7 +8,7 @@ public class PointsEvent extends Event {
     @Override
     public boolean activate(YettiGame game, Player player, Item item) {
         item.disable();
-        // TODO: spawn fading text that says "Got check-in code" or similar
+        game.spawnInteractionText(player, "Found Long Boi\n+" + getScoreModifier());
         return true;
     }
 
