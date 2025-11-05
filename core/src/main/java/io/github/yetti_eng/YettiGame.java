@@ -15,6 +15,8 @@ import io.github.yetti_eng.screens.MenuScreen;
 public class YettiGame extends Game {
     private static final float WORLD_SCALE = 80; // 16:9 * 80 = 1280:720
 
+    public int score;
+
     public SpriteBatch batch;
     public FitViewport viewport;
 

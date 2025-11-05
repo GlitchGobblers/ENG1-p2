@@ -6,7 +6,7 @@ public class Wall extends Entity {
     private static final float WALL_SPEED = 0.0f;
 
     public Wall(Texture tex, float x, float y, float width, float height) {
-        super(tex, x, y, width, height, WALL_SPEED);
+        super(tex, x, y, width, height, WALL_SPEED, true);
     }
 
     public Wall(Texture tex, float x, float y) {

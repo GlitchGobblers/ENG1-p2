@@ -78,6 +78,7 @@ public class GameScreen implements Screen {
         }
 
         // Detect collision with objects
+        // TODO: get all objects from the map and check "solid" property
         if (player.collidedWith(testWall)) {
             // If the player just collided with an object, move in the opposite direction
             // TODO: Make the player able to move laterally even when colliding with a wall

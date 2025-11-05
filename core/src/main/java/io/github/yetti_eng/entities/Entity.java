@@ -11,10 +11,11 @@ import static io.github.yetti_eng.YettiGame.scaled;
 // Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
 public abstract class Entity extends Sprite {
     private float speed;
+    private boolean solid;
     private final Vector2 movement;
     private final Rectangle hitbox;
 
-    public Entity(Texture tex, float x, float y, float width, float height, float speed) {
+    public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
         super(tex);
 
         // Scale all measurements to world size
@@ -28,6 +29,7 @@ public abstract class Entity extends Sprite {
         setBounds(x, y, width, height);
         this.hitbox = new Rectangle(x, y, width, height);
         this.speed = speed;
+        this.solid = solid;
         this.movement = new Vector2(0, 0);
     }
 
@@ -61,5 +63,13 @@ public abstract class Entity extends Sprite {
 
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    void setSolid(boolean solid) {
+        this.solid = solid;
+    }
+
+    public boolean isSolid() {
+        return solid;
     }
 }
