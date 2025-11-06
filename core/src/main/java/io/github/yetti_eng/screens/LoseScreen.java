@@ -8,13 +8,16 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 public class LoseScreen implements Screen {
     private final YettiGame game;
+    private int score;
 
     public LoseScreen(final YettiGame game) {
         this.game = game;
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        score = game.calculateFinalScore();
+    }
 
     @Override
     public void render(float delta) {
@@ -24,6 +27,8 @@ public class LoseScreen implements Screen {
         game.batch.begin();
 
         game.font.draw(game.batch, "You lost :(", scaled(7), scaled(4.5f));
+        game.font.draw(game.batch, "Score: " + score, scaled(7), scaled(3.5f));
+
         game.batch.end();
     }
 

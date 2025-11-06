@@ -11,8 +11,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
+import io.github.yetti_eng.entities.Entity;
+import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.entities.Wall;
+import io.github.yetti_eng.events.*;
+
+import java.util.ArrayList;
 
 import static io.github.yetti_eng.YettiGame.scaled;
 
@@ -23,11 +28,15 @@ public class GameScreen implements Screen {
 
     private Texture ballmanTexture;
     private Texture wallTexture;
+    private Texture exitTexture;
+    private Texture keyTexture;
+    private Texture doorTexture;
+    private Texture duckTexture;
+    private Texture surprisedTexture;
 
     private Player player;
-    private Wall testWall;
+    private final ArrayList<Entity> entities = new ArrayList<>();
 
-    private Timer timer;
     private Label timerText;
 
     public GameScreen(final YettiGame game) {
@@ -38,12 +47,22 @@ public class GameScreen implements Screen {
     public void show() {
         ballmanTexture = new Texture("ballman.png");
         wallTexture = new Texture("wall.png");
+        exitTexture = new Texture("exit.png");
+        keyTexture = new Texture("key.png");
+        doorTexture = new Texture("door.png");
+        duckTexture = new Texture("duck.png");
+        surprisedTexture = new Texture("surprised.png");
 
         player = new Player(ballmanTexture, 5, 5);
-        testWall = new Wall(wallTexture, 10, 5);
+        entities.add(new Wall(wallTexture, 10, 5));
+        entities.add(new Item(new WinEvent(), "exit", exitTexture, 14, 5));
+        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
 
-        timer = new Timer(TIMER_LENGTH);
-        timer.play();
+        game.timer = new Timer(TIMER_LENGTH);
+        game.timer.play();
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.BLACK.cpy()));
         timerText.setPosition(scaled(0), scaled(5));
     }
@@ -78,12 +97,21 @@ public class GameScreen implements Screen {
         }
 
         // Detect collision with objects
-        if (player.collidedWith(testWall)) {
-            // If the player just collided with an object, move in the opposite direction
-            // TODO: Make the player able to move laterally even when colliding with a wall
-            player.reverseMovement();
-            player.doMove(delta);
-        }
+        entities.forEach(e -> {
+            if (player.collidedWith(e) && e.isEnabled()) {
+                // Check for collision with solid objects
+                if (e.isSolid()) {
+                    // If the player just collided with a solid object, move in the opposite direction
+                    // TODO: Make the player able to move laterally even when colliding with a solid object
+                    player.reverseMovement();
+                    player.doMove(delta);
+                }
+                // Check for interaction with items
+                if (e instanceof Item item) {
+                    item.interact(game, player);
+                }
+            }
+        });
 
         // Clamp to edges of screen
         float worldWidth = game.viewport.getWorldWidth();
@@ -96,16 +124,16 @@ public class GameScreen implements Screen {
         player.setY(MathUtils.clamp(player.getY(), 0, worldHeight - playerHeight));
 
         // Timer
-        if (timer.hasElapsed()) {
-            timer.finish();
+        if (game.timer.hasElapsed()) {
+            game.timer.finish();
             game.setScreen(new LoseScreen(game));
             dispose();
         }
 
-        int timeRemaining = timer.getRemainingTime();
+        int timeRemaining = game.timer.getRemainingTime();
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
-        timerText.setStyle(new Label.LabelStyle(game.font, (timer.isActive() ? Color.BLACK : Color.RED).cpy()));
+        timerText.setStyle(new Label.LabelStyle(game.font, (game.timer.isActive() ? Color.BLACK : Color.RED).cpy()));
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (game.isPaused()) {
@@ -124,7 +152,8 @@ public class GameScreen implements Screen {
 
         // batch.draw(image, 4, 4, 8, 1);
         player.draw(game.batch);
-        testWall.draw(game.batch);
+        // Draw only visible entities
+        entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
 
         if (game.isPaused()) {
             game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
@@ -142,12 +171,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-        timer.pause();
+        game.timer.pause();
     }
 
     @Override
     public void resume() {
-        timer.play();
+        game.timer.play();
     }
 
     @Override
@@ -157,5 +186,9 @@ public class GameScreen implements Screen {
     public void dispose() {
         ballmanTexture.dispose();
         wallTexture.dispose();
+        exitTexture.dispose();
+        keyTexture.dispose();
+        doorTexture.dispose();
+        duckTexture.dispose();
     }
 }
