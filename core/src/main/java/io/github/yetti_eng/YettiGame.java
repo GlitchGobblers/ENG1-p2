@@ -31,6 +31,7 @@ public class YettiGame extends Game {
     private final ArrayList<Label> interactionTexts = new ArrayList<>();
     private boolean paused;
 
+    public Timer timer;
     public int score;
 
     @Override
@@ -85,10 +86,23 @@ public class YettiGame extends Game {
         super.resume();
     }
 
+    /**
+     * Spawns a text label that floats upwards and fades out. Used when interacting with Items.
+     * @param player The current Player object.
+     * @param text The text that should be displayed.
+     */
     public void spawnInteractionText(Player player, String text) {
         Label label = new Label(text, new Label.LabelStyle(fontSmall, Color.WHITE.cpy()));
         label.setPosition(player.getX(), player.getY()+(player.getHeight()/2), Align.center);
         interactionTexts.add(label);
+    }
+
+    /**
+     * @return The final score for the game.
+     */
+    public int calculateFinalScore() {
+        score += timer.getRemainingTime();
+        return score;
     }
 
     @Override

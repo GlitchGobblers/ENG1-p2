@@ -37,7 +37,6 @@ public class GameScreen implements Screen {
     private Player player;
     private final ArrayList<Entity> entities = new ArrayList<>();
 
-    private Timer timer;
     private Label timerText;
 
     public GameScreen(final YettiGame game) {
@@ -62,8 +61,8 @@ public class GameScreen implements Screen {
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
         entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
 
-        timer = new Timer(TIMER_LENGTH);
-        timer.play();
+        game.timer = new Timer(TIMER_LENGTH);
+        game.timer.play();
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.BLACK.cpy()));
         timerText.setPosition(scaled(0), scaled(5));
     }
@@ -125,16 +124,16 @@ public class GameScreen implements Screen {
         player.setY(MathUtils.clamp(player.getY(), 0, worldHeight - playerHeight));
 
         // Timer
-        if (timer.hasElapsed()) {
-            timer.finish();
+        if (game.timer.hasElapsed()) {
+            game.timer.finish();
             game.setScreen(new LoseScreen(game));
             dispose();
         }
 
-        int timeRemaining = timer.getRemainingTime();
+        int timeRemaining = game.timer.getRemainingTime();
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
-        timerText.setStyle(new Label.LabelStyle(game.font, (timer.isActive() ? Color.BLACK : Color.RED).cpy()));
+        timerText.setStyle(new Label.LabelStyle(game.font, (game.timer.isActive() ? Color.BLACK : Color.RED).cpy()));
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (game.isPaused()) {
@@ -172,12 +171,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-        timer.pause();
+        game.timer.pause();
     }
 
     @Override
     public void resume() {
-        timer.play();
+        game.timer.play();
     }
 
     @Override
