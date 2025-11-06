@@ -16,16 +16,17 @@ public class Item extends Entity {
         this.ID = ID;
     }
 
-    public Item(Event event, String ID, Texture tex, float x, float y, float speed, boolean solid) {
+    public Item(Event event, String ID, Texture tex, float x, float y, float speed, boolean hidden, boolean solid) {
         this(event, ID, tex, x, y, 1, 1, speed, solid);
+        if (hidden) hide();
     }
 
-    public Item(Event event, String ID, Texture tex, float x, float y, boolean solid) {
-        this(event, ID, tex, x, y, 0, solid);
+    public Item(Event event, String ID, Texture tex, float x, float y, boolean hidden, boolean solid) {
+        this(event, ID, tex, x, y, 0, hidden, solid);
     }
 
     public Item(Event event, String ID, Texture tex, float x, float y) {
-        this(event, ID, tex, x, y, false);
+        this(event, ID, tex, x, y, false, false);
     }
 
     public final void interact(final YettiGame game, Player player) {

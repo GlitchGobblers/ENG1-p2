@@ -15,10 +15,7 @@ import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.entities.Wall;
-import io.github.yetti_eng.events.DoorEvent;
-import io.github.yetti_eng.events.KeyEvent;
-import io.github.yetti_eng.events.PointsEvent;
-import io.github.yetti_eng.events.WinEvent;
+import io.github.yetti_eng.events.*;
 
 import java.util.ArrayList;
 
@@ -35,6 +32,7 @@ public class GameScreen implements Screen {
     private Texture keyTexture;
     private Texture doorTexture;
     private Texture duckTexture;
+    private Texture surprisedTexture;
 
     private Player player;
     private final ArrayList<Entity> entities = new ArrayList<>();
@@ -54,13 +52,15 @@ public class GameScreen implements Screen {
         keyTexture = new Texture("key.png");
         doorTexture = new Texture("door.png");
         duckTexture = new Texture("duck.png");
+        surprisedTexture = new Texture("surprised.png");
 
         player = new Player(ballmanTexture, 5, 5);
         entities.add(new Wall(wallTexture, 10, 5));
         entities.add(new Item(new WinEvent(), "exit", exitTexture, 14, 5));
         entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, true));
-        entities.add(new Item(new PointsEvent(), "long_boi", duckTexture, 7.5f, 8));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
 
         timer = new Timer(TIMER_LENGTH);
         timer.play();
