@@ -78,12 +78,10 @@ public abstract class Entity extends Sprite {
 
     public void enable() {
         enabled = true;
-        show();
     }
 
     public void disable() {
         enabled = false;
-        hide();
     }
 
     public boolean isEnabled() {

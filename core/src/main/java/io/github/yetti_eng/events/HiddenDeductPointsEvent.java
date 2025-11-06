@@ -7,7 +7,7 @@ import io.github.yetti_eng.entities.Player;
 public class HiddenDeductPointsEvent extends Event {
     @Override
     public boolean activate(YettiGame game, Player player, Item item) {
-        if (item.isVisible()) return false;
+        item.disable();
         item.show();
         game.spawnInteractionText(player, "Knocked down by student (" + getScoreModifier() + ")");
         return true;

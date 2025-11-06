@@ -11,6 +11,7 @@ public class DoorEvent extends Event {
         if (player.hasUsedItem("key")) {
             game.spawnInteractionText(player, "Unlocked door");
             item.disable();
+            item.hide();
             return true;
         }
         return false;
