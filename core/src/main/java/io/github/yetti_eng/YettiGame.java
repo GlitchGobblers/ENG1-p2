@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.screens.MenuScreen;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name

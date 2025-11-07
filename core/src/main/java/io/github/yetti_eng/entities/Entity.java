@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.yetti_eng.InputHelper;
 
 import static io.github.yetti_eng.YettiGame.scaled;
 
@@ -11,7 +12,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public abstract class Entity extends Sprite {
     private float speed;
     private boolean solid;
-    private final Vector2 movement;
+    private Vector2 movement;
     private final Rectangle hitbox;
 
     private boolean visible = true;
@@ -39,12 +40,20 @@ public abstract class Entity extends Sprite {
         movement.set(0, 0);
     }
 
-    public void addMovement(int x, int y) {
+    public void addMovement(float x, float y) {
         movement.add(x, y);
     }
 
     public void reverseMovement() {
         movement.rotateDeg(180);
+    }
+
+    /**
+     * Convert this Entity's current queued movement into a unit vector
+     * (that is, ensure that this Entity moves exactly the distance of 1 tile).
+     */
+    public void normaliseMovement() {
+        movement = InputHelper.makeUnitVector(movement);
     }
 
     // Consolidated "moveLeft()", "moveUp()" etc. into a single "doMove()" method to reduce repetition
