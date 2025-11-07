@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.screens.MenuScreen;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name
@@ -28,7 +27,7 @@ public class YettiGame extends Game {
     public BitmapFont font;
     public BitmapFont fontSmall;
 
-    private final ArrayList<Label> interactionTexts = new ArrayList<>();
+    private final ArrayList<Label> messages = new ArrayList<>();
     private boolean paused;
 
     public Timer timer;
@@ -87,14 +86,26 @@ public class YettiGame extends Game {
     }
 
     /**
-     * Spawns a text label that floats upwards and fades out. Used when interacting with Items.
+     * Spawns a large text label at the centre of the screen
+     * that floats upwards and fades out. Used to alert the player.
+     * @param text The text that should be displayed.
+     */
+    public void spawnLargeMessage(String text) {
+        Label label = new Label(text, new Label.LabelStyle(font, Color.WHITE.cpy()));
+        label.setPosition(scaled(8), scaled(4.5f), Align.center);
+        messages.add(label);
+    }
+
+    /**
+     * Spawns a small text label at the player's position
+     * that floats upwards and fades out. Used when interacting with Items.
      * @param player The current Player object.
      * @param text The text that should be displayed.
      */
-    public void spawnInteractionText(Player player, String text) {
+    public void spawnInteractionMessage(Player player, String text) {
         Label label = new Label(text, new Label.LabelStyle(fontSmall, Color.WHITE.cpy()));
         label.setPosition(player.getX(), player.getY()+(player.getHeight()/2), Align.center);
-        interactionTexts.add(label);
+        messages.add(label);
     }
 
     /**
@@ -109,12 +120,12 @@ public class YettiGame extends Game {
     public void render() {
         super.render();
         batch.begin();
-        for (Label l : interactionTexts) {
+        for (Label l : messages) {
             l.setY(l.getY()+1);
             l.getColor().add(0, 0, 0, -0.01f);
             l.draw(batch, 1);
         }
-        interactionTexts.removeIf(l -> l.getColor().a <= 0);
+        messages.removeIf(l -> l.getColor().a <= 0);
         batch.end();
     }
 }

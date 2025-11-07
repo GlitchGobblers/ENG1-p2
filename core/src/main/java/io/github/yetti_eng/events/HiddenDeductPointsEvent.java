@@ -9,7 +9,7 @@ public class HiddenDeductPointsEvent extends Event {
     public boolean activate(YettiGame game, Player player, Item item) {
         item.disable();
         item.show();
-        game.spawnInteractionText(player, "Knocked down by student (" + getScoreModifier() + ")");
+        game.spawnInteractionMessage(player, "Knocked down by student (" + getScoreModifier() + ")");
         return true;
     }
 

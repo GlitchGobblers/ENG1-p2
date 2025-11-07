@@ -9,7 +9,7 @@ public class IncreasePointsEvent extends Event {
     public boolean activate(YettiGame game, Player player, Item item) {
         item.disable();
         item.hide();
-        game.spawnInteractionText(player, "Found Long Boi (+" + getScoreModifier() + ")");
+        game.spawnInteractionMessage(player, "Found Long Boi (+" + getScoreModifier() + ")");
         return true;
     }
 
