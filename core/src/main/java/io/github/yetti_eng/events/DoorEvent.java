@@ -9,7 +9,7 @@ public class DoorEvent extends Event {
     public boolean activate(YettiGame game, Player player, Item item) {
         // If the player has used a key, unlock the door
         if (player.hasUsedItem("key")) {
-            game.spawnInteractionText(player, "Unlocked door");
+            game.spawnInteractionMessage(player, "Unlocked door");
             item.disable();
             item.hide();
             return true;

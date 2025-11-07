@@ -13,7 +13,7 @@ public class Dean extends Entity {
     final ArrayList<Item> usedItems = new ArrayList<>();
 
     public Dean(Texture tex, float x, float y) {
-        // Dean should be slightly larger than 1 tile to appear imposing (he has no collision)
+        // Dean should be slightly larger than 1 tile to appear imposing (he can move through walls)
         super(tex, x, y, 1.1f, 1.1f, PLAYER_SPEED, false);
     }
 
@@ -22,7 +22,6 @@ public class Dean extends Entity {
      * @param game The current YettiGame object.
      */
     public void getsPlayer(final YettiGame game) {
-        game.timer.finish();
         Screen prevScreen = game.getScreen();
         game.setScreen(new LoseScreen(game));
         prevScreen.dispose();

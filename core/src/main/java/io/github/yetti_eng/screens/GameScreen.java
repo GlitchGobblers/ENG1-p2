@@ -21,7 +21,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public class GameScreen implements Screen {
     private final YettiGame game;
 
-    private static final int TIMER_LENGTH = 300; // 300s = 5min
+    private static final int TIMER_LENGTH = 70; // 300s = 5min
 
     private Texture ballmanTexture;
     private Texture wallTexture;
@@ -55,13 +55,15 @@ public class GameScreen implements Screen {
         angryTexture = new Texture("angry.png");
 
         player = new Player(ballmanTexture, 5, 5);
-        dean = new Dean(angryTexture, 0, 0);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
         entities.add(new Wall(wallTexture, 10, 5));
         entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
         entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
+        exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
+        dean = new Dean(angryTexture, -2, 4.5f);
+        dean.disable();
+        dean.hide();
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -98,8 +100,10 @@ public class GameScreen implements Screen {
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
             player.doMove(delta);
-            dean.calculateMovement(player);
-            dean.doMove(delta);
+            if (dean.isEnabled()) {
+                dean.calculateMovement(player);
+                dean.doMove(delta);
+            }
         }
 
         // Detect collision with objects
@@ -135,6 +139,13 @@ public class GameScreen implements Screen {
         timerText.setText(text);
         timerText.setStyle(new Label.LabelStyle(game.font, (game.timer.isActive() ? Color.BLACK : Color.RED).cpy()));
 
+        // Release the Dean if the timer is at 60 or less
+        if (timeRemaining <= 60 && !dean.isEnabled()) {
+            game.spawnLargeMessage("Run! The dean is coming!");
+            dean.show();
+            dean.enable();
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (game.isPaused()) {
                 game.resume();
@@ -153,9 +164,9 @@ public class GameScreen implements Screen {
         // Draw only visible entities
         entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
         // Draw exit, player, and dean on top
-        exit.draw(game.batch);
-        player.draw(game.batch);
-        dean.draw(game.batch);
+        if (exit.isVisible()) exit.draw(game.batch);
+        if (player.isVisible()) player.draw(game.batch);
+        if (dean.isVisible()) dean.draw(game.batch);
 
         if (game.isPaused()) {
             game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
@@ -173,7 +184,7 @@ public class GameScreen implements Screen {
             return;
         }
         // Dean collision
-        if (player.collidedWith(dean)) {
+        if (player.collidedWith(dean) && dean.isEnabled()) {
             dean.getsPlayer(game);
             return;
         }
