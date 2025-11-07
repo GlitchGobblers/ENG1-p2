@@ -21,7 +21,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public class GameScreen implements Screen {
     private final YettiGame game;
 
-    private static final int TIMER_LENGTH = 70; // 300s = 5min
+    private static final int TIMER_LENGTH = 300; // 300s = 5min
 
     private Texture ballmanTexture;
     private Texture wallTexture;
