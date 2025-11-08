@@ -9,7 +9,7 @@ public class KeyEvent extends Event {
     public boolean activate(YettiGame game, Player player, Item item) {
         item.disable();
         item.hide();
-        game.spawnInteractionMessage(player, "Got check-in code");
+        game.spawnInteractionMessage("Got check-in code");
         return true;
     }
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
 import io.github.yetti_eng.MapManager;
@@ -46,6 +47,7 @@ public class GameScreen implements Screen {
     private final ArrayList<Entity> entities = new ArrayList<>();
 
     private Label timerText;
+    private final ArrayList<Label> messages = new ArrayList<>();
 
     public GameScreen(final YettiGame game) {
         this.game = game;
@@ -65,7 +67,7 @@ public class GameScreen implements Screen {
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
         interfaceCamera = new  OrthographicCamera();
-        interfaceCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
@@ -82,8 +84,8 @@ public class GameScreen implements Screen {
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
-        timerText = new Label(null, new Label.LabelStyle(game.font, Color.BLACK.cpy()));
-        timerText.setPosition(scaled(0), scaled(5));
+        timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
+        timerText.setPosition(0, scaled(8.5f));
     }
 
     @Override
@@ -170,11 +172,11 @@ public class GameScreen implements Screen {
         int timeRemaining = game.timer.getRemainingTime();
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
-        timerText.setStyle(new Label.LabelStyle(game.font, (game.timer.isActive() ? Color.BLACK : Color.RED).cpy()));
+        timerText.setStyle(new Label.LabelStyle(game.fontBordered, (game.timer.isActive() ? Color.WHITE : Color.RED).cpy()));
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
-            game.spawnLargeMessage("Run! The dean is coming!");
+            spawnLargeMessage("Run! The dean is coming!");
             dean.show();
             dean.enable();
         }
@@ -209,10 +211,24 @@ public class GameScreen implements Screen {
         //separate user interface camera for text on screen
         game.batch.setProjectionMatrix(interfaceCamera.combined);
         game.batch.begin();
+
         if (game.isPaused()) {
-            game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
+            game.fontBordered.draw(
+                game.batch, "PAUSED",
+                0, interfaceCamera.viewportHeight / 2, interfaceCamera.viewportWidth,
+                Align.center, false
+            );
         }
+
         timerText.draw(game.batch, 1.0f);
+
+        for (Label l : messages) {
+            l.setY(l.getY()+1);
+            l.getColor().add(0, 0, 0, -0.01f);
+            l.draw(game.batch, 1);
+        }
+        messages.removeIf(l -> l.getColor().a <= 0);
+
         game.batch.end();
     }
 
@@ -265,5 +281,27 @@ public class GameScreen implements Screen {
         surprisedTexture.dispose();
         angryTexture.dispose();
         mapManager.dispose();
+    }
+
+    /**
+     * Spawn a text label at the centre of the screen
+     * that floats upwards and fades out. Used to alert the player.
+     * @param text The text that should be displayed.
+     */
+    public void spawnLargeMessage(String text) {
+        Label label = new Label(text, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
+        label.setPosition(scaled(8), scaled(4.5f), Align.center);
+        messages.add(label);
+    }
+
+    /**
+     * Spawn a small text label at the bottom right of the screen
+     * that floats upwards and fades out. Used when interacting with Items.
+     * @param text The text that should be displayed.
+     */
+    public void spawnInteractionMessage(String text) {
+        Label label = new Label(text, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
+        messages.add(label);
     }
 }
