@@ -14,8 +14,8 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 public class MenuScreen implements Screen {
     private final YettiGame game;
-
     private final Stage stage;
+
     private TextButton playButton;
     private TextButton settingsButton;
     private TextButton quitButton;

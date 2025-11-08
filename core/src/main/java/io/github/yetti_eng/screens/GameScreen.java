@@ -8,7 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
@@ -27,6 +32,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 public class GameScreen implements Screen {
     private final YettiGame game;
+    private final Stage stage;
 
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
@@ -37,6 +43,7 @@ public class GameScreen implements Screen {
     private Texture duckTexture;
     private Texture surprisedTexture;
     private Texture angryTexture;
+    private Texture pauseTexture;
 
     private MapManager mapManager;
     private OrthographicCamera camera;
@@ -50,9 +57,11 @@ public class GameScreen implements Screen {
 
     private Label timerText;
     private final ArrayList<Label> messages = new ArrayList<>();
+    private Button pauseButton;
 
     public GameScreen(final YettiGame game) {
         this.game = game;
+        stage = new Stage(game.viewport, game.batch);
     }
 
     @Override
@@ -64,6 +73,7 @@ public class GameScreen implements Screen {
         duckTexture = new Texture("placeholder/duck.png");
         surprisedTexture = new Texture("placeholder/surprised.png");
         angryTexture = new Texture("placeholder/angry.png");
+        pauseTexture = new Texture("placeholder/pause.png");
 
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
@@ -87,6 +97,22 @@ public class GameScreen implements Screen {
         game.timer.play();
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
         timerText.setPosition(0, scaled(8.5f));
+
+        Gdx.input.setInputProcessor(stage);
+        pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
+        pauseButton.setSize(scaled(1), scaled(1));
+        pauseButton.setPosition(scaled(3f), scaled(8.5f), Align.center);
+        pauseButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (game.isPaused()) {
+                    game.resume();
+                } else {
+                    game.pause();
+                }
+            }
+        });
+        stage.addActor(pauseButton);
     }
 
     @Override
@@ -231,6 +257,9 @@ public class GameScreen implements Screen {
         messages.removeIf(l -> l.getColor().a <= 0);
 
         game.batch.end();
+
+        // Finally, draw elements on the stage (clickable elements)
+        stage.draw();
     }
 
     private void postLogic(float delta) {
@@ -281,6 +310,7 @@ public class GameScreen implements Screen {
         surprisedTexture.dispose();
         angryTexture.dispose();
         mapManager.dispose();
+        stage.dispose();
     }
 
     /**

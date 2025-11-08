@@ -19,8 +19,8 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 public class SettingsScreen implements Screen {
     private final YettiGame game;
-
     private final Stage stage;
+
     private Slider volumeSlider;
     private TextButton menuButton;
 
@@ -95,5 +95,7 @@ public class SettingsScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        sliderTexture.dispose();
+        knobTexture.dispose();
     }
 }
