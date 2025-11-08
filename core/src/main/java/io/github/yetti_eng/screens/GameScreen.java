@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
                     // TODO: Make the player able to move laterally even when colliding with a solid object
                     // TODO: Maybe we can hook into the tile collision system?
                     player.reverseMovement();
-                    player.doMove(delta);
+                    player.doMove(delta, true);
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {
