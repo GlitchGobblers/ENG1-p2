@@ -36,7 +36,11 @@ public class GameScreen implements Screen {
 
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
-    private Texture ballmanTexture;
+    private Texture playerTexUp;
+    private Texture playerTexDown;
+    private Texture playerTexLeft;
+    private Texture playerTexRight;
+
     private Texture exitTexture;
     private Texture keyTexture;
     private Texture doorTexture;
@@ -66,7 +70,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        ballmanTexture = new Texture("placeholder/ballman.png");
+        playerTexUp = new Texture("character/player_up.png");
+        playerTexDown = new Texture("character/player_down.png");
+        playerTexLeft = new Texture("character/player_left.png");
+        playerTexRight = new Texture("character/player_right.png");
+
         exitTexture = new Texture("placeholder/exit.png");
         keyTexture = new Texture("placeholder/key.png");
         doorTexture = new Texture("placeholder/door.png");
@@ -82,7 +90,7 @@ public class GameScreen implements Screen {
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
-        player = new Player(ballmanTexture, 5, 5);
+        player = new Player(playerTexDown, 5, 5);
         exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
         dean = new Dean(angryTexture, -2, 4.5f);
         dean.disable();
@@ -131,16 +139,24 @@ public class GameScreen implements Screen {
         float speed = player.getSpeedThisFrame(delta);
 
         player.resetMovement();
-        //horizontal movement
-        if (InputHelper.moveRightPressed()) {
-            dx += speed; }
-        if (InputHelper.moveLeftPressed()) {
-            dx -= speed; }
         //vertical movement
         if (InputHelper.moveUpPressed()) {
-            dy  += speed; }
+            dy  += speed;
+            player.setTexture(playerTexUp);
+        }
         if (InputHelper.moveDownPressed()) {
-            dy -= speed; }
+            dy -= speed;
+            player.setTexture(playerTexDown);
+        }
+        //horizontal movement
+        if (InputHelper.moveRightPressed()) {
+            dx += speed;
+            player.setTexture(playerTexRight);
+        }
+        if (InputHelper.moveLeftPressed()) {
+            dx -= speed;
+            player.setTexture(playerTexLeft);
+        }
 
         Rectangle hitbox = player.getHitbox();
         //tests if collision occurs after x movement
@@ -302,7 +318,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        ballmanTexture.dispose();
+        playerTexUp.dispose();
+        playerTexDown.dispose();
+        playerTexLeft.dispose();
+        playerTexRight.dispose();
+
         exitTexture.dispose();
         keyTexture.dispose();
         doorTexture.dispose();
