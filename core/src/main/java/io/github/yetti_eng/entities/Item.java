@@ -10,19 +10,15 @@ public class Item extends Entity {
 
     public final String ID;
 
-    public Item(Event event, String ID, Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
-        super(tex, x, y, width, height, speed, solid);
+    public Item(Event event, String ID, Texture tex, float x, float y, float width, float height, boolean hidden, boolean solid) {
+        super(tex, x, y, width, height, 0.0f, solid);
         this.event = event;
         this.ID = ID;
-    }
-
-    public Item(Event event, String ID, Texture tex, float x, float y, float speed, boolean hidden, boolean solid) {
-        this(event, ID, tex, x, y, 1, 1, speed, solid);
         if (hidden) hide();
     }
 
     public Item(Event event, String ID, Texture tex, float x, float y, boolean hidden, boolean solid) {
-        this(event, ID, tex, x, y, 0, hidden, solid);
+        this(event, ID, tex, x, y, 1, 1, hidden, solid);
     }
 
     public Item(Event event, String ID, Texture tex, float x, float y) {

@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
     private Texture exitTexture;
     private Texture keyTexture;
     private Texture doorTexture;
-    private Texture duckTexture;
+    private Texture longBoiTexture;
     private Texture surprisedTexture;
     private Texture angryTexture;
     private Texture pauseTexture;
@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         exitTexture = new Texture("placeholder/exit.png");
         keyTexture = new Texture("placeholder/key.png");
         doorTexture = new Texture("placeholder/door.png");
-        duckTexture = new Texture("placeholder/duck.png");
+        longBoiTexture = new Texture("item/long_boi.png");
         surprisedTexture = new Texture("placeholder/surprised.png");
         angryTexture = new Texture("placeholder/angry.png");
         pauseTexture = new Texture("placeholder/pause.png");
@@ -98,7 +98,7 @@ public class GameScreen implements Screen {
 
         entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
-        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f, false, false));
         entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
 
         game.timer = new Timer(TIMER_LENGTH);
@@ -326,7 +326,7 @@ public class GameScreen implements Screen {
         exitTexture.dispose();
         keyTexture.dispose();
         doorTexture.dispose();
-        duckTexture.dispose();
+        longBoiTexture.dispose();
         surprisedTexture.dispose();
         angryTexture.dispose();
         pauseTexture.dispose();
