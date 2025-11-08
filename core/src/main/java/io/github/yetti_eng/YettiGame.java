@@ -35,7 +35,7 @@ public class YettiGame extends Game {
         batch = new SpriteBatch();
         viewport = new FitViewport(scaled(16), scaled(9));
 
-        robotoGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-VariableFont_wdth,wght.ttf"));
+        robotoGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto.ttf"));
 
         var fontParameter = new FreeTypeFontParameter();
         fontParameter.size = (int) scaled(1);
