@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.github.yetti_eng.InputHelper;
 
 import static io.github.yetti_eng.YettiGame.scaled;
 
@@ -11,7 +12,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public abstract class Entity extends Sprite {
     private float speed;
     private boolean solid;
-    private final Vector2 movement;
+    private Vector2 movement;
     private final Rectangle hitbox;
 
     private boolean visible = true;
@@ -41,10 +42,19 @@ public abstract class Entity extends Sprite {
     }
 
     /**
+     * Convert this Entity's current queued movement into a unit vector
+     * (that is, ensure that this Entity moves exactly the distance of 1 tile).
+     */
+    public void normaliseMovement() {
+        movement = InputHelper.makeUnitVector(movement);
+    }
+
+    /**
      * Performs this Entity's movement for the current frame.
      * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
      * @param delta The delta time this frame.
-     * @param speedWasPrecalculated If the Entity's speed has already been accounted for in the value of the movement field.
+     * @param speedWasPrecalculated true if the Entity's speed was already accounted for when
+     *                              calculating the value of the movement field.
      */
     // Consolidated "moveLeft()", "moveUp()" etc. into a single "doMove()" method to reduce repetition
     public void doMove(float delta, boolean speedWasPrecalculated) {
