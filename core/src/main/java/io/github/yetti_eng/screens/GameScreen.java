@@ -85,7 +85,7 @@ public class GameScreen implements Screen {
         longBoiTexture = new Texture("item/long_boi.png");
         waterSpillTexture = new Texture("item/water_spill.png");
 
-        pauseTexture = new Texture("placeholder/pause.png");
+        pauseTexture = new Texture("ui/pause.png");
 
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
@@ -112,8 +112,8 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
         pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
-        pauseButton.setSize(scaled(1), scaled(1));
-        pauseButton.setPosition(scaled(3f), scaled(8.5f), Align.center);
+        pauseButton.setSize(48, 48);
+        pauseButton.setPosition(scaled(15.6f), scaled(8.6f), Align.center);
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
