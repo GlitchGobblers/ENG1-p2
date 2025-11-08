@@ -360,4 +360,8 @@ public class GameScreen implements Screen {
         label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
         messages.add(label);
     }
+
+    public Texture getDoorframeTexture() {
+        return doorframeTexture;
+    }
 }

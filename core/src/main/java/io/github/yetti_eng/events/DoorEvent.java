@@ -3,6 +3,7 @@ package io.github.yetti_eng.events;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
+import io.github.yetti_eng.screens.GameScreen;
 
 public class DoorEvent extends Event {
     @Override
@@ -11,7 +12,11 @@ public class DoorEvent extends Event {
         if (player.hasUsedItem("checkin_code")) {
             game.spawnInteractionMessage("Unlocked door with check-in code");
             item.disable();
-            item.hide();
+            if (game.getScreen() instanceof GameScreen screen) {
+                item.setTexture(screen.getDoorframeTexture());
+            } else {
+                item.hide();
+            }
             return true;
         }
         return false;
