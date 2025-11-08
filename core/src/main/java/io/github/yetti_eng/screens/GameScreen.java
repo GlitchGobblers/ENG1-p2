@@ -309,6 +309,7 @@ public class GameScreen implements Screen {
         duckTexture.dispose();
         surprisedTexture.dispose();
         angryTexture.dispose();
+        pauseTexture.dispose();
         mapManager.dispose();
         stage.dispose();
     }
