@@ -127,7 +127,7 @@ public class GameScreen implements Screen {
     private void logic(float delta) {
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
-            player.doMove(delta);
+            player.doMove(delta, true);
         }
 
         // Detect collision with objects

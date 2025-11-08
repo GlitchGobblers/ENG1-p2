@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-    private static final float PLAYER_SPEED = 10f;
+    private static final float PLAYER_SPEED = 2.5f;
 
     final ArrayList<Item> usedItems = new ArrayList<>();
 

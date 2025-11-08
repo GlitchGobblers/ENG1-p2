@@ -40,12 +40,28 @@ public abstract class Entity extends Sprite {
         movement.rotateDeg(180);
     }
 
+    /**
+     * Performs this Entity's movement for the current frame.
+     * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+     * @param delta The delta time this frame.
+     * @param speedWasPrecalculated If the Entity's speed has already been accounted for in the value of the movement field.
+     */
     // Consolidated "moveLeft()", "moveUp()" etc. into a single "doMove()" method to reduce repetition
-    public void doMove(float delta) {
-        float speedThisFrame = getSpeedThisFrame(delta);
-        translateX(movement.x * speedThisFrame);
-        translateY(movement.y * speedThisFrame);
+    public void doMove(float delta, boolean speedWasPrecalculated) {
+        // If speed was precalculated, don't account for it again
+        float speed = (speedWasPrecalculated ? 1 : getSpeedThisFrame(delta));
+        translateX(movement.x * speed);
+        translateY(movement.y * speed);
         hitbox.setPosition(getX(), getY());
+    }
+
+    /**
+     * Performs this Entity's movement for the current frame.
+     * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+     * @param delta The delta time this frame.
+     */
+    public void doMove(float delta) {
+        doMove(delta, false);
     }
 
     public Rectangle getHitbox() {
