@@ -21,13 +21,6 @@ public abstract class Entity extends Sprite {
     public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
         super(tex);
 
-        // Scale all measurements to world size
-        x = scaled(x);
-        y = scaled(y);
-        width = scaled(width);
-        height = scaled(height);
-        speed = scaled(speed);
-
         // Set this Entity's bounds and hitbox
         setBounds(x, y, width, height);
         this.hitbox = new Rectangle(x, y, width, height);
@@ -56,15 +49,32 @@ public abstract class Entity extends Sprite {
         movement = InputHelper.makeUnitVector(movement);
     }
 
+    /**
+     * Performs this Entity's movement for the current frame.
+     * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+     * @param delta The delta time this frame.
+     * @param speedWasPrecalculated true if the Entity's speed was already accounted for when
+     *                              calculating the value of the movement field.
+     */
     // Consolidated "moveLeft()", "moveUp()" etc. into a single "doMove()" method to reduce repetition
-    public void doMove(float delta) {
-        float speedThisFrame = getSpeedThisFrame(delta);
-        translateX(movement.x * speedThisFrame);
-        translateY(movement.y * speedThisFrame);
+    public void doMove(float delta, boolean speedWasPrecalculated) {
+        // If speed was precalculated, don't account for it again
+        float speed = (speedWasPrecalculated ? 1 : getSpeedThisFrame(delta));
+        translateX(movement.x * speed);
+        translateY(movement.y * speed);
         hitbox.setPosition(getX(), getY());
     }
 
-    Rectangle getHitbox() {
+    /**
+     * Performs this Entity's movement for the current frame.
+     * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+     * @param delta The delta time this frame.
+     */
+    public void doMove(float delta) {
+        doMove(delta, false);
+    }
+
+    public Rectangle getHitbox() {
         return hitbox;
     }
 

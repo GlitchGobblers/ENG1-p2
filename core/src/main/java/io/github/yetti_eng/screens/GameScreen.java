@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
+import io.github.yetti_eng.MapManager;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.*;
@@ -32,6 +35,11 @@ public class GameScreen implements Screen {
     private Texture surprisedTexture;
     private Texture angryTexture;
 
+    private MapManager mapManager;
+    private OrthographicCamera camera;
+
+    private OrthographicCamera interfaceCamera;
+
     private Player player;
     private Dean dean;
     private Item exit;
@@ -54,16 +62,23 @@ public class GameScreen implements Screen {
         surprisedTexture = new Texture("surprised.png");
         angryTexture = new Texture("angry.png");
 
+        camera = new  OrthographicCamera();
+        camera.setToOrtho(false, 90, 60);
+        interfaceCamera = new  OrthographicCamera();
+        interfaceCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mapManager = new MapManager(camera);
+        mapManager.loadMap("map/map.tmx");
+
         player = new Player(ballmanTexture, 5, 5);
-        entities.add(new Wall(wallTexture, 10, 5));
-        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
-        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
         exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
         dean = new Dean(angryTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
+
+        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -80,26 +95,43 @@ public class GameScreen implements Screen {
     }
 
     private void input(float delta) {
+        float dx = 0;
+        float dy = 0;
+        float currentX = player.getX();
+        float currentY = player.getY();
+        float speed = player.getSpeedThisFrame(delta);
+
         player.resetMovement();
+        //horizontal movement
         if (InputHelper.moveRightPressed()) {
-            player.addMovement(1, 0);
-        }
+            dx += speed; }
         if (InputHelper.moveLeftPressed()) {
-            player.addMovement(-1, 0);
-        }
+            dx -= speed; }
+        //vertical movement
         if (InputHelper.moveUpPressed()) {
-            player.addMovement(0, 1);
-        }
+            dy  += speed; }
         if (InputHelper.moveDownPressed()) {
-            player.addMovement(0, -1);
+            dy -= speed; }
+
+        Rectangle hitbox = player.getHitbox();
+        //tests if collision occurs after x movement
+        hitbox.setPosition(currentX + dx, currentY);
+        if (!mapManager.isRectInvalid(player.getHitbox())) {
+            player.addMovement(dx, 0);
         }
-        player.normaliseMovement();
+        //tests if collision occurs after y movement
+        hitbox.setPosition(currentX, currentY + dy );
+        if (!mapManager.isRectInvalid(player.getHitbox())) {
+            player.addMovement(0, dy);
+        }
+        //sets the hitbox to correct player location
+        hitbox.setPosition(player.getX(), player.getY());
     }
 
     private void logic(float delta) {
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
-            player.doMove(delta);
+            player.doMove(delta, true);
             if (dean.isEnabled()) {
                 dean.calculateMovement(player);
                 dean.doMove(delta);
@@ -113,6 +145,7 @@ public class GameScreen implements Screen {
                 if (e.isSolid()) {
                     // If the player just collided with a solid object, move in the opposite direction
                     // TODO: Make the player able to move laterally even when colliding with a solid object
+                    // TODO: Maybe we can hook into the tile collision system?
                     player.reverseMovement();
                     player.doMove(delta);
                 }
@@ -156,24 +189,30 @@ public class GameScreen implements Screen {
     }
 
     private void draw(float delta) {
-        ScreenUtils.clear(0.15f, 0.6f, 0.2f, 1f);
+        ScreenUtils.clear(0f, 0f, 0f, 1f);
+        camera.update();
+        //draw map
+        mapManager.render();
         game.viewport.apply();
-        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
-        game.batch.begin();
 
+        //main camera with map and entities
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
         // Draw only visible entities
         entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
-        // Draw exit, player, and dean on top
+        // Draw exit, player, and dean on top of other entities
         if (exit.isVisible()) exit.draw(game.batch);
         if (player.isVisible()) player.draw(game.batch);
         if (dean.isVisible()) dean.draw(game.batch);
+        game.batch.end();
 
+        //separate user interface camera for text on screen
+        game.batch.setProjectionMatrix(interfaceCamera.combined);
+        game.batch.begin();
         if (game.isPaused()) {
             game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
         }
-
         timerText.draw(game.batch, 1.0f);
-
         game.batch.end();
     }
 
@@ -225,5 +264,6 @@ public class GameScreen implements Screen {
         duckTexture.dispose();
         surprisedTexture.dispose();
         angryTexture.dispose();
+        mapManager.dispose();
     }
 }

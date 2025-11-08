@@ -10,8 +10,7 @@ public class Player extends Entity {
     final ArrayList<Item> usedItems = new ArrayList<>();
 
     public Player(Texture tex, float x, float y) {
-        // Player should be slightly smaller than 1 tile so as not to get stuck on walls
-        super(tex, x, y, 0.9f, 0.9f, PLAYER_SPEED, false);
+        super(tex, x, y, 1f, 1f, PLAYER_SPEED, false);
     }
 
     public boolean hasUsedItem(String itemID) {
