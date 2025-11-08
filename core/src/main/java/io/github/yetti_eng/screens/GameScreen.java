@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     private Texture checkinCodeTexture;
     private Texture doorTexture;
     private Texture longBoiTexture;
-    private Texture surprisedTexture;
+    private Texture waterSpillTexture;
     private Texture angryTexture;
     private Texture pauseTexture;
 
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         checkinCodeTexture = new Texture("item/checkin_code.png");
         doorTexture = new Texture("placeholder/door.png");
         longBoiTexture = new Texture("item/long_boi.png");
-        surprisedTexture = new Texture("placeholder/surprised.png");
+        waterSpillTexture = new Texture("item/water_spill.png");
         angryTexture = new Texture("placeholder/angry.png");
         pauseTexture = new Texture("placeholder/pause.png");
 
@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
         entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f, false, false));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, true, false));
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -327,7 +327,7 @@ public class GameScreen implements Screen {
         checkinCodeTexture.dispose();
         doorTexture.dispose();
         longBoiTexture.dispose();
-        surprisedTexture.dispose();
+        waterSpillTexture.dispose();
         angryTexture.dispose();
         pauseTexture.dispose();
         mapManager.dispose();
