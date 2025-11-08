@@ -8,13 +8,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
 import io.github.yetti_eng.MapManager;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
-import io.github.yetti_eng.entities.*;
+import io.github.yetti_eng.entities.Dean;
+import io.github.yetti_eng.entities.Entity;
+import io.github.yetti_eng.entities.Item;
+import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.events.*;
 
 import java.util.ArrayList;
@@ -23,17 +32,18 @@ import static io.github.yetti_eng.YettiGame.scaled;
 
 public class GameScreen implements Screen {
     private final YettiGame game;
+    private final Stage stage;
 
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
     private Texture ballmanTexture;
-    private Texture wallTexture;
     private Texture exitTexture;
     private Texture keyTexture;
     private Texture doorTexture;
     private Texture duckTexture;
     private Texture surprisedTexture;
     private Texture angryTexture;
+    private Texture pauseTexture;
 
     private MapManager mapManager;
     private OrthographicCamera camera;
@@ -46,26 +56,29 @@ public class GameScreen implements Screen {
     private final ArrayList<Entity> entities = new ArrayList<>();
 
     private Label timerText;
+    private final ArrayList<Label> messages = new ArrayList<>();
+    private Button pauseButton;
 
     public GameScreen(final YettiGame game) {
         this.game = game;
+        stage = new Stage(game.viewport, game.batch);
     }
 
     @Override
     public void show() {
-        ballmanTexture = new Texture("ballman.png");
-        wallTexture = new Texture("wall.png");
-        exitTexture = new Texture("exit.png");
-        keyTexture = new Texture("key.png");
-        doorTexture = new Texture("door.png");
-        duckTexture = new Texture("duck.png");
-        surprisedTexture = new Texture("surprised.png");
-        angryTexture = new Texture("angry.png");
+        ballmanTexture = new Texture("placeholder/ballman.png");
+        exitTexture = new Texture("placeholder/exit.png");
+        keyTexture = new Texture("placeholder/key.png");
+        doorTexture = new Texture("placeholder/door.png");
+        duckTexture = new Texture("placeholder/duck.png");
+        surprisedTexture = new Texture("placeholder/surprised.png");
+        angryTexture = new Texture("placeholder/angry.png");
+        pauseTexture = new Texture("placeholder/pause.png");
 
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
         interfaceCamera = new  OrthographicCamera();
-        interfaceCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
@@ -82,8 +95,24 @@ public class GameScreen implements Screen {
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
-        timerText = new Label(null, new Label.LabelStyle(game.font, Color.BLACK.cpy()));
-        timerText.setPosition(scaled(0), scaled(5));
+        timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
+        timerText.setPosition(0, scaled(8.5f));
+
+        Gdx.input.setInputProcessor(stage);
+        pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
+        pauseButton.setSize(scaled(1), scaled(1));
+        pauseButton.setPosition(scaled(3f), scaled(8.5f), Align.center);
+        pauseButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (game.isPaused()) {
+                    game.resume();
+                } else {
+                    game.pause();
+                }
+            }
+        });
+        stage.addActor(pauseButton);
     }
 
     @Override
@@ -170,11 +199,11 @@ public class GameScreen implements Screen {
         int timeRemaining = game.timer.getRemainingTime();
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
-        timerText.setStyle(new Label.LabelStyle(game.font, (game.timer.isActive() ? Color.BLACK : Color.RED).cpy()));
+        timerText.setStyle(new Label.LabelStyle(game.fontBordered, (game.timer.isActive() ? Color.WHITE : Color.RED).cpy()));
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
-            game.spawnLargeMessage("Run! The dean is coming!");
+            spawnLargeMessage("Run! The dean is coming!");
             dean.show();
             dean.enable();
         }
@@ -209,11 +238,28 @@ public class GameScreen implements Screen {
         //separate user interface camera for text on screen
         game.batch.setProjectionMatrix(interfaceCamera.combined);
         game.batch.begin();
+
         if (game.isPaused()) {
-            game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
+            game.fontBordered.draw(
+                game.batch, "PAUSED",
+                0, interfaceCamera.viewportHeight / 2, interfaceCamera.viewportWidth,
+                Align.center, false
+            );
         }
+
         timerText.draw(game.batch, 1.0f);
+
+        for (Label l : messages) {
+            l.setY(l.getY()+1);
+            l.getColor().add(0, 0, 0, -0.01f);
+            l.draw(game.batch, 1);
+        }
+        messages.removeIf(l -> l.getColor().a <= 0);
+
         game.batch.end();
+
+        // Finally, draw elements on the stage (clickable elements)
+        stage.draw();
     }
 
     private void postLogic(float delta) {
@@ -257,13 +303,36 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         ballmanTexture.dispose();
-        wallTexture.dispose();
         exitTexture.dispose();
         keyTexture.dispose();
         doorTexture.dispose();
         duckTexture.dispose();
         surprisedTexture.dispose();
         angryTexture.dispose();
+        pauseTexture.dispose();
         mapManager.dispose();
+        stage.dispose();
+    }
+
+    /**
+     * Spawn a text label at the centre of the screen
+     * that floats upwards and fades out. Used to alert the player.
+     * @param text The text that should be displayed.
+     */
+    public void spawnLargeMessage(String text) {
+        Label label = new Label(text, new Label.LabelStyle(game.fontBordered, Color.WHITE.cpy()));
+        label.setPosition(scaled(8), scaled(4.5f), Align.center);
+        messages.add(label);
+    }
+
+    /**
+     * Spawn a small text label at the bottom right of the screen
+     * that floats upwards and fades out. Used when interacting with Items.
+     * @param text The text that should be displayed.
+     */
+    public void spawnInteractionMessage(String text) {
+        Label label = new Label(text, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
+        messages.add(label);
     }
 }

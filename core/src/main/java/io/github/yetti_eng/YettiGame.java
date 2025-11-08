@@ -7,13 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import io.github.yetti_eng.entities.Player;
+import io.github.yetti_eng.screens.GameScreen;
 import io.github.yetti_eng.screens.MenuScreen;
-
-import java.util.ArrayList;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -25,9 +21,10 @@ public class YettiGame extends Game {
 
     private FreeTypeFontGenerator robotoGenerator;
     public BitmapFont font;
-    public BitmapFont fontSmall;
+    public BitmapFont fontBordered;
+    public BitmapFont fontBorderedSmall;
 
-    private final ArrayList<Label> messages = new ArrayList<>();
+    public float volume;  // TODO: currently unused
     private boolean paused;
 
     public Timer timer;
@@ -45,8 +42,14 @@ public class YettiGame extends Game {
         fontParameter.color = Color.WHITE.cpy();
         font = robotoGenerator.generateFont(fontParameter);
 
+        fontParameter.color = Color.BLACK.cpy();
+        fontParameter.borderColor = Color.WHITE.cpy();
+        fontParameter.borderWidth = 4;
+        fontBordered = robotoGenerator.generateFont(fontParameter);
+
         fontParameter.size = (int) scaled(0.5f);
-        fontSmall = robotoGenerator.generateFont(fontParameter);
+        fontParameter.borderWidth = 2;
+        fontBorderedSmall = robotoGenerator.generateFont(fontParameter);
 
         setScreen(new MenuScreen(this));
     }
@@ -56,6 +59,9 @@ public class YettiGame extends Game {
         super.dispose();
         batch.dispose();
         robotoGenerator.dispose();
+        font.dispose();
+        fontBordered.dispose();
+        fontBorderedSmall.dispose();
     }
 
     /**
@@ -86,29 +92,6 @@ public class YettiGame extends Game {
     }
 
     /**
-     * Spawns a large text label at the centre of the screen
-     * that floats upwards and fades out. Used to alert the player.
-     * @param text The text that should be displayed.
-     */
-    public void spawnLargeMessage(String text) {
-        Label label = new Label(text, new Label.LabelStyle(font, Color.WHITE.cpy()));
-        label.setPosition(scaled(8), scaled(4.5f), Align.center);
-        messages.add(label);
-    }
-
-    /**
-     * Spawns a small text label at the player's position
-     * that floats upwards and fades out. Used when interacting with Items.
-     * @param player The current Player object.
-     * @param text The text that should be displayed.
-     */
-    public void spawnInteractionMessage(Player player, String text) {
-        Label label = new Label(text, new Label.LabelStyle(fontSmall, Color.WHITE.cpy()));
-        label.setPosition(player.getX(), player.getY()+(player.getHeight()/2), Align.center);
-        messages.add(label);
-    }
-
-    /**
      * @return The final score for the game.
      */
     public int calculateFinalScore() {
@@ -116,16 +99,15 @@ public class YettiGame extends Game {
         return score;
     }
 
-    @Override
-    public void render() {
-        super.render();
-        batch.begin();
-        for (Label l : messages) {
-            l.setY(l.getY()+1);
-            l.getColor().add(0, 0, 0, -0.01f);
-            l.draw(batch, 1);
+    /**
+     * Spawn a small text label at the bottom right of the screen
+     * that floats upwards and fades out. Used when interacting with Items.
+     * Only works if the current screen is a GameScreen.
+     * @param text The text that should be displayed.
+     */
+    public void spawnInteractionMessage(String text) {
+        if (screen instanceof GameScreen gameScreen) {
+            gameScreen.spawnInteractionMessage(text);
         }
-        messages.removeIf(l -> l.getColor().a <= 0);
-        batch.end();
     }
 }

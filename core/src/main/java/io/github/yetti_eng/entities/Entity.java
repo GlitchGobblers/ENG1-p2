@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.yetti_eng.InputHelper;
 
-import static io.github.yetti_eng.YettiGame.scaled;
-
 // Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
 public abstract class Entity extends Sprite {
     private float speed;

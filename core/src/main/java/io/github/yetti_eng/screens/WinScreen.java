@@ -1,6 +1,7 @@
 package io.github.yetti_eng.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.YettiGame;
 
@@ -25,10 +26,8 @@ public class WinScreen implements Screen {
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
-
-        game.font.draw(game.batch, "You win :D", scaled(7), scaled(4.5f));
-        game.font.draw(game.batch, "Score: " + score, scaled(7), scaled(3.5f));
-
+        game.font.draw(game.batch, "You won :D", 0, scaled(5.5f), scaled(16), Align.center, false);
+        game.font.draw(game.batch, "Score: " + score, 0, scaled(4.5f), scaled(16), Align.center, false);
         game.batch.end();
     }
 
