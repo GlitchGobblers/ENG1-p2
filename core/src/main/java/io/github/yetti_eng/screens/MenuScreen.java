@@ -2,6 +2,7 @@ package io.github.yetti_eng.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.YettiGame;
 
@@ -24,8 +25,8 @@ public class MenuScreen implements Screen {
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
 
-        game.font.draw(game.batch, "Welcome to YettiGame", scaled(1), scaled(6));
-        game.font.draw(game.batch, "Tap anywhere to begin!", scaled(1), scaled(3));
+        game.font.draw(game.batch, "Welcome to YettiGame", 0, scaled(6), scaled(16), Align.center, false);
+        game.font.draw(game.batch, "Tap anywhere to begin!", 0, scaled(3), scaled(16), Align.center, false);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {

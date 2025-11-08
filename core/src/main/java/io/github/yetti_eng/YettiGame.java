@@ -86,7 +86,7 @@ public class YettiGame extends Game {
     }
 
     /**
-     * Spawns a large text label at the centre of the screen
+     * Spawn a large text label at the centre of the screen
      * that floats upwards and fades out. Used to alert the player.
      * @param text The text that should be displayed.
      */
@@ -97,7 +97,7 @@ public class YettiGame extends Game {
     }
 
     /**
-     * Spawns a small text label at the player's position
+     * Spawn a small text label at the player's position
      * that floats upwards and fades out. Used when interacting with Items.
      * @param player The current Player object.
      * @param text The text that should be displayed.
