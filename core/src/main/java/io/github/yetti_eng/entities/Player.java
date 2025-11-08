@@ -10,7 +10,7 @@ public class Player extends Entity {
     final ArrayList<Item> usedItems = new ArrayList<>();
 
     public Player(Texture tex, float x, float y) {
-        super(tex, x, y, 1.2f, 1.6f, PLAYER_SPEED, false);
+        super(tex, x, y, 0.9f, 1.6f, PLAYER_SPEED, false);
     }
 
     public boolean hasUsedItem(String itemID) {
