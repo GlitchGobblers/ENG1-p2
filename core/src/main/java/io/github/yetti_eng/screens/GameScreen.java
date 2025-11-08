@@ -320,7 +320,7 @@ public class GameScreen implements Screen {
      * @param text The text that should be displayed.
      */
     public void spawnLargeMessage(String text) {
-        Label label = new Label(text, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
+        Label label = new Label(text, new Label.LabelStyle(game.fontBordered, Color.WHITE.cpy()));
         label.setPosition(scaled(8), scaled(4.5f), Align.center);
         messages.add(label);
     }
