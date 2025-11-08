@@ -44,6 +44,7 @@ public class GameScreen implements Screen {
     private Texture exitTexture;
     private Texture checkinCodeTexture;
     private Texture doorTexture;
+    private Texture doorframeTexture;
     private Texture longBoiTexture;
     private Texture waterSpillTexture;
     private Texture angryTexture;
@@ -75,12 +76,15 @@ public class GameScreen implements Screen {
         playerTexLeft = new Texture("character/player_left.png");
         playerTexRight = new Texture("character/player_right.png");
 
-        exitTexture = new Texture("placeholder/exit.png");
+        angryTexture = new Texture("placeholder/angry.png");
+
+        exitTexture = new Texture("item/exit.png");
         checkinCodeTexture = new Texture("item/checkin_code.png");
-        doorTexture = new Texture("placeholder/door.png");
+        doorTexture = new Texture("item/door.png");
+        doorframeTexture = new Texture("item/doorframe.png");
         longBoiTexture = new Texture("item/long_boi.png");
         waterSpillTexture = new Texture("item/water_spill.png");
-        angryTexture = new Texture("placeholder/angry.png");
+
         pauseTexture = new Texture("placeholder/pause.png");
 
         camera = new  OrthographicCamera();
@@ -91,15 +95,15 @@ public class GameScreen implements Screen {
         mapManager.loadMap("map/map.tmx");
 
         player = new Player(playerTexDown, 5, 5);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
+        exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
         dean = new Dean(angryTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
-        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
-        entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f, false, false));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, true, false));
+        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3, 1.5f, 1.5f));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, 2, 2.2f, false, true));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, 1.5f, 1.5f, true, false));
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -189,8 +193,6 @@ public class GameScreen implements Screen {
                 // Check for collision with solid objects
                 if (e.isSolid()) {
                     // If the player just collided with a solid object, move in the opposite direction
-                    // TODO: Make the player able to move laterally even when colliding with a solid object
-                    // TODO: Maybe we can hook into the tile collision system?
                     player.reverseMovement();
                     player.doMove(delta, true);
                 }
@@ -323,12 +325,15 @@ public class GameScreen implements Screen {
         playerTexLeft.dispose();
         playerTexRight.dispose();
 
+        angryTexture.dispose();
+
         exitTexture.dispose();
         checkinCodeTexture.dispose();
         doorTexture.dispose();
+        doorframeTexture.dispose();
         longBoiTexture.dispose();
         waterSpillTexture.dispose();
-        angryTexture.dispose();
+
         pauseTexture.dispose();
         mapManager.dispose();
         stage.dispose();

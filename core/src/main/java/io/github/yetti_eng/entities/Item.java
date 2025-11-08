@@ -17,12 +17,12 @@ public class Item extends Entity {
         if (hidden) hide();
     }
 
-    public Item(Event event, String ID, Texture tex, float x, float y, boolean hidden, boolean solid) {
-        this(event, ID, tex, x, y, 1, 1, hidden, solid);
+    public Item(Event event, String ID, Texture tex, float x, float y, float width, float height) {
+        this(event, ID, tex, x, y, width, height, false, false);
     }
 
     public Item(Event event, String ID, Texture tex, float x, float y) {
-        this(event, ID, tex, x, y, false, false);
+        this(event, ID, tex, x, y, 1, 1);
     }
 
     public final void interact(final YettiGame game, Player player) {
