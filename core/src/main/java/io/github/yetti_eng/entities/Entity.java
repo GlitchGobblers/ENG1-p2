@@ -20,13 +20,6 @@ public abstract class Entity extends Sprite {
     public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
         super(tex);
 
-        // Scale all measurements to world size
-        x = scaled(x);
-        y = scaled(y);
-        width = scaled(width);
-        height = scaled(height);
-        speed = scaled(speed);
-
         // Set this Entity's bounds and hitbox
         setBounds(x, y, width, height);
         this.hitbox = new Rectangle(x, y, width, height);
@@ -39,7 +32,7 @@ public abstract class Entity extends Sprite {
         movement.set(0, 0);
     }
 
-    public void addMovement(int x, int y) {
+    public void addMovement(float x, float y) {
         movement.add(x, y);
     }
 
@@ -55,7 +48,7 @@ public abstract class Entity extends Sprite {
         hitbox.setPosition(getX(), getY());
     }
 
-    Rectangle getHitbox() {
+    public Rectangle getHitbox() {
         return hitbox;
     }
 

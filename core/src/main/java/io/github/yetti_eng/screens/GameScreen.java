@@ -4,17 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.InputHelper;
+import io.github.yetti_eng.MapManager;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
-import io.github.yetti_eng.entities.Wall;
 import io.github.yetti_eng.events.*;
 
 import java.util.ArrayList;
@@ -33,6 +35,11 @@ public class GameScreen implements Screen {
     private Texture doorTexture;
     private Texture duckTexture;
     private Texture surprisedTexture;
+
+    private MapManager mapManager;
+    private OrthographicCamera camera;
+
+    private OrthographicCamera interfaceCamera;
 
     private Player player;
     private final ArrayList<Entity> entities = new ArrayList<>();
@@ -53,13 +60,21 @@ public class GameScreen implements Screen {
         duckTexture = new Texture("duck.png");
         surprisedTexture = new Texture("surprised.png");
 
+        camera = new  OrthographicCamera();
+        camera.setToOrtho(false, 90, 60);
+        interfaceCamera = new  OrthographicCamera();
+        interfaceCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mapManager = new MapManager(camera);
+        mapManager.loadMap("map/map.tmx");
+
         player = new Player(ballmanTexture, 5, 5);
-        entities.add(new Wall(wallTexture, 10, 5));
+
         entities.add(new Item(new WinEvent(), "exit", exitTexture, 14, 5));
         entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
         entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
+
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -75,19 +90,38 @@ public class GameScreen implements Screen {
     }
 
     private void input(float delta) {
+        float dx = 0;
+        float dy = 0;
+        float currentX = player.getX();
+        float currentY = player.getY();
+        float speed = player.getSpeedThisFrame(delta);
+
         player.resetMovement();
+        //horizontal movement
         if (InputHelper.moveRightPressed()) {
-            player.addMovement(1, 0);
-        }
+            dx += speed; }
         if (InputHelper.moveLeftPressed()) {
-            player.addMovement(-1, 0);
-        }
+            dx -= speed; }
+        //vertical movement
         if (InputHelper.moveUpPressed()) {
-            player.addMovement(0, 1);
-        }
+            dy  += speed; }
         if (InputHelper.moveDownPressed()) {
-            player.addMovement(0, -1);
+            dy -= speed; }
+
+        Rectangle hitbox = player.getHitbox();
+        //tests if collision occurs after x movement
+        hitbox.setPosition(currentX + dx, currentY);
+        if (!mapManager.isRectInvalid(player.getHitbox())) {
+            player.addMovement(dx, 0);
         }
+        //tests if collision occurs after y movement
+        hitbox.setPosition(currentX, currentY + dy );
+        if (!mapManager.isRectInvalid(player.getHitbox())) {
+            player.addMovement(0, dy);
+        }
+        //sets the hitbox to correct player location
+        hitbox.setPosition(player.getX(), player.getY());
+
     }
 
     private void logic(float delta) {
@@ -145,22 +179,29 @@ public class GameScreen implements Screen {
     }
 
     private void draw(float delta) {
-        ScreenUtils.clear(0.15f, 0.6f, 0.2f, 1f);
-        game.viewport.apply();
-        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
-        game.batch.begin();
 
+        ScreenUtils.clear(0f, 0f, 0f, 1f);
+        camera.update();
+        //draw map
+        mapManager.render();
+        game.viewport.apply();
+
+        //main camera with map and entities
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
         // batch.draw(image, 4, 4, 8, 1);
         player.draw(game.batch);
         // Draw only visible entities
         entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
+        game.batch.end();
 
+        //separate user interface camera for text on screen
+        game.batch.setProjectionMatrix(interfaceCamera.combined);
+        game.batch.begin();
         if (game.isPaused()) {
             game.font.draw(game.batch, "PAUSED", scaled(6), scaled(5));
         }
-
         timerText.draw(game.batch, 1.0f);
-
         game.batch.end();
     }
 
@@ -190,5 +231,6 @@ public class GameScreen implements Screen {
         keyTexture.dispose();
         doorTexture.dispose();
         duckTexture.dispose();
+        mapManager.dispose();
     }
 }
