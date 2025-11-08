@@ -58,6 +58,9 @@ public class YettiGame extends Game {
         super.dispose();
         batch.dispose();
         robotoGenerator.dispose();
+        font.dispose();
+        fontBordered.dispose();
+        fontBorderedSmall.dispose();
     }
 
     /**
