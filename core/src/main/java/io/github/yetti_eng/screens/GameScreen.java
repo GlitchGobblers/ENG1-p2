@@ -15,7 +15,10 @@ import io.github.yetti_eng.InputHelper;
 import io.github.yetti_eng.MapManager;
 import io.github.yetti_eng.Timer;
 import io.github.yetti_eng.YettiGame;
-import io.github.yetti_eng.entities.*;
+import io.github.yetti_eng.entities.Dean;
+import io.github.yetti_eng.entities.Entity;
+import io.github.yetti_eng.entities.Item;
+import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.events.*;
 
 import java.util.ArrayList;
@@ -28,7 +31,6 @@ public class GameScreen implements Screen {
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
     private Texture ballmanTexture;
-    private Texture wallTexture;
     private Texture exitTexture;
     private Texture keyTexture;
     private Texture doorTexture;
@@ -55,14 +57,13 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        ballmanTexture = new Texture("ballman.png");
-        wallTexture = new Texture("wall.png");
-        exitTexture = new Texture("exit.png");
-        keyTexture = new Texture("key.png");
-        doorTexture = new Texture("door.png");
-        duckTexture = new Texture("duck.png");
-        surprisedTexture = new Texture("surprised.png");
-        angryTexture = new Texture("angry.png");
+        ballmanTexture = new Texture("placeholder/ballman.png");
+        exitTexture = new Texture("placeholder/exit.png");
+        keyTexture = new Texture("placeholder/key.png");
+        doorTexture = new Texture("placeholder/door.png");
+        duckTexture = new Texture("placeholder/duck.png");
+        surprisedTexture = new Texture("placeholder/surprised.png");
+        angryTexture = new Texture("placeholder/angry.png");
 
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
@@ -273,7 +274,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         ballmanTexture.dispose();
-        wallTexture.dispose();
         exitTexture.dispose();
         keyTexture.dispose();
         doorTexture.dispose();

@@ -24,6 +24,7 @@ public class YettiGame extends Game {
     public BitmapFont fontBordered;
     public BitmapFont fontBorderedSmall;
 
+    public float volume;  // TODO: currently unused
     private boolean paused;
 
     public Timer timer;

@@ -2,6 +2,10 @@ package io.github.yetti_eng.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.YettiGame;
@@ -11,12 +15,57 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public class MenuScreen implements Screen {
     private final YettiGame game;
 
+    private final Stage stage;
+    private TextButton playButton;
+    private TextButton settingsButton;
+    private TextButton quitButton;
+
     public MenuScreen(final YettiGame game) {
         this.game = game;
+        stage = new Stage(game.viewport, game.batch);
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(null, null, null, game.font);
+
+        playButton = new TextButton("Play", style);
+        playButton.setPosition(scaled(16) / 2, scaled(5.0f), Align.center);
+        playButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
+                dispose();
+                return true;
+            }
+        });
+        stage.addActor(playButton);
+
+        settingsButton = new TextButton("Settings", style);
+        settingsButton.setPosition(scaled(16) / 2, scaled(3.5f), Align.center);
+        settingsButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new SettingsScreen(game));
+                dispose();
+                return true;
+            }
+        });
+        stage.addActor(settingsButton);
+
+        quitButton = new TextButton("Quit", style);
+        quitButton.setPosition(scaled(16) / 2, scaled(2.0f), Align.center);
+        quitButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                return true;
+            }
+        });
+        stage.addActor(quitButton);
+    }
 
     @Override
     public void render(float delta) {
@@ -24,15 +73,10 @@ public class MenuScreen implements Screen {
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
-
-        game.font.draw(game.batch, "Welcome to YettiGame", 0, scaled(6), scaled(16), Align.center, false);
-        game.font.draw(game.batch, "Tap anywhere to begin!", 0, scaled(3), scaled(16), Align.center, false);
+        game.font.draw(game.batch, "Welcome to YettiGame", 0, scaled(7.0f), scaled(16), Align.center, false);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
+        stage.draw();
     }
 
     @Override
@@ -50,5 +94,7 @@ public class MenuScreen implements Screen {
     public void hide() {}
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+        stage.dispose();
+    }
 }
