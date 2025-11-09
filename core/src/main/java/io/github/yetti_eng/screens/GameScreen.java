@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -148,8 +149,7 @@ public class GameScreen implements Screen {
     }
 
     private void input(float delta) {
-        float dx = 0;
-        float dy = 0;
+        float dx = 0, dy = 0;
         float currentX = player.getX();
         float currentY = player.getY();
         float speed = player.getSpeedThisFrame(delta);
@@ -190,6 +190,7 @@ public class GameScreen implements Screen {
     }
 
     private void logic(float delta) {
+        Vector2 currentPos = player.getCurrentPos(); //save initial position of player
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
             player.doMove(delta, true);
@@ -204,9 +205,8 @@ public class GameScreen implements Screen {
             if (player.collidedWith(e) && e.isEnabled()) {
                 // Check for collision with solid objects
                 if (e.isSolid()) {
-                    // If the player just collided with a solid object, move in the opposite direction
-                    player.reverseMovement();
-                    player.doMove(delta, true);
+                    //set the position of player to previous position if collision
+                    player.setPosition(currentPos.x, currentPos.y);
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {

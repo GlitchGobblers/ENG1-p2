@@ -7,10 +7,11 @@ import io.github.yetti_eng.screens.GameScreen;
 public class HiddenDeductPointsEvent extends Event {
     @Override
     public boolean activate(GameScreen screen, Player player, Item item) {
-        item.disable();
-        item.show();
-        screen.getSlipSfx().play(screen.getGame().volume);
-        screen.spawnInteractionMessage("Tripped over in a water spill (" + getScoreModifier() + ")");
+        if (!item.isUsed()){
+            item.show();
+            screen.getSlipSfx().play(screen.getGame().volume);
+            screen.spawnInteractionMessage("Tripped over in a water spill (" + getScoreModifier() + ")");
+        }
         return true;
     }
 

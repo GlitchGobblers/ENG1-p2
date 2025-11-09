@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class MapManager {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private TiledMapTileLayer collisionsLayer;
 
     public MapManager(OrthographicCamera camera) {
