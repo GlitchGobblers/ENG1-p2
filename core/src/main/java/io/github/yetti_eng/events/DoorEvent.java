@@ -1,17 +1,18 @@
 package io.github.yetti_eng.events;
 
-import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
+import io.github.yetti_eng.screens.GameScreen;
 
 public class DoorEvent extends Event {
     @Override
-    public boolean activate(YettiGame game, Player player, Item item) {
-        // If the player has used a key, unlock the door
-        if (player.hasUsedItem("key")) {
-            game.spawnInteractionMessage("Unlocked door with check-in code");
+    public boolean activate(GameScreen screen, Player player, Item item) {
+        // If the player has got the check-in code, unlock the door
+        if (player.hasUsedItem("checkin_code")) {
+            screen.getDoorSfx().play(screen.getGame().volume);
+            screen.spawnInteractionMessage("Unlocked door with check-in code");
             item.disable();
-            item.hide();
+            item.setTexture(screen.getDoorframeTexture());
             return true;
         }
         return false;

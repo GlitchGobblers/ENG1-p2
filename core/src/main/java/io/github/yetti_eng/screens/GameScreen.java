@@ -3,6 +3,7 @@ package io.github.yetti_eng.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,19 +37,30 @@ public class GameScreen implements Screen {
 
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
-    private Texture ballmanTexture;
+    private Texture playerTexUp;
+    private Texture playerTexDown;
+    private Texture playerTexLeft;
+    private Texture playerTexRight;
+    private Texture yetiTexture;
+
     private Texture exitTexture;
-    private Texture keyTexture;
+    private Texture checkinCodeTexture;
     private Texture doorTexture;
-    private Texture duckTexture;
-    private Texture surprisedTexture;
-    private Texture angryTexture;
+    private Texture doorframeTexture;
+    private Texture longBoiTexture;
+    private Texture waterSpillTexture;
     private Texture pauseTexture;
 
     private MapManager mapManager;
     private OrthographicCamera camera;
 
     private OrthographicCamera interfaceCamera;
+
+    private Sound quackSfx;
+    private Sound paperSfx;
+    private Sound doorSfx;
+    private Sound slipSfx;
+    private Sound growlSfx;
 
     private Player player;
     private Dean dean;
@@ -66,14 +78,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        ballmanTexture = new Texture("placeholder/ballman.png");
-        exitTexture = new Texture("placeholder/exit.png");
-        keyTexture = new Texture("placeholder/key.png");
-        doorTexture = new Texture("placeholder/door.png");
-        duckTexture = new Texture("placeholder/duck.png");
-        surprisedTexture = new Texture("placeholder/surprised.png");
-        angryTexture = new Texture("placeholder/angry.png");
-        pauseTexture = new Texture("placeholder/pause.png");
+        playerTexUp = new Texture("character/player_up.png");
+        playerTexDown = new Texture("character/player_down.png");
+        playerTexLeft = new Texture("character/player_left.png");
+        playerTexRight = new Texture("character/player_right.png");
+        yetiTexture = new Texture("character/yeti.png");
+
+        exitTexture = new Texture("item/exit.png");
+        checkinCodeTexture = new Texture("item/checkin_code.png");
+        doorTexture = new Texture("item/door.png");
+        doorframeTexture = new Texture("item/doorframe.png");
+        longBoiTexture = new Texture("item/long_boi.png");
+        waterSpillTexture = new Texture("item/water_spill.png");
+
+        pauseTexture = new Texture("ui/pause.png");
 
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
@@ -82,16 +100,22 @@ public class GameScreen implements Screen {
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
-        player = new Player(ballmanTexture, 5, 5);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
-        dean = new Dean(angryTexture, -2, 4.5f);
+        quackSfx = Gdx.audio.newSound(Gdx.files.internal("audio/duck_quack.mp3"));
+        paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.wav"));
+        doorSfx = Gdx.audio.newSound(Gdx.files.internal("audio/dorm_door_opening.wav"));
+        slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
+        growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
+
+        player = new Player(playerTexDown, 5, 5);
+        exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
+        dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
-        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
-        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
+        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3, 1.5f, 1.5f));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, 2, 2.2f, false, true));
+        entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, 1.5f, 1.5f, true, false));
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -100,8 +124,8 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
         pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
-        pauseButton.setSize(scaled(1), scaled(1));
-        pauseButton.setPosition(scaled(3f), scaled(8.5f), Align.center);
+        pauseButton.setSize(48, 48);
+        pauseButton.setPosition(scaled(15.6f), scaled(8.6f), Align.center);
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -131,16 +155,24 @@ public class GameScreen implements Screen {
         float speed = player.getSpeedThisFrame(delta);
 
         player.resetMovement();
-        //horizontal movement
-        if (InputHelper.moveRightPressed()) {
-            dx += speed; }
-        if (InputHelper.moveLeftPressed()) {
-            dx -= speed; }
         //vertical movement
         if (InputHelper.moveUpPressed()) {
-            dy  += speed; }
+            dy  += speed;
+            player.setTexture(playerTexUp);
+        }
         if (InputHelper.moveDownPressed()) {
-            dy -= speed; }
+            dy -= speed;
+            player.setTexture(playerTexDown);
+        }
+        //horizontal movement
+        if (InputHelper.moveRightPressed()) {
+            dx += speed;
+            player.setTexture(playerTexRight);
+        }
+        if (InputHelper.moveLeftPressed()) {
+            dx -= speed;
+            player.setTexture(playerTexLeft);
+        }
 
         Rectangle hitbox = player.getHitbox();
         //tests if collision occurs after x movement
@@ -173,14 +205,12 @@ public class GameScreen implements Screen {
                 // Check for collision with solid objects
                 if (e.isSolid()) {
                     // If the player just collided with a solid object, move in the opposite direction
-                    // TODO: Make the player able to move laterally even when colliding with a solid object
-                    // TODO: Maybe we can hook into the tile collision system?
                     player.reverseMovement();
-                    player.doMove(delta);
+                    player.doMove(delta, true);
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {
-                    item.interact(game, player);
+                    item.interact(game, this, player);
                 }
             }
         });
@@ -203,6 +233,7 @@ public class GameScreen implements Screen {
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
+            growlSfx.play(game.volume);
             spawnLargeMessage("Run! The dean is coming!");
             dean.show();
             dean.enable();
@@ -265,7 +296,7 @@ public class GameScreen implements Screen {
     private void postLogic(float delta) {
         // Exit collision
         if (player.collidedWith(exit) && exit.isEnabled()) {
-            exit.interact(game, player);
+            exit.interact(game, this, player);
             return;
         }
         // Dean collision
@@ -302,16 +333,28 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        ballmanTexture.dispose();
+        playerTexUp.dispose();
+        playerTexDown.dispose();
+        playerTexLeft.dispose();
+        playerTexRight.dispose();
+        yetiTexture.dispose();
+
         exitTexture.dispose();
-        keyTexture.dispose();
+        checkinCodeTexture.dispose();
         doorTexture.dispose();
-        duckTexture.dispose();
-        surprisedTexture.dispose();
-        angryTexture.dispose();
+        doorframeTexture.dispose();
+        longBoiTexture.dispose();
+        waterSpillTexture.dispose();
+
         pauseTexture.dispose();
         mapManager.dispose();
         stage.dispose();
+
+        quackSfx.dispose();
+        paperSfx.dispose();
+        doorSfx.dispose();
+        slipSfx.dispose();
+        growlSfx.dispose();
     }
 
     /**
@@ -334,5 +377,32 @@ public class GameScreen implements Screen {
         Label label = new Label(text, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
         label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
         messages.add(label);
+    }
+
+    public Texture getDoorframeTexture() {
+        return doorframeTexture;
+    }
+
+    public Sound getQuackSfx() {
+        return quackSfx;
+    }
+
+    public Sound getPaperSfx() {
+        return paperSfx;
+    }
+
+    public Sound getDoorSfx() {
+        return doorSfx;
+    }
+
+    public Sound getSlipSfx() {
+        return slipSfx;
+    }
+
+    /**
+     * @return The current YettiGame object.
+     */
+    public YettiGame getGame() {
+        return game;
     }
 }
