@@ -5,6 +5,7 @@ import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 
 public abstract class Event {
+
     /**
      * Activate this event.
      * Should return true only if the triggering Item is used up during activation.
@@ -22,4 +23,5 @@ public abstract class Event {
     public void modifyScore(final YettiGame game) {
         game.score += getScoreModifier();
     }
+
 }

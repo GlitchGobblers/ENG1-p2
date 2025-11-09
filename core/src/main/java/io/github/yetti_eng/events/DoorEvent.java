@@ -12,6 +12,7 @@ public class DoorEvent extends Event {
             game.spawnInteractionMessage("Unlocked door with check-in code");
             item.disable();
             item.hide();
+            item.setSolid(false);
             return true;
         }
         return false;

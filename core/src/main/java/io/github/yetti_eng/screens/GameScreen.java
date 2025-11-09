@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -82,16 +83,34 @@ public class GameScreen implements Screen {
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
-        player = new Player(ballmanTexture, 5, 5);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 14, 5);
+        player = new Player(ballmanTexture, 55, 25);
+        exit = new Item(new WinEvent(), "exit", exitTexture, 80.5f, 52);
         dean = new Dean(angryTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
-        entities.add(new Item(new KeyEvent(), "key", keyTexture, 6, 3));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, false, true));
-        entities.add(new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 7.5f, 8));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 11, 5, true, false));
+        Item checkin = new Item(new KeyEvent(), "key", keyTexture, 34, 29);
+        checkin.setOriginCenter();
+        checkin.setScale(2f);
+        entities.add(checkin);
+
+        Item classroomDoor = new Item(new DoorEvent(), "door", doorTexture, 44.5f, 21.5f, false, true);
+        classroomDoor.setOriginCenter();
+        classroomDoor.setScale(2f);
+        classroomDoor.enable();
+        entities.add(classroomDoor);
+
+        //define increase points event: longboi item
+        Item longBoi = new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 3, 9);
+        longBoi.setOriginCenter();
+        longBoi.setScale(2f); //make longboi twice as big
+        entities.add(longBoi);
+
+        //define hidden event: colliding with student
+        Item hiddenStudent = new Item(new HiddenDeductPointsEvent(), "surprised_student", surprisedTexture, 60, 11, true, true);
+        hiddenStudent.setOriginCenter();
+        hiddenStudent.setScale(2f); //make hidden student twice as big
+        entities.add(hiddenStudent);
 
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
@@ -124,8 +143,7 @@ public class GameScreen implements Screen {
     }
 
     private void input(float delta) {
-        float dx = 0;
-        float dy = 0;
+        float dx = 0, dy = 0;
         float currentX = player.getX();
         float currentY = player.getY();
         float speed = player.getSpeedThisFrame(delta);
@@ -158,6 +176,7 @@ public class GameScreen implements Screen {
     }
 
     private void logic(float delta) {
+        Vector2 currentPos = player.getCurrentPos(); //save initial position of player
         // Only move the player if the game isn't paused
         if (!game.isPaused()) {
             player.doMove(delta, true);
@@ -172,11 +191,8 @@ public class GameScreen implements Screen {
             if (player.collidedWith(e) && e.isEnabled()) {
                 // Check for collision with solid objects
                 if (e.isSolid()) {
-                    // If the player just collided with a solid object, move in the opposite direction
-                    // TODO: Make the player able to move laterally even when colliding with a solid object
-                    // TODO: Maybe we can hook into the tile collision system?
-                    player.reverseMovement();
-                    player.doMove(delta);
+                    //set the position of player to previous position if collision
+                    player.setPosition(currentPos.x, currentPos.y);
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {

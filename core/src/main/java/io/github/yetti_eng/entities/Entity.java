@@ -116,4 +116,8 @@ public abstract class Entity extends Sprite {
     public boolean isSolid() {
         return solid;
     }
+
+    public Vector2 getCurrentPos() {
+        return new Vector2(getX(), getY());
+    }
 }
