@@ -27,6 +27,7 @@ import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.events.*;
+import io.github.yetti_eng.EventCounter;
 
 import java.util.ArrayList;
 
@@ -110,16 +111,16 @@ public class GameScreen implements Screen {
         slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
         growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
-        player = new Player(playerTexDown, 5, 5);
+        player = new Player(playerTexDown, 55, 25);
         exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
-        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3, 1.5f, 1.5f));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, 2, 2.2f, false, true));
+        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, 1.5f, 1.5f, true, false));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
 
         //start new timer
         game.timer = new Timer(TIMER_LENGTH);
