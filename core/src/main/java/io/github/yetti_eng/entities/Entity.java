@@ -6,7 +6,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.yetti_eng.InputHelper;
 
-// Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
+/**
+ * Entity.java handles setting movement of an object and performs collision and property checks.
+ *
+ * Represents objects including the player, enemy and items (event triggers).
+ * Each entity has a movement, position, collision hitbox and property information on visibility,
+ * solidity and speed.
+ *
+ * Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
+ */
 public abstract class Entity extends Sprite {
     private float speed;
     private boolean solid;
@@ -16,6 +24,16 @@ public abstract class Entity extends Sprite {
     private boolean visible = true;
     private boolean enabled = true;
 
+    /**
+     * Constructor for a new Entity
+     * @param tex texture to render with
+     * @param x intial x position
+     * @param y initial y position
+     * @param width
+     * @param height
+     * @param speed
+     * @param solid whether object should cause collision with player
+     */
     public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
         super(tex);
 
@@ -76,17 +94,22 @@ public abstract class Entity extends Sprite {
         return hitbox;
     }
 
+    /**
+     * Checks whether this entity collides with another specified entity
+     * @param other other entity
+     * @return true if the two entities collide
+     */
     public boolean collidedWith(Entity other) {
         // If disabled, do not check for collisions
         return enabled && hitbox.overlaps(other.getHitbox());
     }
 
     public void show() {
-        visible = true;
+        visible = true; //shown on screen
     }
 
     public void hide() {
-        visible = false;
+        visible = false; //hidden from screen
     }
 
     public boolean isVisible() {
@@ -94,11 +117,11 @@ public abstract class Entity extends Sprite {
     }
 
     public void enable() {
-        enabled = true;
+        enabled = true; //collision and logic updates apply
     }
 
     public void disable() {
-        enabled = false;
+        enabled = false; //prevents collision and logic updates
     }
 
     public boolean isEnabled() {

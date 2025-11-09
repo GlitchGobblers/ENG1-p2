@@ -5,7 +5,7 @@ import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 
 public abstract class Event {
-
+    private int counter = 0;
     /**
      * Activate this event.
      * Should return true only if the triggering Item is used up during activation.
@@ -24,4 +24,12 @@ public abstract class Event {
         game.score += getScoreModifier();
     }
 
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void incrementCounter() {
+        this.counter += 1;
+    }
 }

@@ -17,10 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.yetti_eng.InputHelper;
-import io.github.yetti_eng.MapManager;
-import io.github.yetti_eng.Timer;
-import io.github.yetti_eng.YettiGame;
+import io.github.yetti_eng.*;
 import io.github.yetti_eng.entities.Dean;
 import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
@@ -56,6 +53,9 @@ public class GameScreen implements Screen {
     private Item exit;
     private final ArrayList<Entity> entities = new ArrayList<>();
 
+    private Label hiddenText;
+    private Label negativeText;
+    private Label positiveText;
     private Label timerText;
     private final ArrayList<Label> messages = new ArrayList<>();
     private Button pauseButton;
@@ -67,6 +67,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        //load textures for entities and items
         ballmanTexture = new Texture("placeholder/ballman.png");
         exitTexture = new Texture("placeholder/exit.png");
         keyTexture = new Texture("placeholder/key.png");
@@ -76,31 +77,37 @@ public class GameScreen implements Screen {
         angryTexture = new Texture("placeholder/angry.png");
         pauseTexture = new Texture("placeholder/pause.png");
 
+        //main camera for map rendering
         camera = new  OrthographicCamera();
         camera.setToOrtho(false, 90, 60);
+        //secondary camera for user interface (timer, labels)
         interfaceCamera = new  OrthographicCamera();
         interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
+        //loads tilemap
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
 
+        //creates player, enemy and exit
         player = new Player(ballmanTexture, 55, 25);
         exit = new Item(new WinEvent(), "exit", exitTexture, 80.5f, 52);
         dean = new Dean(angryTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
+        //new key checkin code item set to 2x bigger
         Item checkin = new Item(new KeyEvent(), "key", keyTexture, 34, 29);
         checkin.setOriginCenter();
         checkin.setScale(2f);
         entities.add(checkin);
 
+        //create negative event: locked door
         Item classroomDoor = new Item(new DoorEvent(), "door", doorTexture, 44.5f, 21.5f, false, true);
         classroomDoor.setOriginCenter();
-        classroomDoor.setScale(2f);
+        classroomDoor.setScale(2f); //door set to 2x bigger
         classroomDoor.enable();
         entities.add(classroomDoor);
 
-        //define increase points event: longboi item
+        // create positive event: longboi item
         Item longBoi = new Item(new IncreasePointsEvent(), "long_boi", duckTexture, 3, 9);
         longBoi.setOriginCenter();
         longBoi.setScale(2f); //make longboi twice as big
@@ -112,13 +119,21 @@ public class GameScreen implements Screen {
         hiddenStudent.setScale(2f); //make hidden student twice as big
         entities.add(hiddenStudent);
 
+        //start new timer
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
+        //create labels and position timer and event counters on screen
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
         timerText.setPosition(0, scaled(8.5f));
+        hiddenText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        hiddenText.setPosition(scaled(4f), scaled(8.5f));
+        negativeText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        negativeText.setPosition(scaled(7f), scaled(8.5f));
+        positiveText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        positiveText.setPosition(scaled(10f), scaled(8.5f));
 
         Gdx.input.setInputProcessor(stage);
-        pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
+        pauseButton = new Button(new TextureRegionDrawable(pauseTexture)); //create pause button
         pauseButton.setSize(scaled(1), scaled(1));
         pauseButton.setPosition(scaled(3f), scaled(8.5f), Align.center);
         pauseButton.addListener(new ChangeListener() {
@@ -136,9 +151,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        input(delta);
-        logic(delta);
-        draw(delta);
+        input(delta); //handles player input
+        logic(delta); //handles collisions and events
+        draw(delta); //draws map and entities to screen
         postLogic(delta); // Used for logic that should happen after rendering, normally screen changes
     }
 
@@ -177,7 +192,7 @@ public class GameScreen implements Screen {
 
     private void logic(float delta) {
         Vector2 currentPos = player.getCurrentPos(); //save initial position of player
-        // Only move the player if the game isn't paused
+        //move only if game isn't paused
         if (!game.isPaused()) {
             player.doMove(delta, true);
             if (dean.isEnabled()) {
@@ -186,17 +201,17 @@ public class GameScreen implements Screen {
             }
         }
 
-        // Detect collision with objects
+        //checks for collisions with entities
         entities.forEach(e -> {
             if (player.collidedWith(e) && e.isEnabled()) {
-                // Check for collision with solid objects
+                //solid entities cause player to remain in position
                 if (e.isSolid()) {
-                    //set the position of player to previous position if collision
+                    //set the position of player to previous position
                     player.setPosition(currentPos.x, currentPos.y);
                 }
-                // Check for interaction with items
+                //collision with item causes event
                 if (e instanceof Item item) {
-                    item.interact(game, player);
+                    item.interact(game, player); //triggers event interaction
                 }
             }
         });
@@ -217,6 +232,11 @@ public class GameScreen implements Screen {
         timerText.setText(text);
         timerText.setStyle(new Label.LabelStyle(game.fontBordered, (game.timer.isActive() ? Color.WHITE : Color.RED).cpy()));
 
+        //updates event counters
+        hiddenText.setText("Hidden:" + EventCounter.getHiddenCount());
+        positiveText.setText("Positive:" + EventCounter.getPositiveCount());
+        negativeText.setText("Negative:" + EventCounter.getNegativeCount());
+
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
             spawnLargeMessage("Run! The dean is coming!");
@@ -224,7 +244,7 @@ public class GameScreen implements Screen {
             dean.enable();
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { //pauses game when escape is pressed
             if (game.isPaused()) {
                 game.resume();
             } else {
@@ -234,7 +254,7 @@ public class GameScreen implements Screen {
     }
 
     private void draw(float delta) {
-        ScreenUtils.clear(0f, 0f, 0f, 1f);
+        ScreenUtils.clear(0f, 0f, 0f, 1f); //clears screen
         camera.update();
         //draw map
         mapManager.render();
@@ -263,8 +283,13 @@ public class GameScreen implements Screen {
             );
         }
 
+        //draw timer and event counters to screen
         timerText.draw(game.batch, 1.0f);
+        hiddenText.draw(game.batch, 1.0f);
+        positiveText.draw(game.batch, 1.0f);
+        negativeText.draw(game.batch, 1.0f);
 
+        //draws messages fading out in an upwards direction
         for (Label l : messages) {
             l.setY(l.getY()+1);
             l.getColor().add(0, 0, 0, -0.01f);
@@ -289,7 +314,7 @@ public class GameScreen implements Screen {
             dean.getsPlayer(game);
             return;
         }
-        // Timer
+        // Timer runs out then player loses
         if (game.timer.hasElapsed()) {
             game.timer.finish();
             game.setScreen(new LoseScreen(game));
