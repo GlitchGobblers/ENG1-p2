@@ -101,7 +101,7 @@ public class GameScreen implements Screen {
         mapManager.loadMap("map/map.tmx");
 
         quackSfx = Gdx.audio.newSound(Gdx.files.internal("audio/duck_quack.mp3"));
-        paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.mp3"));
+        paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.wav"));
         doorSfx = Gdx.audio.newSound(Gdx.files.internal("audio/dorm_door_opening.wav"));
         slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
         growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
