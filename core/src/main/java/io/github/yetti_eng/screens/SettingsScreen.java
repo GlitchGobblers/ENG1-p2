@@ -22,7 +22,6 @@ public class SettingsScreen implements Screen {
     private final Stage stage;
 
     private Slider volumeSlider;
-    private TextButton menuButton;
 
     private Texture sliderTexture;
     private Texture knobTexture;
@@ -53,7 +52,7 @@ public class SettingsScreen implements Screen {
         });
         stage.addActor(volumeSlider);
 
-        menuButton = new TextButton("Return to Menu", new TextButton.TextButtonStyle(null, null, null, game.font));
+        TextButton menuButton = new TextButton("Return to Menu", new TextButton.TextButtonStyle(null, null, null, game.font));
         menuButton.setPosition(scaled(16) / 2, scaled(2), Align.center);
         menuButton.addListener(new InputListener() {
             @Override

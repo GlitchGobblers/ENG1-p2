@@ -16,10 +16,6 @@ public class MenuScreen implements Screen {
     private final YettiGame game;
     private final Stage stage;
 
-    private TextButton playButton;
-    private TextButton settingsButton;
-    private TextButton quitButton;
-
     public MenuScreen(final YettiGame game) {
         this.game = game;
         stage = new Stage(game.viewport, game.batch);
@@ -31,8 +27,8 @@ public class MenuScreen implements Screen {
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(null, null, null, game.font);
 
-        playButton = new TextButton("Play", style);
-        playButton.setPosition(scaled(16) / 2, scaled(5.0f), Align.center);
+        TextButton playButton = new TextButton("Play", style);
+        playButton.setPosition(scaled(16) / 2, scaled(6f), Align.center);
         playButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -43,8 +39,8 @@ public class MenuScreen implements Screen {
         });
         stage.addActor(playButton);
 
-        settingsButton = new TextButton("Settings", style);
-        settingsButton.setPosition(scaled(16) / 2, scaled(3.5f), Align.center);
+        TextButton settingsButton = new TextButton("Settings", style);
+        settingsButton.setPosition(scaled(16) / 2, scaled(4.5f), Align.center);
         settingsButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -55,8 +51,20 @@ public class MenuScreen implements Screen {
         });
         stage.addActor(settingsButton);
 
-        quitButton = new TextButton("Quit", style);
-        quitButton.setPosition(scaled(16) / 2, scaled(2.0f), Align.center);
+        TextButton creditsButton = new TextButton("Credits", style);
+        creditsButton.setPosition(scaled(16) / 2, scaled(3f), Align.center);
+        creditsButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new CreditsScreen(game));
+                dispose();
+                return true;
+            }
+        });
+        stage.addActor(creditsButton);
+
+        TextButton quitButton = new TextButton("Quit", style);
+        quitButton.setPosition(scaled(16) / 2, scaled(1.5f), Align.center);
         quitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -73,7 +81,7 @@ public class MenuScreen implements Screen {
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to YettiGame", 0, scaled(7.0f), scaled(16), Align.center, false);
+        game.font.draw(game.batch, "Welcome to YettiGame", 0, scaled(8), scaled(16), Align.center, false);
         game.batch.end();
 
         stage.draw();

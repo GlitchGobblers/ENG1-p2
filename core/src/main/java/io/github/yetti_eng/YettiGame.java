@@ -20,6 +20,7 @@ public class YettiGame extends Game {
 
     private FreeTypeFontGenerator robotoGenerator;
     public BitmapFont font;
+    public BitmapFont fontSmall;
     public BitmapFont fontBordered;
     public BitmapFont fontBorderedSmall;
 
@@ -41,14 +42,17 @@ public class YettiGame extends Game {
         fontParameter.color = Color.WHITE.cpy();
         font = robotoGenerator.generateFont(fontParameter);
 
+        fontParameter.size = (int) scaled(0.5f);
+        fontSmall = robotoGenerator.generateFont(fontParameter);
+
         fontParameter.color = Color.BLACK.cpy();
         fontParameter.borderColor = Color.WHITE.cpy();
-        fontParameter.borderWidth = 4;
-        fontBordered = robotoGenerator.generateFont(fontParameter);
-
-        fontParameter.size = (int) scaled(0.5f);
         fontParameter.borderWidth = 2;
         fontBorderedSmall = robotoGenerator.generateFont(fontParameter);
+
+        fontParameter.size = (int) scaled(1f);
+        fontParameter.borderWidth = 4;
+        fontBordered = robotoGenerator.generateFont(fontParameter);
 
         setScreen(new MenuScreen(this));
     }
