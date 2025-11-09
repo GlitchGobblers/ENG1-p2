@@ -36,13 +36,13 @@ public class SettingsScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        sliderTexture = new Texture("placeholder/slider.png");
-        knobTexture = new Texture("placeholder/knob.png");
+        sliderTexture = new Texture("ui/slider_background.png");
+        knobTexture = new Texture("ui/slider_knob.png");
 
         volumeSlider = new Slider(0.0f, 1.0f, 0.01f, false,
             new Slider.SliderStyle(new TextureRegionDrawable(sliderTexture), new TextureRegionDrawable(knobTexture))
         );
-        volumeSlider.setPosition(scaled(4), scaled(3));
+        volumeSlider.setPosition(scaled(4), scaled(3.5f));
         volumeSlider.setWidth(scaled(8));
         volumeSlider.setValue(game.volume);
         volumeSlider.addListener(new ChangeListener() {
