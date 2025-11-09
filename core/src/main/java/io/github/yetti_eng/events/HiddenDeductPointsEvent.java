@@ -14,8 +14,9 @@ public class HiddenDeductPointsEvent extends Event {
             item.show();
             screen.getSlipSfx().play(screen.getGame().volume);
             screen.spawnInteractionMessage("Tripped over in a water spill (" + getScoreModifier() + ")");
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

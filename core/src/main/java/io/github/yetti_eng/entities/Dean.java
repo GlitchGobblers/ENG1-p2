@@ -5,12 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.screens.LoseScreen;
 
-import java.util.ArrayList;
-
 public class Dean extends Entity {
     private static final float DEAN_SPEED = 5f;
-
-    final ArrayList<Item> usedItems = new ArrayList<>();
 
     public Dean(Texture tex, float x, float y) {
         // Dean should be larger than 1 tile to appear imposing (he can move through walls)
