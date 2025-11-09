@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
         growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
         player = new Player(playerTexDown, 55, 25);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
+        exit = new Item(new WinEvent(), "exit", exitTexture, 80, 53, 2, 2.2f);
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
