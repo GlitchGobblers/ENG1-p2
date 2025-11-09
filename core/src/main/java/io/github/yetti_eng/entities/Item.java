@@ -29,7 +29,7 @@ public class Item extends Entity {
     public final void interact(final YettiGame game, final GameScreen screen, Player player) {
         used = event.activate(screen, player, this);
         if (used) {
-            player.usedItems.add(this);
+            player.inventory.add(this);
             event.modifyScore(game);
         }
     }

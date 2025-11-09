@@ -6,6 +6,7 @@ import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.screens.GameScreen;
 
 public abstract class Event {
+    private int counter = 0;
     /**
      * Activate this event.
      * Should return true only if the triggering Item is used up during activation.
@@ -22,5 +23,14 @@ public abstract class Event {
     // Consolidated "scoreIncrement" and "scoreDecrement" into single "modifyScore" method
     public void modifyScore(final YettiGame game) {
         game.score += getScoreModifier();
+    }
+
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void incrementCounter() {
+        this.counter += 1;
     }
 }

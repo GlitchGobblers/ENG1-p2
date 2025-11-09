@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -26,6 +27,7 @@ import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.events.*;
+import io.github.yetti_eng.EventCounter;
 
 import java.util.ArrayList;
 
@@ -67,6 +69,9 @@ public class GameScreen implements Screen {
     private Item exit;
     private final ArrayList<Entity> entities = new ArrayList<>();
 
+    private Label hiddenText;
+    private Label negativeText;
+    private Label positiveText;
     private Label timerText;
     private final ArrayList<Label> messages = new ArrayList<>();
     private Button pauseButton;
@@ -106,21 +111,29 @@ public class GameScreen implements Screen {
         slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
         growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
-        player = new Player(playerTexDown, 5, 5);
+        player = new Player(playerTexDown, 55, 25);
         exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
-        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 6, 3, 1.5f, 1.5f));
-        entities.add(new Item(new DoorEvent(), "door", doorTexture, 9, 3, 2, 2.2f, false, true));
+        entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
+        entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
-        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 11, 5, 1.5f, 1.5f, true, false));
+        entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
 
+        //start new timer
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
+        //create labels and position timer and event counters on screen
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
         timerText.setPosition(0, scaled(8.5f));
+        hiddenText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        hiddenText.setPosition(scaled(4f), scaled(8.5f));
+        negativeText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        negativeText.setPosition(scaled(7f), scaled(8.5f));
+        positiveText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        positiveText.setPosition(scaled(10f), scaled(8.5f));
 
         Gdx.input.setInputProcessor(stage);
         pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
@@ -141,15 +154,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        input(delta);
-        logic(delta);
-        draw(delta);
+        input(delta); //handles player input
+        logic(delta); //handles collisions and events
+        draw(delta); //draws map and entities to screen
         postLogic(delta); // Used for logic that should happen after rendering, normally screen changes
     }
 
     private void input(float delta) {
-        float dx = 0;
-        float dy = 0;
+        float dx = 0, dy = 0;
         float currentX = player.getX();
         float currentY = player.getY();
         float speed = player.getSpeedThisFrame(delta);
@@ -190,7 +202,8 @@ public class GameScreen implements Screen {
     }
 
     private void logic(float delta) {
-        // Only move the player if the game isn't paused
+        Vector2 currentPos = player.getCurrentPos(); //save initial position of player
+        //move only if game isn't paused
         if (!game.isPaused()) {
             player.doMove(delta, true);
             if (dean.isEnabled()) {
@@ -204,9 +217,8 @@ public class GameScreen implements Screen {
             if (player.collidedWith(e) && e.isEnabled()) {
                 // Check for collision with solid objects
                 if (e.isSolid()) {
-                    // If the player just collided with a solid object, move in the opposite direction
-                    player.reverseMovement();
-                    player.doMove(delta, true);
+                    //set the position of player to previous position if collision
+                    player.setPosition(currentPos.x, currentPos.y);
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {
@@ -230,6 +242,11 @@ public class GameScreen implements Screen {
         String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
         timerText.setText(text);
         timerText.setStyle(new Label.LabelStyle(game.fontBordered, (game.timer.isActive() ? Color.WHITE : Color.RED).cpy()));
+
+        //updates event counters
+        hiddenText.setText("Hidden:" + EventCounter.getHiddenCount());
+        positiveText.setText("Positive:" + EventCounter.getPositiveCount());
+        negativeText.setText("Negative:" + EventCounter.getNegativeCount());
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
@@ -278,8 +295,13 @@ public class GameScreen implements Screen {
             );
         }
 
+        //draw timer and event counters to screen
         timerText.draw(game.batch, 1.0f);
+        hiddenText.draw(game.batch, 1.0f);
+        positiveText.draw(game.batch, 1.0f);
+        negativeText.draw(game.batch, 1.0f);
 
+        //draws messages fading out in an upwards direction
         for (Label l : messages) {
             l.setY(l.getY()+1);
             l.getColor().add(0, 0, 0, -0.01f);
@@ -304,7 +326,7 @@ public class GameScreen implements Screen {
             dean.getsPlayer(game);
             return;
         }
-        // Timer
+        // Timer runs out then player loses
         if (game.timer.hasElapsed()) {
             game.timer.finish();
             game.setScreen(new LoseScreen(game));
