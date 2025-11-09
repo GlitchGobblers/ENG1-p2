@@ -53,10 +53,6 @@ public abstract class Entity extends Sprite {
         movement.add(x, y);
     }
 
-    public void reverseMovement() {
-        movement.rotateDeg(180);
-    }
-
     /**
      * Convert this Entity's current queued movement into a unit vector
      * (that is, ensure that this Entity moves exactly the distance of 1 tile).
