@@ -41,6 +41,7 @@ public class GameScreen implements Screen {
     private Texture playerTexDown;
     private Texture playerTexLeft;
     private Texture playerTexRight;
+    private Texture yetiTexture;
 
     private Texture exitTexture;
     private Texture checkinCodeTexture;
@@ -48,7 +49,6 @@ public class GameScreen implements Screen {
     private Texture doorframeTexture;
     private Texture longBoiTexture;
     private Texture waterSpillTexture;
-    private Texture angryTexture;
     private Texture pauseTexture;
 
     private MapManager mapManager;
@@ -60,6 +60,7 @@ public class GameScreen implements Screen {
     private Sound paperSfx;
     private Sound doorSfx;
     private Sound slipSfx;
+    private Sound growlSfx;
 
     private Player player;
     private Dean dean;
@@ -81,8 +82,7 @@ public class GameScreen implements Screen {
         playerTexDown = new Texture("character/player_down.png");
         playerTexLeft = new Texture("character/player_left.png");
         playerTexRight = new Texture("character/player_right.png");
-
-        angryTexture = new Texture("placeholder/angry.png");
+        yetiTexture = new Texture("character/yeti.png");
 
         exitTexture = new Texture("item/exit.png");
         checkinCodeTexture = new Texture("item/checkin_code.png");
@@ -104,10 +104,11 @@ public class GameScreen implements Screen {
         paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.mp3"));
         doorSfx = Gdx.audio.newSound(Gdx.files.internal("audio/dorm_door_opening.wav"));
         slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
+        growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
         player = new Player(playerTexDown, 5, 5);
         exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
-        dean = new Dean(angryTexture, -2, 4.5f);
+        dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
 
@@ -232,6 +233,7 @@ public class GameScreen implements Screen {
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
+            growlSfx.play(game.volume);
             spawnLargeMessage("Run! The dean is coming!");
             dean.show();
             dean.enable();
@@ -335,8 +337,7 @@ public class GameScreen implements Screen {
         playerTexDown.dispose();
         playerTexLeft.dispose();
         playerTexRight.dispose();
-
-        angryTexture.dispose();
+        yetiTexture.dispose();
 
         exitTexture.dispose();
         checkinCodeTexture.dispose();
@@ -353,6 +354,7 @@ public class GameScreen implements Screen {
         paperSfx.dispose();
         doorSfx.dispose();
         slipSfx.dispose();
+        growlSfx.dispose();
     }
 
     /**

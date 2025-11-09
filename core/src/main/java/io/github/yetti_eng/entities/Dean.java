@@ -8,13 +8,13 @@ import io.github.yetti_eng.screens.LoseScreen;
 import java.util.ArrayList;
 
 public class Dean extends Entity {
-    private static final float PLAYER_SPEED = 1.5f;
+    private static final float DEAN_SPEED = 5f;
 
     final ArrayList<Item> usedItems = new ArrayList<>();
 
     public Dean(Texture tex, float x, float y) {
-        // Dean should be slightly larger than 1 tile to appear imposing (he can move through walls)
-        super(tex, x, y, 1.1f, 1.1f, PLAYER_SPEED, false);
+        // Dean should be larger than 1 tile to appear imposing (he can move through walls)
+        super(tex, x, y, 2f, 2.5f, DEAN_SPEED, false);
     }
 
     /**
