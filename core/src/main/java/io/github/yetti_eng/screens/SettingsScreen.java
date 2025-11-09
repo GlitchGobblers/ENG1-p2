@@ -39,11 +39,12 @@ public class SettingsScreen implements Screen {
         sliderTexture = new Texture("placeholder/slider.png");
         knobTexture = new Texture("placeholder/knob.png");
 
-        volumeSlider = new Slider(0, 100, 1, false,
+        volumeSlider = new Slider(0.0f, 1.0f, 0.01f, false,
             new Slider.SliderStyle(new TextureRegionDrawable(sliderTexture), new TextureRegionDrawable(knobTexture))
         );
         volumeSlider.setPosition(scaled(4), scaled(3));
         volumeSlider.setWidth(scaled(8));
+        volumeSlider.setValue(game.volume);
         volumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -3,6 +3,7 @@ package io.github.yetti_eng.events;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
+import io.github.yetti_eng.screens.GameScreen;
 
 public abstract class Event {
     /**
@@ -14,7 +15,7 @@ public abstract class Event {
      * @return true if the Item was successfully interacted with
      *         (the Event activated successfully); false otherwise.
      */
-    public abstract boolean activate(final YettiGame game, Player player, Item item);
+    public abstract boolean activate(final GameScreen screen, Player player, Item item);
 
     public abstract int getScoreModifier();
 

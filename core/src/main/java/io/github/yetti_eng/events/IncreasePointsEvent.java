@@ -1,15 +1,16 @@
 package io.github.yetti_eng.events;
 
-import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
+import io.github.yetti_eng.screens.GameScreen;
 
 public class IncreasePointsEvent extends Event {
     @Override
-    public boolean activate(YettiGame game, Player player, Item item) {
+    public boolean activate(GameScreen screen, Player player, Item item) {
         item.disable();
         item.hide();
-        game.spawnInteractionMessage("Found Long Boi (+" + getScoreModifier() + ")");
+        screen.getQuackSfx().play(screen.getGame().volume);
+        screen.spawnInteractionMessage("Found Long Boi (+" + getScoreModifier() + ")");
         return true;
     }
 

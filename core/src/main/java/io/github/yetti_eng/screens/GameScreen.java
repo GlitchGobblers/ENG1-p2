@@ -3,6 +3,7 @@ package io.github.yetti_eng.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -55,6 +56,11 @@ public class GameScreen implements Screen {
 
     private OrthographicCamera interfaceCamera;
 
+    private Sound quackSfx;
+    private Sound paperSfx;
+    private Sound doorSfx;
+    private Sound slipSfx;
+
     private Player player;
     private Dean dean;
     private Item exit;
@@ -93,6 +99,11 @@ public class GameScreen implements Screen {
         interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
         mapManager = new MapManager(camera);
         mapManager.loadMap("map/map.tmx");
+
+        quackSfx = Gdx.audio.newSound(Gdx.files.internal("audio/duck_quack.mp3"));
+        paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.mp3"));
+        doorSfx = Gdx.audio.newSound(Gdx.files.internal("audio/dorm_door_opening.wav"));
+        slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
 
         player = new Player(playerTexDown, 5, 5);
         exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
@@ -198,7 +209,7 @@ public class GameScreen implements Screen {
                 }
                 // Check for interaction with items
                 if (e instanceof Item item) {
-                    item.interact(game, player);
+                    item.interact(game, this, player);
                 }
             }
         });
@@ -283,7 +294,7 @@ public class GameScreen implements Screen {
     private void postLogic(float delta) {
         // Exit collision
         if (player.collidedWith(exit) && exit.isEnabled()) {
-            exit.interact(game, player);
+            exit.interact(game, this, player);
             return;
         }
         // Dean collision
@@ -337,6 +348,11 @@ public class GameScreen implements Screen {
         pauseTexture.dispose();
         mapManager.dispose();
         stage.dispose();
+
+        quackSfx.dispose();
+        paperSfx.dispose();
+        doorSfx.dispose();
+        slipSfx.dispose();
     }
 
     /**
@@ -363,5 +379,28 @@ public class GameScreen implements Screen {
 
     public Texture getDoorframeTexture() {
         return doorframeTexture;
+    }
+
+    public Sound getQuackSfx() {
+        return quackSfx;
+    }
+
+    public Sound getPaperSfx() {
+        return paperSfx;
+    }
+
+    public Sound getDoorSfx() {
+        return doorSfx;
+    }
+
+    public Sound getSlipSfx() {
+        return slipSfx;
+    }
+
+    /**
+     * @return The current YettiGame object.
+     */
+    public YettiGame getGame() {
+        return game;
     }
 }

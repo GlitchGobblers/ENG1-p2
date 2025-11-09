@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import io.github.yetti_eng.screens.GameScreen;
 import io.github.yetti_eng.screens.MenuScreen;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name
@@ -24,7 +23,7 @@ public class YettiGame extends Game {
     public BitmapFont fontBordered;
     public BitmapFont fontBorderedSmall;
 
-    public float volume;  // TODO: currently unused
+    public float volume = 1.0f;
     private boolean paused;
 
     public Timer timer;
@@ -97,17 +96,5 @@ public class YettiGame extends Game {
     public int calculateFinalScore() {
         score += timer.getRemainingTime();
         return score;
-    }
-
-    /**
-     * Spawn a small text label at the bottom right of the screen
-     * that floats upwards and fades out. Used when interacting with Items.
-     * Only works if the current screen is a GameScreen.
-     * @param text The text that should be displayed.
-     */
-    public void spawnInteractionMessage(String text) {
-        if (screen instanceof GameScreen gameScreen) {
-            gameScreen.spawnInteractionMessage(text);
-        }
     }
 }

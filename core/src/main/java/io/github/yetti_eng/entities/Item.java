@@ -3,6 +3,7 @@ package io.github.yetti_eng.entities;
 import com.badlogic.gdx.graphics.Texture;
 import io.github.yetti_eng.YettiGame;
 import io.github.yetti_eng.events.Event;
+import io.github.yetti_eng.screens.GameScreen;
 
 public class Item extends Entity {
     private final Event event;
@@ -25,8 +26,8 @@ public class Item extends Entity {
         this(event, ID, tex, x, y, 1, 1);
     }
 
-    public final void interact(final YettiGame game, Player player) {
-        used = event.activate(game, player, this);
+    public final void interact(final YettiGame game, final GameScreen screen, Player player) {
+        used = event.activate(screen, player, this);
         if (used) {
             player.usedItems.add(this);
             event.modifyScore(game);
