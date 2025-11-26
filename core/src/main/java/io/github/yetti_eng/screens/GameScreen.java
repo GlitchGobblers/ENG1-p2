@@ -73,6 +73,7 @@ public class GameScreen implements Screen {
     private Label negativeText;
     private Label positiveText;
     private Label timerText;
+    private Label scoreText;
     private final ArrayList<Label> messages = new ArrayList<>();
     private Button pauseButton;
 
@@ -125,17 +126,20 @@ public class GameScreen implements Screen {
         //start new timer
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
+        game.score = 0;
         //create labels and position timer and event counters on screen
         timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
-        timerText.setPosition(0, scaled(8.5f));
+        timerText.setPosition(0, scaled(8.6f));
         hiddenText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
-        hiddenText.setPosition(scaled(4f), scaled(8.5f));
+        hiddenText.setPosition(scaled(3f), scaled(8.65f));
         negativeText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
-        negativeText.setPosition(scaled(7f), scaled(8.5f));
+        negativeText.setPosition(scaled(6f), scaled(8.6f));
         positiveText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
-        positiveText.setPosition(scaled(10f), scaled(8.5f));
+        positiveText.setPosition(scaled(9f), scaled(8.6f));
+        scoreText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+        scoreText.setPosition(scaled(12f), scaled(8.6f)); // Changed from 8.5 -> 8.6 to prevent them from covering map
 
-        Gdx.input.setInputProcessor(stage);
+/*        Gdx.input.setInputProcessor(stage);
         pauseButton = new Button(new TextureRegionDrawable(pauseTexture));
         pauseButton.setSize(48, 48);
         pauseButton.setPosition(scaled(15.6f), scaled(8.6f), Align.center);
@@ -149,7 +153,7 @@ public class GameScreen implements Screen {
                 }
             }
         });
-        stage.addActor(pauseButton);
+        stage.addActor(pauseButton);*/
     }
 
     @Override
@@ -247,6 +251,8 @@ public class GameScreen implements Screen {
         hiddenText.setText("Hidden:" + EventCounter.getHiddenCount());
         positiveText.setText("Positive:" + EventCounter.getPositiveCount());
         negativeText.setText("Negative:" + EventCounter.getNegativeCount());
+        int liveScore = game.score + game.timer.getRemainingTime();
+        scoreText.setText("Score: " + liveScore);
 
         // Release the Dean if the timer is at 60 or less
         if (timeRemaining <= 60 && !dean.isEnabled()) {
@@ -300,6 +306,7 @@ public class GameScreen implements Screen {
         hiddenText.draw(game.batch, 1.0f);
         positiveText.draw(game.batch, 1.0f);
         negativeText.draw(game.batch, 1.0f);
+        scoreText.draw(game.batch, 1.0f);
 
         //draws messages fading out in an upwards direction
         for (Label l : messages) {

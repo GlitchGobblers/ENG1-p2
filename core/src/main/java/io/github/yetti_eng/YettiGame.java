@@ -98,7 +98,6 @@ public class YettiGame extends Game {
      * @return The final score for the game.
      */
     public int calculateFinalScore() {
-        score += timer.getRemainingTime();
-        return score;
+        return score + timer.getRemainingTime();
     }
 }
