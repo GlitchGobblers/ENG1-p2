@@ -10,7 +10,7 @@ import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.screens.GameScreen;
 
-public abstract class Event {
+public class Event {
     private int counter = 0;
     private String interactionMessage;
     private String interactionImagePath;
@@ -21,8 +21,8 @@ public abstract class Event {
     private boolean visible;
     private SpriteBatch batch;
     public Event(MapProperties properties){
-        interactionMessage = properties.get("interactionMessage");
-        interactionImagePath = properties.get("interactionImage");
+        interactionMessage = (String) properties.get("interactionMessage");
+        interactionImagePath = (String) properties.get("interactionImage");
         interactionImage = new Texture(interactionImagePath);
         interactionPosition = new Vector2((Float) properties.get("x"), (Float) properties.get("y"));
         interactionSize = new Vector2((Float) properties.get("width"), (Float) properties.get("height"));
@@ -43,9 +43,10 @@ public abstract class Event {
 
 
 
-    public abstract boolean activate(final GameScreen screen, Player player, Item item);
+    public boolean activate(final GameScreen screen, Player player, Item item){
+        return false;
+    }
 
-    public abstract int getScoreModifier();
 
     // Consolidated "scoreIncrement" and "scoreDecrement" into single "modifyScore" method
     public void modifyScore(final YettiGame game) {

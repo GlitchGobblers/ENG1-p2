@@ -73,7 +73,7 @@ public class MapManager {
         renderer.dispose();
         map.dispose();
     }
-    public MapLayer getMap() {
+    public TiledMap getMap() {
         return map;
     }
 }

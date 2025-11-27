@@ -127,8 +127,11 @@ public class GameScreen implements Screen {
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
-        MapObjects interactables = mapManager.getMap().getLayers("Event").get().getObjects();
-        for (int index = 0; index < interactables.size(); index++) {}
+        MapObjects interactables = mapManager.getMap().getLayers().get("Event").getObjects();
+        for (int index = 0; index < interactables.getCount(); index++) {
+            entities.add(new Event(interactables.get(index).getProperties());
+
+
         entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
