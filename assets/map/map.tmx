@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="34" nextobjectid="174">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="184">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -389,7 +389,7 @@
 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 </data>
  </layer>
- <objectgroup id="28" name="objectcollision">
+ <objectgroup id="28" name="objectcollision" visible="0">
   <object id="1" x="8" y="12" width="4312" height="68"/>
   <object id="2" x="12" y="108" width="68" height="2764"/>
   <object id="3" x="92" y="2812" width="4228" height="68"/>
@@ -557,5 +557,35 @@
   <object id="171" x="3280" y="92" width="152" height="44"/>
   <object id="172" x="1100" y="776" width="96" height="36"/>
   <object id="173" x="2208" y="84" width="88" height="148"/>
+ </objectgroup>
+ <objectgroup id="34" name="Events">
+  <object id="175" name="checkinCode" x="2161.33" y="1233.33" width="92.3333" height="63.6667">
+   <properties>
+    <property name="interactionImagePath" value="assets/item/checkin_code.png"/>
+    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="scoreModifier" value="0"/>
+   </properties>
+  </object>
+  <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
+   <properties>
+    <property name="interactionImagePath" value="assets/item/long_boi.png"/>
+    <property name="interactionMessage" value="Found long boi!!"/>
+    <property name="scoreModifier" value="100"/>
+   </properties>
+  </object>
+  <object id="178" name="waterSpill" x="2829.33" y="2206.67" width="142.667" height="146.667" visible="0">
+   <properties>
+    <property name="interactionImagePath" value="assets/item/water_spill.png"/>
+    <property name="interactionMessage" value="You tripped over a water spill!"/>
+    <property name="scoreModifier" value="-50"/>
+   </properties>
+  </object>
+  <object id="183" name="waterSpill" x="2825" y="2239" width="149.5" height="149">
+   <properties>
+    <property name="interactionImagePath" value="assets/item/water_spill.png"/>
+    <property name="interactionMessage" value="You slipped on a water spill"/>
+    <property name="scoreModifier" value="-50"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
