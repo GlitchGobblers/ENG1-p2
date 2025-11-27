@@ -28,6 +28,10 @@ import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.events.*;
 import io.github.yetti_eng.EventCounter;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
 
@@ -76,6 +80,9 @@ public class GameScreen implements Screen {
     private Label scoreText;
     private final ArrayList<Label> messages = new ArrayList<>();
     private Button pauseButton;
+
+    private Table pauseMenu;
+    private Texture btnUpTex, btnDownTex;
 
     public GameScreen(final YettiGame game) {
         this.game = game;
@@ -154,6 +161,73 @@ public class GameScreen implements Screen {
             }
         });
         stage.addActor(pauseButton);*/
+
+
+        Gdx.input.setInputProcessor(stage);
+        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
+        Pixmap pmUp = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pmUp.setColor(0f, 0f, 0f, 0.8f);
+        pmUp.fill();
+        btnUpTex = new Texture(pmUp);
+        pmUp.dispose();
+
+
+        Pixmap pmDown = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pmDown.setColor(1f, 1f, 1f, 0.25f);
+        pmDown.fill();
+        btnDownTex = new Texture(pmDown);
+        pmDown.dispose();
+
+        btnStyle.up   = new TextureRegionDrawable(new TextureRegion(btnUpTex));
+        btnStyle.down = new TextureRegionDrawable(new TextureRegion(btnDownTex));
+        btnStyle.over = btnStyle.down;
+        btnStyle.font = game.fontBorderedSmall;
+        btnStyle.fontColor = Color.WHITE.cpy();
+
+
+        pauseMenu = new Table();
+        pauseMenu.setFillParent(true);
+        pauseMenu.center();
+
+        float btnW = scaled(5f);
+        float btnH = scaled(1.4f);
+
+        TextButton resumeButton = new TextButton("Resume", btnStyle);
+        TextButton restartButton = new TextButton("Restart", btnStyle);
+        TextButton menuButton = new TextButton("Main Menu", btnStyle);
+
+        resumeButton.setSize(btnW, btnH);
+        restartButton.setSize(btnW, btnH);
+        menuButton.setSize(btnW, btnH);
+
+
+        pauseMenu.defaults().width(btnW).height(btnH).pad(scaled(0.3f));
+        pauseMenu.add(resumeButton).row();
+        pauseMenu.add(restartButton).row();
+        pauseMenu.add(menuButton).row();
+
+        pauseMenu.setVisible(false);
+        stage.addActor(pauseMenu);
+
+
+        resumeButton.addListener(new ChangeListener() {
+            @Override public void changed(ChangeEvent event, Actor actor) {
+                game.resume();
+            }
+        });
+        restartButton.addListener(new ChangeListener() {
+            @Override public void changed(ChangeEvent event, Actor actor) {
+                game.resume();
+                game.setScreen(new GameScreen(game));
+                dispose();
+            }
+        });
+        menuButton.addListener(new ChangeListener() {
+            @Override public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MenuScreen(game));
+                dispose();
+            }
+        });
     }
 
     @Override
@@ -293,13 +367,6 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(interfaceCamera.combined);
         game.batch.begin();
 
-        if (game.isPaused()) {
-            game.fontBordered.draw(
-                game.batch, "PAUSED",
-                0, interfaceCamera.viewportHeight / 2, interfaceCamera.viewportWidth,
-                Align.center, false
-            );
-        }
 
         //draw timer and event counters to screen
         timerText.draw(game.batch, 1.0f);
@@ -319,6 +386,9 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         // Finally, draw elements on the stage (clickable elements)
+        pauseMenu.setVisible(game.isPaused());
+
+        stage.act(delta);
         stage.draw();
     }
 
@@ -384,6 +454,8 @@ public class GameScreen implements Screen {
         doorSfx.dispose();
         slipSfx.dispose();
         growlSfx.dispose();
+        if (btnUpTex != null) btnUpTex.dispose();
+        if (btnDownTex != null) btnDownTex.dispose();
     }
 
     /**
