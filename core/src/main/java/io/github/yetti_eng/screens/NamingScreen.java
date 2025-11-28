@@ -45,33 +45,31 @@ public class NamingScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
 
-        // ===== BUTTON TEXTURES =====
+
         btnBgTex = makeColorTex(1, 1, 0f, 0f, 0f, 0.4f);
         btnBorderTex = makeColorTex(1, 1, 1f, 1f, 1f, 0.9f);
-
-        // Hover versions (lighter)
         btnHoverBgTex = makeColorTex(1, 1, 0.3f, 0.3f, 0.3f, 0.6f);
         btnHoverBorderTex = makeColorTex(1, 1, 1f, 1f, 1f, 1f);
 
-        // ===== TEXTFIELD TEXTURES =====
+        
         fieldBgTex = makeColorTex(1, 1, 1f, 1f, 1f, 0.18f);
         fieldBorderTex = makeColorTex(1, 1, 1f, 1f, 1f, 0.9f);
 
-        // ===== BUTTON STYLE =====
+        
         TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
         btnStyle.up = bordered(btnBgTex, btnBorderTex);
-        btnStyle.down = bordered(btnHoverBgTex, btnHoverBorderTex);   // pressed looks like hover
+        btnStyle.down = bordered(btnHoverBgTex, btnHoverBorderTex);
         btnStyle.over = bordered(btnHoverBgTex, btnHoverBorderTex);
         btnStyle.font = game.font;
 
-        // ===== TEXTFIELD STYLE =====
+        
         TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle();
         tfStyle.font = game.font;
         tfStyle.fontColor = Color.WHITE;
         tfStyle.background = bordered(fieldBgTex, fieldBorderTex);
         tfStyle.cursor = new TextureRegionDrawable(fieldBorderTex);
 
-        // ===== WIDGETS =====
+        
         nameField = new TextField(prefs.getString(""), tfStyle);
         nameField.setMessageText("Type name…");
         nameField.setMaxLength(MAX_LEN);
@@ -101,7 +99,6 @@ public class NamingScreen implements Screen {
             }
         });
 
-        // Enter-to-submit
         nameField.setTextFieldListener((f, c) -> {
             if (c == '\r' || c == '\n') confirm();
         });
@@ -125,11 +122,10 @@ public class NamingScreen implements Screen {
 
                 super.draw(batch, x, y, w, h);
 
-                // very thin borders
-                batch.draw(border, x, y, w, 1);            // bottom
-                batch.draw(border, x, y + h - 1, w, 1);    // top
-                batch.draw(border, x, y, 1, h);            // left
-                batch.draw(border, x + w - 1, y, 1, h);    // right
+                batch.draw(border, x, y, w, 1);            
+                batch.draw(border, x, y + h - 1, w, 1);    
+                batch.draw(border, x, y, 1, h);            
+                batch.draw(border, x + w - 1, y, 1, h);    
             }
         };
     }
@@ -178,12 +174,11 @@ public class NamingScreen implements Screen {
         game.font.draw(game.batch, "Choose Your Name",
             0, scaled(8f), scaled(16), Align.center, false);
 
-        // Red error text
         if (!errorText.isEmpty()) {
             game.font.setColor(Color.RED);
             game.font.draw(game.batch, errorText,
                 0, scaled(2.2f), scaled(16), Align.center, false);
-            game.font.setColor(Color.WHITE); // reset
+            game.font.setColor(Color.WHITE);
         }
 
         game.batch.end();
