@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -40,6 +41,7 @@ import static io.github.yetti_eng.YettiGame.scaled;
 public class GameScreen implements Screen {
     private final YettiGame game;
     private final Stage stage;
+    int fps = Gdx.graphics.getFramesPerSecond();
 
     private static final int TIMER_LENGTH = 300; // 300s = 5min
 
@@ -83,6 +85,8 @@ public class GameScreen implements Screen {
 
     private Table pauseMenu;
     private Texture btnUpTex, btnDownTex;
+
+    private final GlyphLayout nameLayout = new GlyphLayout();
 
     public GameScreen(final YettiGame game) {
         this.game = game;
@@ -129,6 +133,8 @@ public class GameScreen implements Screen {
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
         entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
+
+        game.fontBorderedSmall.setUseIntegerPositions(false);
 
         //start new timer
         game.timer = new Timer(TIMER_LENGTH);
@@ -236,6 +242,7 @@ public class GameScreen implements Screen {
         logic(delta); //handles collisions and events
         draw(delta); //draws map and entities to screen
         postLogic(delta); // Used for logic that should happen after rendering, normally screen changes
+        // System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond()); (Used for checking FPS)
     }
 
     private void input(float delta) {
@@ -359,7 +366,30 @@ public class GameScreen implements Screen {
         entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
         // Draw exit, player, and dean on top of other entities
         if (exit.isVisible()) exit.draw(game.batch);
+
         if (player.isVisible()) player.draw(game.batch);
+
+        float pixelsPerUnit = (float) Gdx.graphics.getWidth() / camera.viewportWidth;
+        float nameSize = 0.04f;
+        float originalFontScaleX  = game.fontBorderedSmall.getData().scaleX;
+        float originalFontScaleY = game.fontBorderedSmall.getData().scaleY;
+        float scale = (nameSize * pixelsPerUnit) / game.fontBorderedSmall.getCapHeight();
+
+
+        game.fontBorderedSmall.getData().setScale(scale);
+        nameLayout.setText(game.fontBorderedSmall, game.playerName);
+
+        float textPosX = player.getX() + (player.getWidth() - nameLayout.width) * 0.5f;
+        float nameOffset = 0.2f;
+        float textPosY = player.getY() + player.getHeight() + nameOffset + nameLayout.height;
+
+
+        Color prevFontColor = game.fontBorderedSmall.getColor().cpy();
+        game.fontBorderedSmall.setColor(Color.WHITE);
+        game.fontBorderedSmall.draw(game.batch, nameLayout, textPosX, textPosY);
+        game.fontBorderedSmall.setColor(prevFontColor);
+        game.fontBorderedSmall.getData().setScale(originalFontScaleX , originalFontScaleY);
+
         if (dean.isVisible()) dean.draw(game.batch);
         game.batch.end();
 

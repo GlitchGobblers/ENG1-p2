@@ -23,6 +23,7 @@ public class YettiGame extends Game {
     public BitmapFont fontSmall;
     public BitmapFont fontBordered;
     public BitmapFont fontBorderedSmall;
+    public String playerName = "Bob";
 
     public float volume = 1.0f;
     private boolean paused;
