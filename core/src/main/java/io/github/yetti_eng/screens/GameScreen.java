@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -34,9 +33,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+//import io.github.yetti_eng.events.GoingToRemove.WinEvent;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static io.github.yetti_eng.YettiGame.scaled;
 
@@ -123,20 +122,21 @@ public class GameScreen implements Screen {
         growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
         player = new Player(playerTexDown, 55, 25);
-        exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
+        //exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
         MapObjects interactables = mapManager.getMap().getLayers().get("Event").getObjects();
         for (int index = 0; index < interactables.getCount(); index++) {
-            entities.add(new Event(interactables.get(index).getProperties());
+            entities.add(new Event(interactables.get(index).getProperties()));
+        }
 
-
+/*
         entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
         entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
         entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
         entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
-
+*/
         //start new timer
         game.timer = new Timer(TIMER_LENGTH);
         game.timer.play();
