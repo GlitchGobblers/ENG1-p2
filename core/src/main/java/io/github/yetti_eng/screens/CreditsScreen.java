@@ -1,5 +1,7 @@
 package io.github.yetti_eng.screens;
 
+import static io.github.yetti_eng.YettiGame.scaled;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -12,15 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.yetti_eng.YettiGame;
-
 import java.util.ArrayList;
-
-import static io.github.yetti_eng.YettiGame.scaled;
 
 public class CreditsScreen implements Screen {
     private final YettiGame game;
     private final Stage stage;
-
+    
     private final ArrayList<Label> creditLabels = new ArrayList<>();
 
     public CreditsScreen(final YettiGame game) {
