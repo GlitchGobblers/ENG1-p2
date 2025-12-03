@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="184">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="184">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -561,14 +561,14 @@
  <objectgroup id="34" name="Events">
   <object id="175" name="checkinCode" x="2161.33" y="1233.33" width="92.3333" height="63.6667">
    <properties>
-    <property name="interactionImagePath" value="assets/item/checkin_code.png"/>
+    <property name="interactionImagePath" value="item/checkin_code.png"/>
     <property name="interactionMessage" value="Got the checkin code!"/>
     <property name="scoreModifier" value="0"/>
    </properties>
   </object>
   <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
-    <property name="interactionImagePath" value="assets/item/long_boi.png"/>
+    <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
     <property name="scoreModifier" value="100"/>
    </properties>
@@ -582,7 +582,7 @@
   </object>
   <object id="183" name="waterSpill" x="2825" y="2239" width="149.5" height="149">
    <properties>
-    <property name="interactionImagePath" value="assets/item/water_spill.png"/>
+    <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
     <property name="scoreModifier" value="-50"/>
    </properties>

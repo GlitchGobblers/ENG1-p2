@@ -18,26 +18,26 @@ public class Event extends Entity {
     private Texture interactionImage;
     private Vector2 interactionPosition;
     private Vector2 interactionSize;
-    private int scoreModifier;
+    private float scoreModifier;
     private boolean visible;
     private SpriteBatch batch;
     public Event(MapProperties properties){
-        super(new Texture((String) properties.get("interactionImage")),
+        super(new Texture((String) properties.get("interactionImagePath")),
             (Float) properties.get("x"),
             (Float) properties.get("y"),
             (Float) properties.get("width"),
             (Float) properties.get("height"),
             0, true);
         interactionMessage = (String) properties.get("interactionMessage");
-        interactionImagePath = (String) properties.get("interactionImage");
+        interactionImagePath = (String) properties.get("interactionImagePath");
         interactionImage = new Texture(interactionImagePath);
         interactionPosition = new Vector2((Float) properties.get("x"), (Float) properties.get("y"));
         interactionSize = new Vector2((Float) properties.get("width"), (Float) properties.get("height"));
-        scoreModifier = (Integer) properties.get("scoreModifier");
+        scoreModifier = (Float) properties.get("scoreModifier");
         visible = (Boolean) properties.get("visible");
 
     }
-    public int getScoreModifier(){
+    public float getScoreModifier(){
         return scoreModifier;
     }
     public void showInteractionMessage(GameScreen screen){

@@ -126,7 +126,7 @@ public class GameScreen implements Screen {
         dean = new Dean(yetiTexture, -2, 4.5f);
         dean.disable();
         dean.hide();
-        MapObjects interactables = mapManager.getMap().getLayers().get("Event").getObjects();
+        MapObjects interactables = mapManager.getMap().getLayers().get("Events").getObjects();
         for (int index = 0; index < interactables.getCount(); index++) {
             entities.add(new Event(interactables.get(index).getProperties()));
         }
