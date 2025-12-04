@@ -7,16 +7,16 @@ import io.github.yetti_eng.screens.GameScreen;
 import io.github.yetti_eng.screens.WinScreen;
 
 public class WinEvent extends Event {
-    @Override
-    public boolean activate(GameScreen screen, Player player, Item item) {
-        YettiGame game = screen.getGame();
-        game.setScreen(new WinScreen(game));
-        screen.dispose();
-        return true;
-    }
+  @Override
+  public boolean activate(GameScreen screen, Player player, Item item) {
+    YettiGame game = screen.getGame();
+    game.setScreen(new WinScreen(game));
+    screen.dispose();
+    return true;
+  }
 
-    @Override
-    public int getScoreModifier() {
-        return 0;
-    }
+  @Override
+  public int getScoreModifier() {
+    return 0;
+  }
 }
