@@ -34,8 +34,9 @@ public class Event extends Entity {
         interactionPosition = new Vector2((Float) properties.get("x"), (Float) properties.get("y"));
         interactionSize = new Vector2((Float) properties.get("width"), (Float) properties.get("height"));
         scoreModifier = (Float) properties.get("scoreModifier");
-        visible = (Boolean) properties.get("visible");
-
+        if (properties.get("visible") != null) {
+            visible = (Boolean) properties.get("visible");
+        }
     }
     public float getScoreModifier(){
         return scoreModifier;

@@ -563,28 +563,21 @@
    <properties>
     <property name="interactionImagePath" value="item/checkin_code.png"/>
     <property name="interactionMessage" value="Got the checkin code!"/>
-    <property name="scoreModifier" value="0"/>
+    <property name="scoreModifier" type="float" value="0"/>
    </properties>
   </object>
   <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" value="100"/>
+    <property name="scoreModifier" type="float" value="100"/>
    </properties>
   </object>
-  <object id="178" name="waterSpill" x="2829.33" y="2206.67" width="142.667" height="146.667" visible="0">
-   <properties>
-    <property name="interactionImagePath" value="assets/item/water_spill.png"/>
-    <property name="interactionMessage" value="You tripped over a water spill!"/>
-    <property name="scoreModifier" value="-50"/>
-   </properties>
-  </object>
-  <object id="183" name="waterSpill" x="2825" y="2239" width="149.5" height="149">
+  <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
-    <property name="scoreModifier" value="-50"/>
+    <property name="scoreModifier" type="float" value="-50"/>
    </properties>
   </object>
  </objectgroup>

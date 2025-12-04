@@ -365,7 +365,7 @@ public class GameScreen implements Screen {
         // Draw only visible entities
         entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
         // Draw exit, player, and dean on top of other entities
-        if (exit.isVisible()) exit.draw(game.batch);
+        //if (exit.isVisible()) exit.draw(game.batch);
         if (player.isVisible()) player.draw(game.batch);
         if (dean.isVisible()) dean.draw(game.batch);
         game.batch.end();
@@ -401,10 +401,11 @@ public class GameScreen implements Screen {
 
     private void postLogic(float delta) {
         // Exit collision
+        /*
         if (player.collidedWith(exit) && exit.isEnabled()) {
             exit.interact(game, this, player);
             return;
-        }
+        }*/
         // Dean collision
         if (player.collidedWith(dean) && dean.isEnabled()) {
             dean.getsPlayer(game);
