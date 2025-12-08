@@ -1,8 +1,3 @@
-plugins {
-  // Use the Checkstyle plugin to enforce style
-  id 'checkstyle'
-}
-
 buildscript {
   repositories {
     mavenCentral()
@@ -15,6 +10,11 @@ buildscript {
 
 
   }
+}
+
+plugins {
+  // Use the Checkstyle plugin to enforce style
+  id 'checkstyle'
 }
 
 // Define the version for the Checkstyle tool
