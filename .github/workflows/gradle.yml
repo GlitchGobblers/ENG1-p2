@@ -32,12 +32,12 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: jacoco-report-${{ matrix.os }}
-          path: game/build/reports/jacoco/test/html/
+          path: game/lwjgl3/build/reports/jacoco/test/html/
       - name: Upload library JAR
         uses: actions/upload-artifact@v4.3.1
         with:
           name: lib-${{ matrix.os }}.jar
-          path: game/build/libs/lib.jar
+          path: game/lwjgl3/build/libs/YettiGame.jar
       - name: Upload Checkstyle report
         uses: actions/upload-artifact@v4.3.1
         if: startsWith(matrix.os, 'ubuntu')
