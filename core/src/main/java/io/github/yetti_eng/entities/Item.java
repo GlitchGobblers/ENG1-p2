@@ -26,14 +26,14 @@ public class Item extends Entity {
     this(event, ID, tex, x, y, 1, 1);
   }
 
-  public final void interact(final YettiGame game, final GameScreen screen, Player player) {
-    boolean justUsed = event.activate(screen, player, this);
-    if (justUsed) {
-      used = true;
-      player.inventory.add(this);
-      event.modifyScore(game);
+    public final void interact(final YettiGame game, final GameScreen screen, Player player) {
+        /*boolean justUsed = event.activate(screen, player, this);
+        if (justUsed) {
+            used = true;
+            player.inventory.add(this);
+            event.modifyScore(game);
+        }*/
     }
-  }
 
   public boolean isUsed() {
     return used;

@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -126,23 +127,30 @@ public class GameScreen implements Screen {
     growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
 
     player = new Player(playerTexDown, 55, 25);
-    exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
+    // exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
     dean = new Dean(yetiTexture, -2, 4.5f);
     dean.disable();
     dean.hide();
+    MapObjects interactables = mapManager.getMap().getLayers().get("Events").getObjects();
+    for (int index = 0; index < interactables.getCount(); index++) {
+        entities.add(new Event(interactables.get(index).getProperties()));
+    }
 
-    entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
-    entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
-    entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
-    entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
+    /*
+      entities.add(new Item(new KeyEvent(), "checkin_code", checkinCodeTexture, 45, 33, 1.5f, 1.5f));
+      entities.add(new Item(new DoorEvent(), "door", doorTexture, 44, 21, 2, 2.2f, false, true));
+      entities.add(new Item(new IncreasePointsEvent(), "long_boi", longBoiTexture, 2.5f, 8.5f, 1.5f, 1.5f));
+      entities.add(new Item(new HiddenDeductPointsEvent(), "water_spill", waterSpillTexture, 59, 11, 3f, 3f, true, true));
+    */
 
     game.fontBorderedSmall.setUseIntegerPositions(false);
 
-    //start new timer
+    // start new timer
     game.timer = new Timer(TIMER_LENGTH);
     game.timer.play();
     game.score = 0;
-    //create labels and position timer and event counters on screen
+
+    // create labels and position timer and event counters on screen
     timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
     timerText.setPosition(0, scaled(8.6f));
     hiddenText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
@@ -367,7 +375,7 @@ public class GameScreen implements Screen {
     // Draw only visible entities
     entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
     // Draw exit, player, and dean on top of other entities
-    if (exit.isVisible()) exit.draw(game.batch);
+    // if (exit.isVisible()) exit.draw(game.batch);
 
     if (player.isVisible()) player.draw(game.batch);
 
@@ -440,25 +448,26 @@ public class GameScreen implements Screen {
     stage.draw();
   }
 
-  private void postLogic(float delta) {
-    // Exit collision
-    if (player.collidedWith(exit) && exit.isEnabled()) {
-      exit.interact(game, this, player);
-      return;
+    private void postLogic(float delta) {
+        // Exit collision
+        /*
+        if (player.collidedWith(exit) && exit.isEnabled()) {
+            exit.interact(game, this, player);
+            return;
+        }*/
+        // Dean collision
+        if (player.collidedWith(dean) && dean.isEnabled()) {
+            dean.getsPlayer(game);
+            return;
+        }
+        // Timer runs out then player loses
+        if (game.timer.hasElapsed()) {
+            game.timer.finish();
+            game.setScreen(new LoseScreen(game));
+            dispose();
+            return;
+        }
     }
-    // Dean collision
-    if (player.collidedWith(dean) && dean.isEnabled()) {
-      dean.getsPlayer(game);
-      return;
-    }
-    // Timer runs out then player loses
-    if (game.timer.hasElapsed()) {
-      game.timer.finish();
-      game.setScreen(new LoseScreen(game));
-      dispose();
-      return;
-    }
-  }
 
   @Override
   public void resize(int width, int height) {

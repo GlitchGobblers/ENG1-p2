@@ -1,6 +1,7 @@
 package io.github.yetti_eng;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -68,9 +69,12 @@ public class MapManager {
         isPositionInvalid(rect.x + rect.width, rect.y + rect.height); // top right
   }
 
-  public void dispose(){
-    renderer.dispose();
-    map.dispose();
-  }
+    public void dispose(){
+        renderer.dispose();
+        map.dispose();
+    }
+    public TiledMap getMap() {
+        return map;
+    }
 }
 
