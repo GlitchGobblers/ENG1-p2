@@ -38,13 +38,13 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: lib-${{ matrix.os }}.jar
-          path: triangle/lib/build/libs/lib.jar
+          path: game/build/libs/lib.jar
       - name: Upload Checkstyle report
         uses: actions/upload-artifact@v4.3.1
         if: startsWith(matrix.os, 'ubuntu')
         with:
           name: checkstyle-report
-          path: triangle/lib/build/reports/checkstyle
+          path: game/build/reports/checkstyle
 
   release:
     runs-on: ubuntu-22.04
