@@ -1,8 +1,8 @@
-package io.github.yetti_eng.lwjgl3;
+package io.github.glitchgobblers.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import io.github.yetti_eng.YettiGame;
+import io.github.glitchgobblers.YettiGame;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {

@@ -1,4 +1,6 @@
-package io.github.yetti_eng.screens;
+package io.github.glitchgobblers.screens;
+
+import static io.github.glitchgobblers.YettiGame.scaled;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,9 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.yetti_eng.YettiGame;
-
-import static io.github.yetti_eng.YettiGame.scaled;
+import io.github.glitchgobblers.YettiGame;
 
 public class SettingsScreen implements Screen {
   private final YettiGame game;
@@ -38,8 +38,14 @@ public class SettingsScreen implements Screen {
     sliderTexture = new Texture("ui/slider_background.png");
     knobTexture = new Texture("ui/slider_knob.png");
 
-    volumeSlider = new Slider(0.0f, 1.0f, 0.01f, false,
-        new Slider.SliderStyle(new TextureRegionDrawable(sliderTexture), new TextureRegionDrawable(knobTexture))
+    volumeSlider = new Slider(
+        0.0f,
+        1.0f,
+        0.01f,
+        false,
+        new Slider.SliderStyle(new TextureRegionDrawable(sliderTexture),
+            new TextureRegionDrawable(knobTexture)
+        )
     );
     volumeSlider.setPosition(scaled(4), scaled(3.5f));
     volumeSlider.setWidth(scaled(8));
@@ -70,6 +76,7 @@ public class SettingsScreen implements Screen {
     ScreenUtils.clear(0.4f, 0.4f, 0.4f, 1f);
     game.viewport.apply();
     game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+
     game.batch.begin();
     game.font.draw(game.batch, "Settings", 0, scaled(8), scaled(16), Align.center, false);
     game.font.draw(game.batch, "Volume", 0, scaled(6), scaled(16), Align.center, false);

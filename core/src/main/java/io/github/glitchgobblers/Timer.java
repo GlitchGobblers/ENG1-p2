@@ -1,4 +1,4 @@
-package io.github.yetti_eng;
+package io.github.glitchgobblers;
 
 /**
  * Handles real-time countdowns. Can be paused.
@@ -18,7 +18,10 @@ public class Timer {
    * While playing, it is active, and counts down its duration.
    */
   public void play() {
-    if (finished || active) return;
+    if (finished || active) {
+      return;
+    }
+
     active = true;
     endTime = currentTimeSeconds() + duration;
   }
@@ -28,7 +31,10 @@ public class Timer {
    * While paused, it is not active, and its duration is stored.
    */
   public void pause() {
-    if (finished || !active) return;
+    if (finished || !active) {
+      return;
+    }
+
     active = false;
     duration = endTime - currentTimeSeconds();
   }
@@ -38,7 +44,10 @@ public class Timer {
    * While finished, it is not active, its duration is 0, and it cannot be played or paused.
    */
   public void finish() {
-    if (finished || !active) return;
+    if (finished || !active) {
+      return;
+    }
+
     active = false;
     finished = true;
     duration = 0;
@@ -69,8 +78,11 @@ public class Timer {
    * @return The remaining duration of the Timer in seconds.
    */
   public int getRemainingTime() {
-    // If timer is not active, use stored duration value
-    if (!active) return duration;
+    // If the timer isn't active, use the stored duration value
+    if (!active) {
+      return duration;
+    }
+
     // Otherwise calculate dynamically
     return endTime - currentTimeSeconds();
   }

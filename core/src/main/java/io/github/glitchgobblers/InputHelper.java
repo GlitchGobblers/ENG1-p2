@@ -1,4 +1,4 @@
-package io.github.yetti_eng;
+package io.github.glitchgobblers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -35,10 +35,14 @@ public final class InputHelper {
    * @return A unit vector (magnitude = 1) with the same angle as vec.
    */
   public static Vector2 makeUnitVector(Vector2 vec) {
-    if (vec.isZero()) return vec;
+    if (vec.isZero()) {
+      return vec;
+    }
+
     // Use Pythagoras' to find hypotenuse (x^2 + y^2 = hyp^2)
     float hyp = (float) Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2));
-    // Use hyp to calculate new unit vector (x/hyp, y/hyp)
+
+    // Use hyp to calculate the new unit vector (x/hyp, y/hyp)
     return new Vector2(vec.x / hyp, vec.y / hyp);
   }
 }

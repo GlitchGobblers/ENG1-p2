@@ -1,4 +1,6 @@
-package io.github.yetti_eng.screens;
+package io.github.glitchgobblers.screens;
+
+import static io.github.glitchgobblers.YettiGame.scaled;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,9 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.yetti_eng.YettiGame;
-
-import static io.github.yetti_eng.YettiGame.scaled;
+import io.github.glitchgobblers.YettiGame;
 
 public class MenuScreen implements Screen {
   private final YettiGame game;

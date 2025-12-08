@@ -1,9 +1,9 @@
-package io.github.yetti_eng.entities;
+package io.github.glitchgobblers.entities;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import io.github.yetti_eng.YettiGame;
-import io.github.yetti_eng.screens.LoseScreen;
+import io.github.glitchgobblers.YettiGame;
+import io.github.glitchgobblers.screens.LoseScreen;
 
 public class Dean extends Entity {
   private static final float DEAN_SPEED = 5f;
@@ -15,6 +15,7 @@ public class Dean extends Entity {
 
   /**
    * Run the logic for when the Dean gets the Player and the Player loses.
+   *
    * @param game The current YettiGame object.
    */
   public void getsPlayer(final YettiGame game) {
@@ -25,6 +26,7 @@ public class Dean extends Entity {
 
   /**
    * Calculate this Dean's movement towards the Player.
+   *
    * @param player The current Player object.
    */
   public void calculateMovement(final Player player) {

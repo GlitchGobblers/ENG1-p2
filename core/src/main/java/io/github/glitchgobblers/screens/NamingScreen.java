@@ -1,4 +1,6 @@
-package io.github.yetti_eng.screens;
+package io.github.glitchgobblers.screens;
+
+import static io.github.glitchgobblers.YettiGame.scaled;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,9 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.yetti_eng.YettiGame;
-
-import static io.github.yetti_eng.YettiGame.scaled;
+import io.github.glitchgobblers.YettiGame;
 
 public class NamingScreen implements Screen {
   private final YettiGame game;
@@ -25,9 +26,12 @@ public class NamingScreen implements Screen {
 
   private TextField nameField;
 
-  private Texture btnBgTex, btnBorderTex;
-  private Texture btnHoverBgTex, btnHoverBorderTex;
-  private Texture fieldBgTex, fieldBorderTex;
+  private Texture btnBgTex;
+  private Texture btnBorderTex;
+  private Texture btnHoverBgTex;
+  private Texture btnHoverBorderTex;
+  private Texture fieldBgTex;
+  private Texture fieldBorderTex;
 
   private String errorText = "";
   private static final int MAX_LEN = 16;
@@ -50,11 +54,13 @@ public class NamingScreen implements Screen {
     btnHoverBorderTex = makeColorTex(1, 1, 1f, 1f, 1f, 1f);
     fieldBgTex = makeColorTex(1, 1, 1f, 1f, 1f, 0.18f);
     fieldBorderTex = makeColorTex(1, 1, 1f, 1f, 1f, 0.9f);
+
     TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
     btnStyle.up = bordered(btnBgTex, btnBorderTex);
     btnStyle.down = bordered(btnHoverBgTex, btnHoverBorderTex);
     btnStyle.over = bordered(btnHoverBgTex, btnHoverBorderTex);
     btnStyle.font = game.font;
+
     TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle();
     tfStyle.font = game.font;
     tfStyle.fontColor = Color.WHITE;
@@ -69,10 +75,10 @@ public class NamingScreen implements Screen {
     float fieldW = scaled(8f);
     float fieldH = scaled(1.4f);
     nameField.setSize(fieldW, fieldH);
-    nameField.setPosition(scaled(16)/2f - fieldW/2f, scaled(6f) - fieldH/2f);
+    nameField.setPosition(scaled(16) / 2f - fieldW / 2f, scaled(6f) - fieldH / 2f);
 
     TextButton startButton = new TextButton("Start", btnStyle);
-    startButton.setPosition(scaled(16)/2f, scaled(4.4f), Align.center);
+    startButton.setPosition(scaled(16) / 2f, scaled(4.4f), Align.center);
     startButton.addListener(new InputListener() {
       @Override public boolean touchDown(InputEvent e, float x, float y, int p, int b) {
         confirm();
@@ -81,7 +87,7 @@ public class NamingScreen implements Screen {
     });
 
     TextButton backButton = new TextButton("Back", btnStyle);
-    backButton.setPosition(scaled(16)/2f, scaled(2.9f), Align.center);
+    backButton.setPosition(scaled(16) / 2f, scaled(2.9f), Align.center);
     backButton.addListener(new InputListener() {
       @Override public boolean touchDown(InputEvent e, float x, float y, int p, int b) {
         game.setScreen(new MenuScreen(game));
@@ -91,12 +97,18 @@ public class NamingScreen implements Screen {
     });
 
     nameField.setTextFieldListener((f, c) -> {
-      if (c == '\r' || c == '\n') confirm();
+      if (c == '\r' || c == '\n') {
+        confirm();
+      }
     });
     stage.addListener(new InputListener() {
       @Override public boolean keyDown(InputEvent e, int keycode) {
-        if (keycode == Input.Keys.ENTER) { confirm(); return true; }
-        return false;
+        if (keycode == Input.Keys.ENTER) {
+          confirm();
+          return true;
+        } else {
+          return false;
+        }
       }
     });
 
@@ -108,9 +120,7 @@ public class NamingScreen implements Screen {
 
   private TextureRegionDrawable bordered(Texture bg, Texture border) {
     return new TextureRegionDrawable(bg) {
-      @Override public void draw(com.badlogic.gdx.graphics.g2d.Batch batch,
-                                 float x, float y, float w, float h) {
-
+      @Override public void draw(Batch batch, float x, float y, float w, float h) {
         super.draw(batch, x, y, w, h);
         batch.draw(border, x, y, w, 1);
         batch.draw(border, x, y + h - 1, w, 1);
@@ -147,9 +157,16 @@ public class NamingScreen implements Screen {
   }
 
   private String sanitize(String s) {
-    if (s == null) return "";
+    if (s == null) {
+      return "";
+    }
+
     String t = s.replaceAll("\\p{Cntrl}", "").trim();
-    if (t.length() > MAX_LEN) t = t.substring(0, MAX_LEN);
+
+    if (t.length() > MAX_LEN) {
+      t = t.substring(0, MAX_LEN);
+    }
+
     return t;
   }
 
@@ -167,8 +184,15 @@ public class NamingScreen implements Screen {
 
     if (!errorText.isEmpty()) {
       game.font.setColor(Color.RED);
-      game.font.draw(game.batch, errorText,
-          0, scaled(2.2f), scaled(16), Align.center, false);
+      game.font.draw(
+          game.batch,
+          errorText,
+          0,
+          scaled(2.2f),
+          scaled(16),
+          Align.center,
+          false
+      );
       game.font.setColor(Color.WHITE);
     }
 
@@ -183,17 +207,36 @@ public class NamingScreen implements Screen {
   }
 
   @Override public void pause() {}
+
   @Override public void resume() {}
+
   @Override public void hide() {}
 
   @Override
   public void dispose() {
     stage.dispose();
-    if (btnBgTex != null) btnBgTex.dispose();
-    if (btnBorderTex != null) btnBorderTex.dispose();
-    if (btnHoverBgTex != null) btnHoverBgTex.dispose();
-    if (btnHoverBorderTex != null) btnHoverBorderTex.dispose();
-    if (fieldBgTex != null) fieldBgTex.dispose();
-    if (fieldBorderTex != null) fieldBorderTex.dispose();
+    if (btnBgTex != null) {
+      btnBgTex.dispose();
+    }
+
+    if (btnBorderTex != null) {
+      btnBorderTex.dispose();
+    }
+
+    if (btnHoverBgTex != null) {
+      btnHoverBgTex.dispose();
+    }
+
+    if (btnHoverBorderTex != null) {
+      btnHoverBorderTex.dispose();
+    }
+
+    if (fieldBgTex != null) {
+      fieldBgTex.dispose();
+    }
+
+    if (fieldBorderTex != null) {
+      fieldBorderTex.dispose();
+    }
   }
 }

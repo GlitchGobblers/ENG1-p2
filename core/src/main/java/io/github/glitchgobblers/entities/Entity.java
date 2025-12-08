@@ -1,22 +1,21 @@
-package io.github.yetti_eng.entities;
+package io.github.glitchgobblers.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import io.github.yetti_eng.InputHelper;
+import io.github.glitchgobblers.InputHelper;
 
 /**
  * Entity.java handles setting movement of an object and performs collision and property checks.
- *
  * Represents objects including the player, enemy and items (event triggers).
  * Each entity has a movement, position, collision hitbox and property information on visibility,
  * solidity and speed.
- *
- * Called "Sprite" in the architecture documentation; renamed to avoid clash with LibGDX class name
+ * Called "Sprite" in the architecture documentation; renamed to avoid clash with the LibGDX class
+ * name.
  */
 public abstract class Entity extends Sprite {
-  private float speed;
+  private final float speed;
   private boolean solid;
   private Vector2 movement;
   private final Rectangle hitbox;
@@ -25,14 +24,15 @@ public abstract class Entity extends Sprite {
   private boolean enabled = true;
 
   /**
-   * Constructor for a new Entity
+   * Constructor for a new Entity.
+   *
    * @param tex texture to render with
    * @param x intial x position
    * @param y initial y position
    * @param width
    * @param height
    * @param speed
-   * @param solid whether object should cause collision with player
+   * @param solid whether the object should cause collision with the player
    */
   public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
     super(tex);
@@ -63,7 +63,9 @@ public abstract class Entity extends Sprite {
 
   /**
    * Performs this Entity's movement for the current frame.
-   * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+   * Uses the value of the movement field
+   * (which can be set with resetMovement(), addMovement(), etc.)
+   *
    * @param delta The delta time this frame.
    * @param speedWasPrecalculated true if the Entity's speed was already accounted for when
    *                              calculating the value of the movement field.
@@ -79,7 +81,9 @@ public abstract class Entity extends Sprite {
 
   /**
    * Performs this Entity's movement for the current frame.
-   * Uses the value of the movement field (which can be set with resetMovement(), addMovement(), etc.)
+   * Uses the value of the movement field
+   * (which can be set with resetMovement(), addMovement(), etc.)
+   *
    * @param delta The delta time this frame.
    */
   public void doMove(float delta) {
@@ -91,8 +95,9 @@ public abstract class Entity extends Sprite {
   }
 
   /**
-   * Checks whether this entity collides with another specified entity
-   * @param other other entity
+   * Checks whether this entity collides with another specified entity.
+   *
+   * @param other the other entity
    * @return true if the two entities collide
    */
   public boolean collidedWith(Entity other) {
@@ -101,11 +106,11 @@ public abstract class Entity extends Sprite {
   }
 
   public void show() {
-    visible = true; //shown on screen
+    visible = true; // shown on screen
   }
 
   public void hide() {
-    visible = false; //hidden from screen
+    visible = false; // hidden from screen
   }
 
   public boolean isVisible() {
@@ -113,11 +118,11 @@ public abstract class Entity extends Sprite {
   }
 
   public void enable() {
-    enabled = true; //collision and logic updates apply
+    enabled = true; // collision and logic updates apply
   }
 
   public void disable() {
-    enabled = false; //prevents collision and logic updates
+    enabled = false; // prevents collision and logic updates
   }
 
   public boolean isEnabled() {

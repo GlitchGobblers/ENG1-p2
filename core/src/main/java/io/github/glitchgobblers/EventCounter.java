@@ -1,4 +1,4 @@
-package io.github.yetti_eng;
+package io.github.glitchgobblers;
 
 /**
  * Tracks the number of hidden, positive and negative events so they can be

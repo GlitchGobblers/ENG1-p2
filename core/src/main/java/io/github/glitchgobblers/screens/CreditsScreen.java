@@ -1,4 +1,4 @@
-package io.github.yetti_eng.screens;
+package io.github.glitchgobblers.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.yetti_eng.YettiGame;
+import io.github.glitchgobblers.YettiGame;
 
 import java.util.ArrayList;
 
-import static io.github.yetti_eng.YettiGame.scaled;
+import static io.github.glitchgobblers.YettiGame.scaled;
 
 public class CreditsScreen implements Screen {
   private final YettiGame game;
