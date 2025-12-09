@@ -8,4 +8,21 @@ dependencies {
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
+
+  // JUnit 5 for writing tests
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+  // Mockito for mocking textures/sounds
+  testImplementation 'org.mockito:mockito-core:4.8.0'
+
+  // LibGDX Headless backend (to run game logic without a window)
+  testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+  testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+}
+
+test {
+    useJUnitPlatform()
+    workingDir = rootProject.file("assets")
 }
