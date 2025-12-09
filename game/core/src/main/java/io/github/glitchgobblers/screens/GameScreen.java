@@ -1,0 +1,555 @@
+package io.github.glitchgobblers.screens;
+
+import static io.github.glitchgobblers.YettiGame.scaled;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.glitchgobblers.EventCounter;
+import io.github.glitchgobblers.InputHelper;
+import io.github.glitchgobblers.MapManager;
+import io.github.glitchgobblers.Timer;
+import io.github.glitchgobblers.YettiGame;
+import io.github.glitchgobblers.entities.Dean;
+import io.github.glitchgobblers.entities.Entity;
+import io.github.glitchgobblers.entities.Item;
+import io.github.glitchgobblers.entities.Player;
+import io.github.glitchgobblers.events.Event;
+import java.util.ArrayList;
+
+public class GameScreen implements Screen {
+  private final YettiGame game;
+  private final Stage stage;
+  private static final float textDuration = 2f;
+  private static final float riseSpeed   = 60f;
+
+  private static final int TIMER_LENGTH = 300; // 300s = 5min
+
+  private Texture playerTexUp;
+  private Texture playerTexDown;
+  private Texture playerTexLeft;
+  private Texture playerTexRight;
+  private Texture yetiTexture;
+
+  private Texture exitTexture;
+  private Texture checkinCodeTexture;
+  private Texture doorTexture;
+  private Texture doorframeTexture;
+  private Texture longBoiTexture;
+  private Texture waterSpillTexture;
+  private Texture pauseTexture;
+
+  private MapManager mapManager;
+  private OrthographicCamera camera;
+
+  private OrthographicCamera interfaceCamera;
+
+  private Sound quackSfx;
+  private Sound paperSfx;
+  private Sound doorSfx;
+  private Sound slipSfx;
+  private Sound growlSfx;
+
+  private Player player;
+  private Dean dean;
+  private final ArrayList<Entity> entities = new ArrayList<>();
+
+  private Label hiddenText;
+  private Label negativeText;
+  private Label positiveText;
+  private Label timerText;
+  private Label scoreText;
+  private final ArrayList<Label> messages = new ArrayList<>();
+
+  private Table pauseMenu;
+  private Texture btnUpTex;
+  private Texture btnDownTex;
+
+  private final GlyphLayout nameLayout = new GlyphLayout();
+
+  public GameScreen(final YettiGame game) {
+    this.game = game;
+    stage = new Stage(game.viewport, game.batch);
+  }
+
+  @Override
+  public void show() {
+    playerTexUp = new Texture("character/player_up.png");
+    playerTexDown = new Texture("character/player_down.png");
+    playerTexLeft = new Texture("character/player_left.png");
+    playerTexRight = new Texture("character/player_right.png");
+    yetiTexture = new Texture("character/yeti.png");
+
+    exitTexture = new Texture("item/exit.png");
+    checkinCodeTexture = new Texture("item/checkin_code.png");
+    doorTexture = new Texture("item/door.png");
+    doorframeTexture = new Texture("item/doorframe.png");
+    longBoiTexture = new Texture("item/long_boi.png");
+    waterSpillTexture = new Texture("item/water_spill.png");
+
+    pauseTexture = new Texture("ui/pause.png");
+
+    camera = new  OrthographicCamera();
+    camera.setToOrtho(false, 90, 60);
+    interfaceCamera = new  OrthographicCamera();
+    interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
+    mapManager = new MapManager(camera);
+    mapManager.loadMap("map/map.tmx");
+
+    quackSfx = Gdx.audio.newSound(Gdx.files.internal("audio/duck_quack.mp3"));
+    paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.wav"));
+    doorSfx = Gdx.audio.newSound(Gdx.files.internal("audio/dorm_door_opening.wav"));
+    slipSfx = Gdx.audio.newSound(Gdx.files.internal("audio/cartoon_quick_slip.wav"));
+    growlSfx = Gdx.audio.newSound(Gdx.files.internal("audio/deep_growl_1.wav"));
+
+    player = new Player(playerTexDown, 55, 25);
+    // exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
+    dean = new Dean(yetiTexture, -2, 4.5f);
+    dean.disable();
+    dean.hide();
+
+    MapObjects interactables = mapManager.getMap().getLayers().get("Events").getObjects();
+    for (int index = 0; index < interactables.getCount(); index++) {
+      entities.add(new Event(interactables.get(index).getProperties()));
+    }
+
+    game.fontBorderedSmall.setUseIntegerPositions(false);
+
+    // start a new timer
+    game.timer = new Timer(TIMER_LENGTH);
+    game.timer.play();
+    game.score = 0;
+
+    // create labels and position timer and event counters on screen
+    timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
+    timerText.setPosition(0, scaled(8.6f));
+
+    hiddenText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+    hiddenText.setPosition(scaled(3f), scaled(8.65f));
+
+    negativeText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+    negativeText.setPosition(scaled(6f), scaled(8.6f));
+
+    positiveText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+    positiveText.setPosition(scaled(9f), scaled(8.6f));
+
+    scoreText = new Label(null, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+    scoreText.setPosition(scaled(12f), scaled(8.6f)); // Changed from 8.5 -> 8.6 to prevent them from covering map
+
+    Gdx.input.setInputProcessor(stage);
+
+
+    Pixmap pmUp = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    pmUp.setColor(0f, 0f, 0f, 0.8f);
+    pmUp.fill();
+    btnUpTex = new Texture(pmUp);
+    pmUp.dispose();
+
+    Pixmap pmDown = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    pmDown.setColor(1f, 1f, 1f, 0.25f);
+    pmDown.fill();
+    btnDownTex = new Texture(pmDown);
+    pmDown.dispose();
+
+    TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
+    btnStyle.up   = new TextureRegionDrawable(new TextureRegion(btnUpTex));
+    btnStyle.down = new TextureRegionDrawable(new TextureRegion(btnDownTex));
+    btnStyle.over = btnStyle.down;
+    btnStyle.font = game.fontBorderedSmall;
+    btnStyle.fontColor = Color.WHITE.cpy();
+
+
+    pauseMenu = new Table();
+    pauseMenu.setFillParent(true);
+    pauseMenu.center();
+
+    float btnW = scaled(5f);
+    float btnH = scaled(1.4f);
+
+    TextButton resumeButton = new TextButton("Resume", btnStyle);
+    TextButton restartButton = new TextButton("Restart", btnStyle);
+    TextButton menuButton = new TextButton("Main Menu", btnStyle);
+
+    resumeButton.setSize(btnW, btnH);
+    restartButton.setSize(btnW, btnH);
+    menuButton.setSize(btnW, btnH);
+
+
+    pauseMenu.defaults().width(btnW).height(btnH).pad(scaled(0.3f));
+    pauseMenu.add(resumeButton).row();
+    pauseMenu.add(restartButton).row();
+    pauseMenu.add(menuButton).row();
+
+    pauseMenu.setVisible(false);
+    stage.addActor(pauseMenu);
+
+
+    resumeButton.addListener(new ChangeListener() {
+      @Override public void changed(ChangeEvent event, Actor actor) {
+        game.resume();
+      }
+    });
+
+    restartButton.addListener(new ChangeListener() {
+      @Override public void changed(ChangeEvent event, Actor actor) {
+        game.resume();
+        game.setScreen(new GameScreen(game));
+        dispose();
+      }
+    });
+
+    menuButton.addListener(new ChangeListener() {
+      @Override public void changed(ChangeEvent event, Actor actor) {
+        game.setScreen(new MenuScreen(game));
+        dispose();
+      }
+    });
+  }
+
+  @Override
+  public void render(float delta) {
+    input(delta);
+    logic(delta);
+    draw(delta);
+    postLogic();
+  }
+
+  // handles player input
+  private void input(float delta) {
+    float speed = player.getSpeedThisFrame(delta);
+
+    // vertical movement
+    float dx = 0;
+    float dy = 0;
+    if (InputHelper.moveUpPressed()) {
+      dy += speed;
+      player.setTexture(playerTexUp);
+    }
+
+    if (InputHelper.moveDownPressed()) {
+      dy -= speed;
+      player.setTexture(playerTexDown);
+    }
+
+    // horizontal movement
+    if (InputHelper.moveRightPressed()) {
+      dx += speed;
+      player.setTexture(playerTexRight);
+    }
+
+    if (InputHelper.moveLeftPressed()) {
+      dx -= speed;
+      player.setTexture(playerTexLeft);
+    }
+
+    float currentX = player.getX();
+    float currentY = player.getY();
+
+    // moved to keep definitions closer together, but shouldn't cause issues with existing logic, i think
+    player.resetMovement();
+
+    Rectangle hitbox = player.getHitbox();
+
+    // tests if collision occurs after x movement
+    hitbox.setPosition(currentX + dx, currentY);
+    if (mapManager.isRectValid(player.getHitbox())) {
+      player.addMovement(dx, 0);
+    }
+
+    // tests if collision occurs after y movement
+    hitbox.setPosition(currentX, currentY + dy);
+    if (mapManager.isRectValid(player.getHitbox())) {
+      player.addMovement(0, dy);
+    }
+
+    // sets the hitbox to correct player location
+    hitbox.setPosition(player.getX(), player.getY());
+  }
+
+  // handles collisions and events
+  private void logic(float delta) {
+    // save initial position of player
+    Vector2 currentPos = player.getCurrentPos();
+
+    // move only if game isn't paused
+    if (!game.isPaused()) {
+      player.doMove(delta, true);
+      if (dean.isEnabled()) {
+        dean.calculateMovement(player);
+        dean.doMove(delta);
+      }
+    }
+
+    // Detect collision with objects
+    entities.forEach(e -> {
+      if (player.collidedWith(e) && e.isEnabled()) {
+        // Check for collision with solid objects
+        if (e.isSolid()) {
+          // set the position of player to previous position if collision
+          player.setPosition(currentPos.x, currentPos.y);
+        }
+        // Check for interaction with items
+        if (e instanceof Item item) {
+          item.interact(game, this, player);
+        }
+      }
+    });
+
+    // Clamp to edges of screen
+    float worldWidth = game.viewport.getWorldWidth();
+    float worldHeight = game.viewport.getWorldHeight();
+
+    float playerWidth = player.getWidth();
+    float playerHeight = player.getHeight();
+
+    player.setX(MathUtils.clamp(player.getX(), 0, worldWidth - playerWidth));
+    player.setY(MathUtils.clamp(player.getY(), 0, worldHeight - playerHeight));
+
+    // Calculate remaining time
+    int timeRemaining = game.timer.getRemainingTime();
+
+    String text = (timeRemaining / 60) + ":" + String.format("%02d", timeRemaining % 60);
+    timerText.setText(text);
+    timerText.setStyle(new Label.LabelStyle(game.fontBordered, (game.timer.isActive() ? Color.WHITE : Color.RED).cpy()));
+
+    // updates event counters
+    hiddenText.setText("Hidden:" + EventCounter.getHiddenCount());
+    positiveText.setText("Positive:" + EventCounter.getPositiveCount());
+    negativeText.setText("Negative:" + EventCounter.getNegativeCount());
+    int liveScore = game.score + game.timer.getRemainingTime();
+    scoreText.setText("Score: " + liveScore);
+
+    // Release the Dean if the timer is at 60 or less
+    if (timeRemaining <= 60 && !dean.isEnabled()) {
+      growlSfx.play(game.volume);
+      spawnLargeMessage("Run! The dean is coming!");
+      dean.show();
+      dean.enable();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+      if (game.isPaused()) {
+        game.resume();
+      } else {
+        game.pause();
+      }
+    }
+  }
+
+  // draws map and entities to screen
+  private void draw(float delta) {
+    ScreenUtils.clear(0f, 0f, 0f, 1f);
+    camera.update();
+
+    // draw map
+    mapManager.render();
+    game.viewport.apply();
+
+    // main camera with map and entities
+    game.batch.setProjectionMatrix(camera.combined);
+
+    game.batch.begin();
+
+    // Draw only visible entities
+    entities.forEach(e -> {
+      if (e.isVisible()) {
+        e.draw(game.batch);
+      }
+    });
+
+    // Draw exit, player, and dean on top of other entities
+    // if (exit.isVisible()) exit.draw(game.batch);
+    if (player.isVisible()) {
+      player.draw(game.batch);
+    }
+
+    float pixelsPerUnit = (float) Gdx.graphics.getWidth() / camera.viewportWidth;
+    float nameSize = 0.04f;
+
+    // set here because the game size, and thus the value of these variables, is modified soon after
+    float originalFontScaleX = game.fontBorderedSmall.getData().scaleX;
+    float originalFontScaleY = game.fontBorderedSmall.getData().scaleY;
+    float scale = (nameSize * pixelsPerUnit) / game.fontBorderedSmall.getCapHeight();
+
+    game.fontBorderedSmall.getData().setScale(scale);
+    nameLayout.setText(game.fontBorderedSmall, game.playerName);
+
+    float textPosX = player.getX() + (player.getWidth() - nameLayout.width) * 0.5f;
+    float nameOffset = 0.2f;
+    float textPosY = player.getY() + player.getHeight() + nameOffset + nameLayout.height;
+
+    Color prevFontColor = game.fontBorderedSmall.getColor().cpy();
+    game.fontBorderedSmall.setColor(Color.WHITE);
+    game.fontBorderedSmall.draw(game.batch, nameLayout, textPosX, textPosY);
+    game.fontBorderedSmall.setColor(prevFontColor);
+    game.fontBorderedSmall.getData().setScale(originalFontScaleX, originalFontScaleY);
+
+    if (dean.isVisible()) {
+      dean.draw(game.batch);
+    }
+    game.batch.end();
+
+    // separate user interface camera for text on screen
+    game.batch.setProjectionMatrix(interfaceCamera.combined);
+    game.batch.begin();
+
+    // draw timer and event counters to screen
+    timerText.draw(game.batch, 1.0f);
+    hiddenText.draw(game.batch, 1.0f);
+    positiveText.draw(game.batch, 1.0f);
+    negativeText.draw(game.batch, 1.0f);
+    scoreText.draw(game.batch, 1.0f);
+
+    // draws messages fading out in an upwards direction
+    for (Label l : messages) {
+      Float t = (Float) l.getUserObject();
+      if (t == null) {
+        t = 0f;
+      }
+
+      t += delta;
+      l.setUserObject(t);
+
+      float progress = Math.min(1f, t / textDuration);
+      l.setY(l.getY() + riseSpeed * delta);
+
+      Color c = l.getColor();
+      c.a = 1f - progress;
+      l.setColor(c);
+
+      l.draw(game.batch, 1);
+    }
+
+    messages.removeIf(l -> {
+      Float t = (Float) l.getUserObject();
+      return t != null && t >= textDuration;
+    });
+
+    messages.removeIf(l -> l.getColor().a <= 0);
+    game.batch.end();
+
+    // Finally, draw elements on the stage (clickable elements)
+    pauseMenu.setVisible(game.isPaused());
+
+    stage.act(delta);
+    stage.draw();
+  }
+
+  // Used for logic that should happen after rendering, normally screen changes
+  private void postLogic() {
+    // Dean collision
+    if (player.collidedWith(dean) && dean.isEnabled()) {
+      dean.getsPlayer(game);
+      return;
+    }
+
+    // Timer runs out, then player loses
+    if (game.timer.hasElapsed()) {
+      game.timer.finish();
+      game.setScreen(new LoseScreen(game));
+      dispose();
+    }
+  }
+
+  @Override
+  public void resize(int width, int height) {
+    game.viewport.update(width, height, true);
+  }
+
+  @Override
+  public void pause() {
+    game.timer.pause();
+  }
+
+  @Override
+  public void resume() {
+    game.timer.play();
+  }
+
+  @Override
+  public void hide() {}
+
+  @Override
+  public void dispose() {
+    playerTexUp.dispose();
+    playerTexDown.dispose();
+    playerTexLeft.dispose();
+    playerTexRight.dispose();
+    yetiTexture.dispose();
+
+    exitTexture.dispose();
+    checkinCodeTexture.dispose();
+    doorTexture.dispose();
+    doorframeTexture.dispose();
+    longBoiTexture.dispose();
+    waterSpillTexture.dispose();
+
+    pauseTexture.dispose();
+    mapManager.dispose();
+    stage.dispose();
+
+    quackSfx.dispose();
+    paperSfx.dispose();
+    doorSfx.dispose();
+    slipSfx.dispose();
+    growlSfx.dispose();
+    if (btnUpTex != null) {
+      btnUpTex.dispose();
+    }
+
+    if (btnDownTex != null) {
+      btnDownTex.dispose();
+    }
+  }
+
+  /**
+   * Spawn a text label at the centre of the screen
+   * that floats upwards and fades out. Used to alert the player.
+   *
+   * @param text The text that should be displayed.
+   */
+  public void spawnLargeMessage(String text) {
+    Label label = new Label(text, new Label.LabelStyle(game.fontBordered, Color.WHITE.cpy()));
+    label.setPosition(scaled(8), scaled(4.5f), Align.center);
+    messages.add(label);
+  }
+
+  /**
+   * Spawn a small text label at the bottom right of the screen
+   * that floats upwards and fades out. Used when interacting with Items.
+   *
+   * @param text The text that should be displayed.
+   */
+  public void spawnInteractionMessage(String text) {
+    Label label = new Label(text, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
+    label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
+    messages.add(label);
+  }
+
+  /**
+   * @return The current YettiGame object.
+   */
+  public YettiGame getGame() {
+    return game;
+  }
+}
