@@ -29,7 +29,7 @@ jobs:
       - name: Build with Gradle Wrapper
         run: cd game && ./gradlew build
       - name: Test Summary
-        uses: test-summary/action@v2
+        uses: test-summary/action@v2.4
         with:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
@@ -37,7 +37,7 @@ jobs:
       - name: Upload test summary
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: test-summary
+          name: test-summary-${{ matrix.os }}
           path: test-summary.md
         if: always()
       - name: Upload library JAR
