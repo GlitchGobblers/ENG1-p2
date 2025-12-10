@@ -28,11 +28,18 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       - name: Build with Gradle Wrapper
         run: cd game && ./gradlew build
-      - name: Upload JaCoCo coverage report as a workflow artifact
-        uses: actions/upload-artifact@v4.3.1
+      - name: Test Summary
+        uses: test-summary/action@v2
         with:
-          name: jacoco-report-${{ matrix.os }}
-          path: game/lwjgl3/build/reports/jacoco/test/html/
+          paths: "game/core/build/test-results/test/TEST-*.xml"
+          output: test-summary.md
+        if: always()
+      - name: Upload test summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-summary
+          path: test-summary.md
+        if: always()
       - name: Upload library JAR
         uses: actions/upload-artifact@v4.3.1
         with:
