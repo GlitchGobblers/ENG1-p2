@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import io.github.glitchgobblers.achievements.AchievementManager;
 import io.github.glitchgobblers.screens.MenuScreen;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name
@@ -30,6 +31,7 @@ public class YettiGame extends Game {
 
   public Timer timer;
   public int score;
+  public AchievementManager achievements;
 
   @Override
   public void create() {
@@ -55,6 +57,8 @@ public class YettiGame extends Game {
     fontParameter.borderWidth = 4;
     fontBordered = robotoGenerator.generateFont(fontParameter);
 
+    achievements = new AchievementManager();
+
     setScreen(new MenuScreen(this));
   }
 
@@ -66,6 +70,7 @@ public class YettiGame extends Game {
     font.dispose();
     fontBordered.dispose();
     fontBorderedSmall.dispose();
+    achievements.dispose();
   }
 
   /**
@@ -76,9 +81,6 @@ public class YettiGame extends Game {
     return original * WORLD_SCALE;
   }
 
-  /**
-   * @return true if the game is currently paused; false otherwise.
-   */
   public boolean isPaused() {
     return paused;
   }
@@ -95,9 +97,6 @@ public class YettiGame extends Game {
     super.resume();
   }
 
-  /**
-   * @return The final score for the game.
-   */
   public int calculateFinalScore() {
     return score + timer.getRemainingTime();
   }

@@ -101,6 +101,8 @@ public class LoseScreen implements Screen {
 
     stage.act(delta);
     stage.draw();
+
+    game.achievements.renderPopups(game, game.batch, game.viewport.getCamera().combined, game.fontBorderedSmall, delta);
   }
 
   @Override

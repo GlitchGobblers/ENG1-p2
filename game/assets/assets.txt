@@ -1,5 +1,6 @@
 Roboto-OFL.txt
 Roboto.ttf
+achievements.txt
 audio/cartoon_quick_slip.wav
 audio/deep_growl_1.wav
 audio/dorm_door_opening.wav
@@ -27,6 +28,12 @@ map/atlas_48xbigger.tsx
 map/coolschool_A4bigger.png
 map/coolschool_A4bigger.tsx
 map/map.tmx
+ui/ach_completionist.png
+ui/ach_dean.png
+ui/ach_event.png
+ui/ach_pause.png
+ui/ach_timeout.png
+ui/ach_welcome.png
 ui/pause.png
 ui/slider_background.png
 ui/slider_knob.png

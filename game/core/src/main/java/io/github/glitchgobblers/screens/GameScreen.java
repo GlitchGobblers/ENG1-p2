@@ -86,6 +86,7 @@ public class GameScreen implements Screen {
   private Texture btnDownTex;
 
   private final GlyphLayout nameLayout = new GlyphLayout();
+  private boolean hasPausedOnce = false;
 
   public GameScreen(final YettiGame game) {
     this.game = game;
@@ -139,6 +140,7 @@ public class GameScreen implements Screen {
     game.timer = new Timer(TIMER_LENGTH);
     game.timer.play();
     game.score = 0;
+    game.achievements.unlock("welcome_campus", game);
 
     // create labels and position timer and event counters on screen
     timerText = new Label(null, new Label.LabelStyle(game.font, Color.WHITE.cpy()));
@@ -352,6 +354,10 @@ public class GameScreen implements Screen {
         game.resume();
       } else {
         game.pause();
+        if (!hasPausedOnce) {
+          game.achievements.unlock("pause_once", game);
+          hasPausedOnce = true;
+        }
       }
     }
   }
@@ -453,12 +459,16 @@ public class GameScreen implements Screen {
 
     stage.act(delta);
     stage.draw();
+
+    // Achievement popups overlay (draw last so they sit above UI)
+    game.achievements.renderPopups(game, game.batch, interfaceCamera.combined, game.fontBorderedSmall, delta);
   }
 
   // Used for logic that should happen after rendering, normally screen changes
   private void postLogic() {
     // Dean collision
     if (player.collidedWith(dean) && dean.isEnabled()) {
+      game.achievements.unlock("caught_by_dean", game);
       dean.getsPlayer(game);
       return;
     }
@@ -466,6 +476,7 @@ public class GameScreen implements Screen {
     // Timer runs out, then player loses
     if (game.timer.hasElapsed()) {
       game.timer.finish();
+      game.achievements.unlock("times_up", game);
       game.setScreen(new LoseScreen(game));
       dispose();
     }

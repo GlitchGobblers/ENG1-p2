@@ -40,7 +40,7 @@ public class MenuScreen implements Screen {
     stage.addActor(playButton);
 
     TextButton settingsButton = new TextButton("Settings", style);
-    settingsButton.setPosition(scaled(16) / 2, scaled(4.5f), Align.center);
+    settingsButton.setPosition(scaled(16) / 2, scaled(4.8f), Align.center);
     settingsButton.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -51,8 +51,20 @@ public class MenuScreen implements Screen {
     });
     stage.addActor(settingsButton);
 
+    TextButton achievementsButton = new TextButton("Achievements", style);
+    achievementsButton.setPosition(scaled(16) / 2, scaled(3.6f), Align.center);
+    achievementsButton.addListener(new InputListener() {
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        game.setScreen(new AchievementsScreen(game));
+        dispose();
+        return true;
+      }
+    });
+    stage.addActor(achievementsButton);
+
     TextButton creditsButton = new TextButton("Credits", style);
-    creditsButton.setPosition(scaled(16) / 2, scaled(3f), Align.center);
+    creditsButton.setPosition(scaled(16) / 2, scaled(2.4f), Align.center);
     creditsButton.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -64,7 +76,7 @@ public class MenuScreen implements Screen {
     stage.addActor(creditsButton);
 
     TextButton quitButton = new TextButton("Quit", style);
-    quitButton.setPosition(scaled(16) / 2, scaled(1.5f), Align.center);
+    quitButton.setPosition(scaled(16) / 2, scaled(1.2f), Align.center);
     quitButton.addListener(new InputListener() {
       @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
