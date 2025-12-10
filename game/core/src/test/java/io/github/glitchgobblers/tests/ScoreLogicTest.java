@@ -1,11 +1,13 @@
-package io.github.yetti_eng.tests;
+package io.github.glitchgobblers.tests;
+
+
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import io.github.yetti_eng.GdxTestBase;
-import io.github.yetti_eng.Timer;
-import io.github.yetti_eng.YettiGame;
+import io.github.glitchgobblers.GdxTestBase;
+import io.github.glitchgobblers.Timer;
+import io.github.glitchgobblers.YettiGame;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

@@ -1,7 +1,8 @@
-package io.github.yetti_eng.tests;
+package io.github.glitchgobblers.tests;
+
 
 import com.badlogic.gdx.Gdx;
-import io.github.yetti_eng.GdxTestBase;
+import io.github.glitchgobblers.GdxTestBase;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;

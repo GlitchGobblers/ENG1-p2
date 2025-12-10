@@ -1,4 +1,5 @@
-package io.github.yetti_eng;
+package io.github.glitchgobblers;
+
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;

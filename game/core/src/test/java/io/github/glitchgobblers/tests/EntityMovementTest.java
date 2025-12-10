@@ -1,8 +1,10 @@
-package io.github.yetti_eng.tests;
+package io.github.glitchgobblers.tests;
+
+
 
 import com.badlogic.gdx.math.Vector2;
-import io.github.yetti_eng.GdxTestBase;
-import io.github.yetti_eng.InputHelper;
+import io.github.glitchgobblers.GdxTestBase;
+import io.github.glitchgobblers.InputHelper;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
