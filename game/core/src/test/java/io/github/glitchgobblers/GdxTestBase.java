@@ -1,7 +1,5 @@
 package io.github.glitchgobblers;
 
-
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;

@@ -1,7 +1,5 @@
 package io.github.glitchgobblers.tests;
 
-
-
 import com.badlogic.gdx.math.Vector2;
 import io.github.glitchgobblers.GdxTestBase;
 import io.github.glitchgobblers.InputHelper;

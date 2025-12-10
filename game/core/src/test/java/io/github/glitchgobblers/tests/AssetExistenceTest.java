@@ -1,10 +1,8 @@
 package io.github.glitchgobblers.tests;
 
-
 import com.badlogic.gdx.Gdx;
 import io.github.glitchgobblers.GdxTestBase;
 import org.junit.jupiter.api.Test;
-import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AssetExistenceTest extends GdxTestBase {

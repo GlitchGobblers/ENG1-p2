@@ -1,7 +1,5 @@
 package io.github.glitchgobblers.tests;
 
-
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -11,10 +9,7 @@ import io.github.glitchgobblers.YettiGame;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class ScoreLogicTest extends GdxTestBase {
-
     @Test
     public void testFinalScoreCalculation() {
         // 1. Mock the Game
