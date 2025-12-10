@@ -1,2 +1,2 @@
-# yettigame
+# Game
 The game
