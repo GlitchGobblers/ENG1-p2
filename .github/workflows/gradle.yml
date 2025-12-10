@@ -28,13 +28,6 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       - name: Build with Gradle Wrapper
         run: cd game && ./gradlew build
-      - name: Test Summary
-        uses: test-summary/action@v2.4
-        with:
-          paths: "game/core/build/test-results/test/TEST-*.xml"
-          output: test-summary.md
-      - name: Upload test summary
-        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
       - name: Upload library JAR
         uses: actions/upload-artifact@v4.3.1
         with:
@@ -46,6 +39,13 @@ jobs:
         with:
           name: checkstyle-report
           path: game/build/reports/checkstyle
+      - name: Test Summary
+        uses: test-summary/action@v2.4
+        with:
+          paths: "game/core/build/test-results/test/TEST-*.xml"
+          output: test-summary.md
+      - name: Upload test summary
+        run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
 
   release:
     runs-on: ubuntu-22.04
