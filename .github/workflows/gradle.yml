@@ -44,8 +44,12 @@ jobs:
         with:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
-      - name: Upload test summary
+      - name: Upload test summary (*nix)
+        if: startsWith(matrix.os, 'ubuntu')
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
+      - name: Upload test summary (Windows)
+        if: startsWith(matrix.os, 'windows')
+        run: type test-summary.md >> %GITHUB_STEP_SUMMARY%
 
   release:
     runs-on: ubuntu-22.04
