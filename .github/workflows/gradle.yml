@@ -34,7 +34,7 @@ jobs:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
       - name: Upload test summary
-        run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
+        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
       - name: Upload library JAR
         uses: actions/upload-artifact@v4.3.1
         with:
