@@ -1,137 +1,173 @@
 package io.github.glitchgobblers.screens;
 
-import static io.github.glitchgobblers.YettiGame.scaled;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Array;
+
 import io.github.glitchgobblers.YettiGame;
+import io.github.glitchgobblers.identity;
+import io.github.glitchgobblers.Leaderboard;
 
 public class LoseScreen implements Screen {
   private final YettiGame game;
-  private int score;
-  private Stage stage;
-  private Texture texUp;
-  private Texture texDown;
+  private final int baseScore;
+  private final String playerName;
 
-  public LoseScreen(final YettiGame game) {
+  private Stage stage;
+  private Table leaderboardTable;
+
+  private Label.LabelStyle textStyle;
+
+  private BitmapFont fontLarge;
+  private BitmapFont fontSmall;
+  private Texture solidBlackTex;
+
+  private final Leaderboard leaderboard = new Leaderboard();
+  private boolean scoreSaved = false;
+
+  public LoseScreen(YettiGame game, int finalScore, String playerName) {
     this.game = game;
+    this.baseScore = finalScore;
+    this.playerName = (playerName == null || playerName.trim().isEmpty()) ? "Anonymous" : playerName.trim();
   }
 
   @Override
   public void show() {
-    score = game.calculateFinalScore();
     stage = new Stage(game.viewport, game.batch);
     Gdx.input.setInputProcessor(stage);
 
+    fontLarge = new BitmapFont();
+    fontSmall = new BitmapFont();
+    Label.LabelStyle titleStyle = new Label.LabelStyle(fontLarge, Color.WHITE);
+    textStyle  = new Label.LabelStyle(fontSmall, Color.WHITE);
 
-    Pixmap pmUp = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    pmUp.setColor(new Color(0f, 0f, 0f, 0.6f));
-    pmUp.fill();
-    texUp = new Texture(pmUp);
-    pmUp.dispose();
+    TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+    buttonStyle.font = fontSmall;
+    buttonStyle.fontColor = Color.WHITE;
 
-    Pixmap pmDown = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    pmDown.setColor(new Color(1f, 1f, 1f, 0.25f));
-    pmDown.fill();
-    texDown = new Texture(pmDown);
-    pmDown.dispose();
+    Table root = new Table();
+    root.setFillParent(true);
+    root.defaults().pad(8);
+    stage.addActor(root);
 
-    TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-    style.up   = new TextureRegionDrawable(new TextureRegion(texUp));
-    style.down = new TextureRegionDrawable(new TextureRegion(texDown));
-    style.over = style.down;
-    style.font = game.fontBorderedSmall;
-    style.fontColor = Color.WHITE.cpy();
+    int penalizedScore = Math.max(0, baseScore / 3); // nerfed score to punish players for losing
+
+    root.add(new Label("YOU LOSE!", titleStyle)).colspan(2).align(Align.center);
+    root.row();
+    root.add(new Label("Score: " + penalizedScore, textStyle)).colspan(2).align(Align.center);
+    root.row();
+    root.add(new Label("Saved for: " + playerName, textStyle)).colspan(2).align(Align.center);
+    root.row().padTop(12);
+
+    if (!scoreSaved) {
+      String id = identity.getOrCreateId();
+      identity.setName(playerName);
+      leaderboard.submit(id, playerName, penalizedScore);
+      scoreSaved = true;
+    }
 
 
-    TextButton retryBtn = new TextButton("Retry", style);
-    TextButton menuBtn = new TextButton("Main Menu", style);
+    root.add(new Label("Top Scores", titleStyle)).colspan(2).align(Align.center);
+    root.row();
 
-    float btnW = scaled(4f);
-    float btnH = scaled(1.2f);
-    float centerX = game.viewport.getWorldWidth() / 2f;
-    float y = scaled(2.0f);
+    Table leaderboardWrapper = new Table();
+    leaderboardWrapper.defaults().pad(6);
+    leaderboardWrapper.pad(8);
 
-    retryBtn.setSize(btnW, btnH);
-    menuBtn.setSize(btnW, btnH);
+    solidBlackTex = makeSolid();
+    leaderboardWrapper.setBackground(new TextureRegionDrawable(new TextureRegion(solidBlackTex)));
 
-    retryBtn.setPosition(centerX - btnW - scaled(0.5f), y);
-    menuBtn.setPosition(centerX +           scaled(0.5f), y);
+    leaderboardTable = new Table();
+    leaderboardTable.defaults().pad(4).left();
+    leaderboardWrapper.add(leaderboardTable).growX();
 
-    retryBtn.addListener(new ChangeListener() {
+    root.add(leaderboardWrapper).colspan(2).width(520).fillX();
+    refreshLeaderboard();
+
+    root.row().padTop(12);
+
+
+    TextButton retry = new TextButton("Retry", buttonStyle);
+    retry.addListener(new ChangeListener() {
       @Override public void changed(ChangeEvent event, Actor actor) {
-        game.setScreen(new GameScreen(game)); // restart gameplay
+        game.setScreen(new GameScreen(game));
         dispose();
       }
     });
+    root.add(retry).colspan(2).width(260);
+    root.row();
 
-    menuBtn.addListener(new ChangeListener() {
+    TextButton back = new TextButton("Main Menu", buttonStyle);
+    back.addListener(new ChangeListener() {
       @Override public void changed(ChangeEvent event, Actor actor) {
-        game.setScreen(new MenuScreen(game)); // back to main menu
+        game.setScreen(new MenuScreen(game));
         dispose();
       }
     });
+    root.add(back).colspan(2).width(260);
+  }
 
-    stage.addActor(retryBtn);
-    stage.addActor(menuBtn);
+  private void refreshLeaderboard() {
+    leaderboardTable.clear();
+
+    leaderboardTable.add(new Label("#", textStyle)).width(30);
+    leaderboardTable.add(new Label("Name", textStyle)).width(320);
+    leaderboardTable.add(new Label("Score", textStyle)).width(100);
+    leaderboardTable.row();
+
+    Array<Leaderboard.Entry> top = leaderboard.top(10);
+    for (int i = 0; i < top.size; i++) {
+      Leaderboard.Entry e = top.get(i);
+      leaderboardTable.add(new Label(String.valueOf(i + 1), textStyle)).width(30);
+      leaderboardTable.add(new Label(e.name, textStyle)).width(320);
+      leaderboardTable.add(new Label(String.valueOf(e.score), textStyle)).width(100);
+      leaderboardTable.row();
+    }
+  }
+
+  private Texture makeSolid() {
+    Pixmap pm = new Pixmap(1, 1, Format.RGBA8888);
+    pm.setColor(0f, 0f, 0f, 1f);
+    pm.fill();
+    Texture t = new Texture(pm);
+    pm.dispose();
+    return t;
   }
 
   @Override
   public void render(float delta) {
-    ScreenUtils.clear(0.4f, 0.15f, 0.2f, 1f);
-
-    game.viewport.apply();
-    game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
-
-    game.batch.begin();
-    game.font.draw(game.batch, "You lost :(", 0, scaled(5.5f), scaled(16), Align.center, false);
-    game.font.draw(game.batch, "Score: " + score, 0, scaled(4.5f), scaled(16), Align.center, false);
-    game.batch.end();
+    Gdx.gl.glClearColor(0.25f, 0.05f, 0.07f, 1f);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     stage.act(delta);
     stage.draw();
-
-    game.achievements.renderPopups(game, game.batch, game.viewport.getCamera().combined, game.fontBorderedSmall, delta);
   }
 
-  @Override
-  public void resize(int width, int height) {
-    game.viewport.update(width, height, true);
-    stage.getViewport().update(width, height, true);
-  }
-
-  @Override
-  public void pause() {}
-
-  @Override
-  public void resume() {}
-
-  @Override
-  public void hide() {}
+  @Override public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
+  @Override public void pause() {}
+  @Override public void resume() {}
+  @Override public void hide() {}
 
   @Override
   public void dispose() {
-    if (stage != null) {
-      stage.dispose();
-    }
-
-    if (texUp != null) {
-      texUp.dispose();
-    }
-
-    if (texDown != null) {
-      texDown.dispose();
-    }
+    if (stage != null) stage.dispose();
+    if (solidBlackTex != null) solidBlackTex.dispose();
+    if (fontLarge != null) fontLarge.dispose();
+    if (fontSmall != null) fontSmall.dispose();
   }
 }

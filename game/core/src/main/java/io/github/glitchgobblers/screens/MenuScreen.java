@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.glitchgobblers.YettiGame;
+import io.github.glitchgobblers.identity;
 
 public class MenuScreen implements Screen {
   private final YettiGame game;
@@ -30,9 +31,17 @@ public class MenuScreen implements Screen {
     TextButton playButton = new TextButton("Play", style);
     playButton.setPosition(scaled(16) / 2, scaled(6f), Align.center);
     playButton.addListener(new InputListener() {
-      @Override
       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        game.setScreen(new NamingScreen(game));
+        String current = identity.getName();
+        boolean hasName = current != null && !current.isEmpty() && !"Player".equals(current);
+
+        if (hasName) {
+          game.playerName = current;
+          game.setScreen(new GameScreen(game));
+        } else {
+          game.setScreen(new NamingScreen(game));
+        }
+
         dispose();
         return true;
       }

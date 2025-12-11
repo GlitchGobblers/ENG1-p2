@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.glitchgobblers.achievements.AchievementManager;
 import io.github.glitchgobblers.screens.MenuScreen;
+import com.badlogic.gdx.Preferences;
+import java.util.UUID;
 
 // Called "Game" in the architecture documentation; renamed to avoid clash with LibGDX class name
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -32,6 +34,17 @@ public class YettiGame extends Game {
   public Timer timer;
   public int score;
   public AchievementManager achievements;
+
+  public String getOrCreatePlayerId() {
+    Preferences prefs = Gdx.app.getPreferences("yetti-player");
+    String id = prefs.getString("playerId", "");
+    if (id == null || id.isEmpty()) {
+      id = UUID.randomUUID().toString();
+      prefs.putString("playerId", id);
+      prefs.flush();
+    }
+    return id;
+  }
 
   @Override
   public void create() {
