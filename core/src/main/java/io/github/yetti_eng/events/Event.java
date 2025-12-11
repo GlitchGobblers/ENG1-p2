@@ -10,6 +10,7 @@ import io.github.yetti_eng.entities.Entity;
 import io.github.yetti_eng.entities.Item;
 import io.github.yetti_eng.entities.Player;
 import io.github.yetti_eng.screens.GameScreen;
+import io.github.yetti_eng.screens.WinScreen;
 
 public class Event extends Item {
     private int counter = 0;
@@ -24,6 +25,7 @@ public class Event extends Item {
     private boolean used = false;
     private String key = null;
     private String lock = null;
+    private boolean win = false;
     public Event(MapProperties properties){
         super(new Texture((String) properties.get("interactionImagePath")),
             (Float) properties.get("x") / 48,
@@ -46,6 +48,9 @@ public class Event extends Item {
         if (properties.get("lock")!=null){
             lock = (String) properties.get("lock");
         }
+        if (properties.get("win")!=null){
+            win = (Boolean) properties.get("win") ;
+        }
 
     }
     public int getScoreModifier(){
@@ -61,7 +66,10 @@ public class Event extends Item {
 
 
 
-    public boolean activate(final GameScreen screen, Player player, Item item){
+    public boolean activate(final GameScreen screen, Player player, Item item, YettiGame game){
+        if (win){
+            game.setScreen(new WinScreen(game));
+        }
         if (lock!=null) {
             if (player.hasKey(lock)) {
                 super.setSolid(false);

@@ -18,7 +18,7 @@ public class Item extends Entity {
         this.key = key;
     }
     public final void interact(final YettiGame game, final GameScreen screen, Player player, Event event) {
-        boolean justUsed = event.activate(screen, player, this);
+        boolean justUsed = event.activate(screen, player, this, game);
         if (justUsed) {
             used = true;
             player.inventory.add(key);
