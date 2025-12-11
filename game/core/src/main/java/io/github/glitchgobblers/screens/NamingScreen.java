@@ -4,7 +4,6 @@ import static io.github.glitchgobblers.YettiGame.scaled;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.glitchgobblers.YettiGame;
+import io.github.glitchgobblers.identity;
 
 public class NamingScreen implements Screen {
   private final YettiGame game;
@@ -36,16 +36,21 @@ public class NamingScreen implements Screen {
   private String errorText = "";
   private static final int MAX_LEN = 16;
 
-  private final Preferences prefs;
-
   public NamingScreen(YettiGame game) {
     this.game = game;
     this.stage = new Stage(game.viewport, game.batch);
-    this.prefs = Gdx.app.getPreferences("yetti_prefs");
   }
 
   @Override
   public void show() {
+    String current = identity.getName();
+    if (current != null && !current.isEmpty() && !"Player".equals(current)) {
+      game.playerName = current;
+      game.setScreen(new GameScreen(game));
+      dispose();
+      return;
+    }
+
     Gdx.input.setInputProcessor(stage);
 
     btnBgTex = makeColorTex(1, 1, 0f, 0f, 0f, 0.4f);
@@ -67,7 +72,8 @@ public class NamingScreen implements Screen {
     tfStyle.background = bordered(fieldBgTex, fieldBorderTex);
     tfStyle.cursor = new TextureRegionDrawable(fieldBorderTex);
 
-    nameField = new TextField(prefs.getString(""), tfStyle);
+
+    nameField = new TextField("", tfStyle);
     nameField.setMessageText("Type name…");
     nameField.setMaxLength(MAX_LEN);
     nameField.setAlignment(Align.center);
@@ -148,25 +154,17 @@ public class NamingScreen implements Screen {
       return;
     }
 
+    identity.setName(cleaned);
     game.playerName = cleaned;
-    prefs.putString("playerName", cleaned);
-    prefs.flush();
 
     game.setScreen(new GameScreen(game));
     dispose();
   }
 
   private String sanitize(String s) {
-    if (s == null) {
-      return "";
-    }
-
+    if (s == null) return "";
     String t = s.replaceAll("\\p{Cntrl}", "").trim();
-
-    if (t.length() > MAX_LEN) {
-      t = t.substring(0, MAX_LEN);
-    }
-
+    if (t.length() > MAX_LEN) t = t.substring(0, MAX_LEN);
     return t;
   }
 
@@ -179,19 +177,18 @@ public class NamingScreen implements Screen {
     game.batch.begin();
 
     game.font.draw(game.batch, "Choose Your Name",
-        0, scaled(8f), scaled(16), Align.center, false);
-
+      0, scaled(8f), scaled(16), Align.center, false);
 
     if (!errorText.isEmpty()) {
       game.font.setColor(Color.RED);
       game.font.draw(
-          game.batch,
-          errorText,
-          0,
-          scaled(2.2f),
-          scaled(16),
-          Align.center,
-          false
+        game.batch,
+        errorText,
+        0,
+        scaled(2.2f),
+        scaled(16),
+        Align.center,
+        false
       );
       game.font.setColor(Color.WHITE);
     }
@@ -207,36 +204,17 @@ public class NamingScreen implements Screen {
   }
 
   @Override public void pause() {}
-
   @Override public void resume() {}
-
   @Override public void hide() {}
 
   @Override
   public void dispose() {
     stage.dispose();
-    if (btnBgTex != null) {
-      btnBgTex.dispose();
-    }
-
-    if (btnBorderTex != null) {
-      btnBorderTex.dispose();
-    }
-
-    if (btnHoverBgTex != null) {
-      btnHoverBgTex.dispose();
-    }
-
-    if (btnHoverBorderTex != null) {
-      btnHoverBorderTex.dispose();
-    }
-
-    if (fieldBgTex != null) {
-      fieldBgTex.dispose();
-    }
-
-    if (fieldBorderTex != null) {
-      fieldBorderTex.dispose();
-    }
+    if (btnBgTex != null) btnBgTex.dispose();
+    if (btnBorderTex != null) btnBorderTex.dispose();
+    if (btnHoverBgTex != null) btnHoverBgTex.dispose();
+    if (btnHoverBorderTex != null) btnHoverBorderTex.dispose();
+    if (fieldBgTex != null) fieldBgTex.dispose();
+    if (fieldBorderTex != null) fieldBorderTex.dispose();
   }
 }

@@ -20,7 +20,8 @@ public class Dean extends Entity {
    */
   public void getsPlayer(final YettiGame game) {
     Screen prevScreen = game.getScreen();
-    game.setScreen(new LoseScreen(game));
+    int finalScore = game.calculateFinalScore();
+    game.setScreen(new LoseScreen(game, finalScore, game.playerName));
     prevScreen.dispose();
   }
 

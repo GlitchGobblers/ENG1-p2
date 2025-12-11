@@ -35,6 +35,9 @@ import io.github.glitchgobblers.entities.Entity;
 import io.github.glitchgobblers.entities.Item;
 import io.github.glitchgobblers.entities.Player;
 import io.github.glitchgobblers.events.Event;
+import io.github.glitchgobblers.identity;
+import io.github.glitchgobblers.Leaderboard;
+
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
@@ -466,6 +469,23 @@ public class GameScreen implements Screen {
 
   // Used for logic that should happen after rendering, normally screen changes
   private void postLogic() {
+
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+      int finalScore = game.calculateFinalScore();
+      game.setScreen(new WinScreen(game, finalScore, game.playerName));
+
+      dispose();
+      return;
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+      int finalScore = game.calculateFinalScore();
+      game.setScreen(new LoseScreen(game, finalScore, game.playerName));
+      dispose();
+      return;
+    }
+
     // Dean collision
     if (player.collidedWith(dean) && dean.isEnabled()) {
       game.achievements.unlock("caught_by_dean", game);
@@ -477,7 +497,8 @@ public class GameScreen implements Screen {
     if (game.timer.hasElapsed()) {
       game.timer.finish();
       game.achievements.unlock("times_up", game);
-      game.setScreen(new LoseScreen(game));
+      int finalScore = game.calculateFinalScore();
+      game.setScreen(new LoseScreen(game, finalScore, game.playerName));
       dispose();
     }
   }

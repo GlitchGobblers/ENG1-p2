@@ -17,6 +17,7 @@ item/doorframe.png
 item/exit.png
 item/long_boi.png
 item/water_spill.png
+leaderboard.json
 map/CoolSchool_tileset.png
 map/CoolSchool_tileset.tsx
 map/CoolSchool_tilesetbigger.png
