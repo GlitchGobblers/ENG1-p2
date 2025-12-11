@@ -1,6 +1,6 @@
-welcome_campus=true
-pause_once=true
-caught_by_dean=true
+welcome_campus=false
+pause_once=false
+caught_by_dean=false
 times_up=false
 event_hunter=false
 campus_completionist=false
