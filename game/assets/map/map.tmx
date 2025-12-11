@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="184">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="191">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -563,21 +563,95 @@
    <properties>
     <property name="interactionImagePath" value="item/checkin_code.png"/>
     <property name="interactionMessage" value="Got the checkin code!"/>
-    <property name="scoreModifier" type="float" value="0"/>
+    <property name="key" value="key1"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
   <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="float" value="100"/>
+    <property name="scoreModifier" type="int" value="100"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
   <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
-    <property name="scoreModifier" type="float" value="-50"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="184" x="2112" y="1776" width="96" height="96">
+   <properties>
+    <property name="interactionImagePath" value="item/door.png"/>
+    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="lock" value="key1"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="185" x="3696" y="288" width="384" height="96">
+   <properties>
+    <property name="interactionImagePath" value="item/checkin_code.png"/>
+    <property name="interactionMessage" value="you win"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="false"/>
+    <property name="win" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="186" x="3168" y="1152" width="96" height="96">
+   <properties>
+    <property name="interactionImagePath" value="item/door.png"/>
+    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="lock" value="key2"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="187" name="checkinCode" x="1104" y="528" width="92.3333" height="63.6667">
+   <properties>
+    <property name="interactionImagePath" value="item/checkin_code.png"/>
+    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="key" value="key2"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="188" name="longBoi" x="2880" y="624" width="88.6667" height="97.3333">
+   <properties>
+    <property name="interactionImagePath" value="item/long_boi.png"/>
+    <property name="interactionMessage" value="Found long boi!!"/>
+    <property name="scoreModifier" type="int" value="100"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="189" name="waterSpill" x="192" y="1296" width="96" height="101">
+   <properties>
+    <property name="interactionImagePath" value="item/water_spill.png"/>
+    <property name="interactionMessage" value="You slipped on a water spill"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="190" name="longBoi" x="3801.33" y="1872" width="88.6667" height="97.3333">
+   <properties>
+    <property name="interactionImagePath" value="item/long_boi.png"/>
+    <property name="interactionMessage" value="Found long boi!!"/>
+    <property name="scoreModifier" type="int" value="100"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
