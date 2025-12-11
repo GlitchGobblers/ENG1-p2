@@ -6,29 +6,37 @@ import io.github.glitchgobblers.events.Event;
 import io.github.glitchgobblers.screens.GameScreen;
 
 public class Item extends Entity {
-  public final String id;
+  private boolean used;
+  private String key;
 
-  public Item(Event event, String id, Texture tex, float x, float y, float width, float height, boolean hidden, boolean solid) {
-    super(tex, x, y, width, height, 0.0f, solid);
-    this.id = id;
-    if (hidden) hide();
+
+  public Item(Texture tex, float x, float y, float width, float height, boolean hidden, boolean solid) {
+    super(tex, x, y, width, height, 0.0f, hidden, solid);
+
+    if (hidden) {
+      hide();
+    }
   }
 
-  public Item(Event event, String id, Texture tex, float x, float y, float width, float height) {
-    this(event, id, tex, x, y, width, height, false, false);
+  public void addKey(String key) {
+    this.key = key;
   }
 
-  public Item(Event event, String id, Texture tex, float x, float y) {
-    this(event, id, tex, x, y, 1, 1);
+  public void interact(YettiGame game,
+                       GameScreen screen,
+                       Player player,
+                       Event event) {
+    boolean justUsed = event.activate(screen, player, this, game);
+
+    if (justUsed) {
+      used = true;
+      player.inventory.add(key);
+      event.modifyScore(game);
+    }
   }
 
-  public final void interact(final YettiGame game, final GameScreen screen, Player player) {
-      /*boolean justUsed = event.activate(screen, player, this);
-      if (justUsed) {
-          used = true;
-          player.inventory.add(this);
-          event.modifyScore(game);
-      }*/
+  public boolean isUsed() {
+    return used;
   }
 
   // Make setSolid public for Items

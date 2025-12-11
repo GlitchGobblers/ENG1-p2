@@ -2,6 +2,7 @@ package io.github.glitchgobblers.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.github.glitchgobblers.InputHelper;
@@ -34,7 +35,7 @@ public abstract class Entity extends Sprite {
    * @param speed
    * @param solid whether the object should cause collision with the player
    */
-  public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean solid) {
+  public Entity(Texture tex, float x, float y, float width, float height, float speed, boolean hidden, boolean solid) {
     super(tex);
 
     // Set this Entity's bounds and hitbox
@@ -43,6 +44,10 @@ public abstract class Entity extends Sprite {
     this.speed = speed;
     this.solid = solid;
     this.movement = new Vector2(0, 0);
+
+    if (hidden) {
+      hide();
+    }
   }
 
   public void resetMovement() {
@@ -110,7 +115,7 @@ public abstract class Entity extends Sprite {
   }
 
   public void hide() {
-    visible = false; // hidden from screen
+    visible = false; // hidden from the screen
   }
 
   public boolean isVisible() {
@@ -143,5 +148,8 @@ public abstract class Entity extends Sprite {
 
   public Vector2 getCurrentPos() {
     return new Vector2(getX(), getY());
+  }
+
+  public void render(SpriteBatch batch) {
   }
 }

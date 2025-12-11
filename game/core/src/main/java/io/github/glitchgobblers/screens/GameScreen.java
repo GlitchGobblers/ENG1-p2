@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -35,9 +36,6 @@ import io.github.glitchgobblers.entities.Entity;
 import io.github.glitchgobblers.entities.Item;
 import io.github.glitchgobblers.entities.Player;
 import io.github.glitchgobblers.events.Event;
-import io.github.glitchgobblers.identity;
-import io.github.glitchgobblers.Leaderboard;
-
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
@@ -75,6 +73,7 @@ public class GameScreen implements Screen {
 
   private Player player;
   private Dean dean;
+  private Item exit;
   private final ArrayList<Entity> entities = new ArrayList<>();
 
   private Label hiddenText;
@@ -83,6 +82,7 @@ public class GameScreen implements Screen {
   private Label timerText;
   private Label scoreText;
   private final ArrayList<Label> messages = new ArrayList<>();
+  private Button pauseButton;
 
   private Table pauseMenu;
   private Texture btnUpTex;
@@ -312,10 +312,14 @@ public class GameScreen implements Screen {
         if (e.isSolid()) {
           // set the position of player to previous position if collision
           player.setPosition(currentPos.x, currentPos.y);
+          e.interact(game, this, player, e);
+        }
+        else {
+          e.interact(game, this, player, e);
         }
         // Check for interaction with items
         if (e instanceof Item item) {
-          item.interact(game, this, player);
+          item.interact(game, this, player, );
         }
       }
     });
@@ -469,8 +473,6 @@ public class GameScreen implements Screen {
 
   // Used for logic that should happen after rendering, normally screen changes
   private void postLogic() {
-
-
     if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
       int finalScore = game.calculateFinalScore();
       game.setScreen(new WinScreen(game, finalScore, game.playerName));
@@ -578,10 +580,30 @@ public class GameScreen implements Screen {
     messages.add(label);
   }
 
-  /**
-   * @return The current YettiGame object.
-   */
-  public YettiGame getGame() {
-    return game;
-  }
+    public Texture getDoorframeTexture() {
+        return doorframeTexture;
+    }
+
+    public Sound getQuackSfx() {
+        return quackSfx;
+    }
+
+    public Sound getPaperSfx() {
+        return paperSfx;
+    }
+
+    public Sound getDoorSfx() {
+        return doorSfx;
+    }
+
+    public Sound getSlipSfx() {
+        return slipSfx;
+    }
+
+    /**
+     * @return The current YettiGame object.
+     */
+    public YettiGame getGame() {
+        return game;
+    }
 }
