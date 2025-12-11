@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
     private Player player;
     private Dean dean;
     private Item exit;
-    private final ArrayList<Entity> entities = new ArrayList<>();
+    private final ArrayList<Event> entities = new ArrayList<>();
 
     private Label hiddenText;
     private Label negativeText;
@@ -306,8 +306,8 @@ public class GameScreen implements Screen {
                     player.setPosition(currentPos.x, currentPos.y);
                 }
                 // Check for interaction with items
-                if (e instanceof Item item) {
-                    item.interact(game, this, player);
+                else {
+                    e.interact(game, this, player, e);
                 }
             }
         });
@@ -363,7 +363,7 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         // Draw only visible entities
-        entities.forEach(e -> { if (e.isVisible()) e.draw(game.batch); });
+        entities.forEach(e -> { if (e.isVisible()) e.render(game.batch); });
         // Draw exit, player, and dean on top of other entities
         //if (exit.isVisible()) exit.draw(game.batch);
         if (player.isVisible()) player.draw(game.batch);

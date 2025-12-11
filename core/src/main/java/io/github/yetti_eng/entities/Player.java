@@ -12,8 +12,8 @@ public class Player extends Entity {
     public Player(Texture tex, float x, float y) {
         super(tex, x, y, 0.9f, 1.6f, PLAYER_SPEED, false);
     }
-
+/*
     public boolean hasUsedItem(String itemID) {
         return inventory.stream().anyMatch(i -> i.ID.equals(itemID));
-    }
+    }*/
 }

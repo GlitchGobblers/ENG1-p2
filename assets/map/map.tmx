@@ -563,21 +563,27 @@
    <properties>
     <property name="interactionImagePath" value="item/checkin_code.png"/>
     <property name="interactionMessage" value="Got the checkin code!"/>
-    <property name="scoreModifier" type="float" value="0"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
   <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="float" value="100"/>
+    <property name="scoreModifier" type="int" value="100"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
   <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
-    <property name="scoreModifier" type="float" value="-50"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
