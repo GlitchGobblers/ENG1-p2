@@ -24,5 +24,8 @@ public class EntityMovementTest extends GdxTestBase {
         // Assert direction is maintained (both x and y should be positive and equal)
         assertTrue(normalized.x > 0 && normalized.y > 0, "Direction should be preserved");
         assertEquals(normalized.x, normalized.y, 0.001f, "X and Y components should be equal for diagonal");
+
+
     }
+
 }
