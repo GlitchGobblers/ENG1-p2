@@ -10,7 +10,7 @@ public class Dean extends Entity {
 
   public Dean(Texture tex, float x, float y) {
     // Dean should be larger than 1 tile to appear imposing (he can move through walls)
-    super(tex, x, y, 2f, 2.5f, DEAN_SPEED, false);
+    super(tex, x, y, 2f, 2.5f, DEAN_SPEED, false, false);
   }
 
   /**

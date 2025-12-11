@@ -99,7 +99,7 @@ public class Event extends Item {
 
   public boolean activate(final GameScreen screen, Player player, Item item, YettiGame game) {
     if (win) {
-      game.setScreen(new WinScreen(game));
+      game.setScreen(new WinScreen(game, game.calculateFinalScore(), game.playerName));
     }
 
     if (lock != null) {

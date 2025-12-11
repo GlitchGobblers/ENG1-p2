@@ -9,7 +9,6 @@ public class Item extends Entity {
   private boolean used;
   private String key;
 
-
   public Item(Texture tex, float x, float y, float width, float height, boolean hidden, boolean solid) {
     super(tex, x, y, width, height, 0.0f, hidden, solid);
 

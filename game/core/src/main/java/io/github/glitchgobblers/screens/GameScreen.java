@@ -312,14 +312,11 @@ public class GameScreen implements Screen {
         if (e.isSolid()) {
           // set the position of player to previous position if collision
           player.setPosition(currentPos.x, currentPos.y);
-          e.interact(game, this, player, e);
         }
-        else {
-          e.interact(game, this, player, e);
-        }
+
         // Check for interaction with items
         if (e instanceof Item item) {
-          item.interact(game, this, player, );
+          item.interact(game, this, player, (Event) e);
         }
       }
     });
