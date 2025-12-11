@@ -7,18 +7,21 @@ import io.github.yetti_eng.screens.GameScreen;
 
 public class Item extends Entity {
     private boolean used;
+    private String key;
 
 
     public Item(Texture tex, float x, float y, float width, float height, boolean hidden, boolean solid) {
         super(tex, x, y, width, height, 0.0f, solid);
         if (hidden) hide();
     }
-
+    public void addKey(String key){
+        this.key = key;
+    }
     public final void interact(final YettiGame game, final GameScreen screen, Player player, Event event) {
         boolean justUsed = event.activate(screen, player, this);
         if (justUsed) {
             used = true;
-            player.inventory.add(this);
+            player.inventory.add(key);
             event.modifyScore(game);
         }
     }
@@ -32,6 +35,5 @@ public class Item extends Entity {
     public void setSolid(boolean solid) {
         super.setSolid(solid);
     }
-
 
 }

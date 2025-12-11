@@ -21,6 +21,9 @@ public class Event extends Item {
     private int scoreModifier;
     private boolean visible;
     private SpriteBatch batch;
+    private boolean used = false;
+    private String key = null;
+    private String lock = null;
     public Event(MapProperties properties){
         super(new Texture((String) properties.get("interactionImagePath")),
             (Float) properties.get("x") / 48,
@@ -28,13 +31,21 @@ public class Event extends Item {
             (Float) properties.get("width") / 48,
             (Float) properties.get("height") / 48,
             (Boolean) properties.get("visible"),
-            (Boolean) properties.get("solid") );
+            (Boolean) properties.get("solid"));
         interactionMessage = (String) properties.get("interactionMessage");
         interactionImagePath = (String) properties.get("interactionImagePath");
         interactionImage = new Texture(interactionImagePath);
         interactionPosition = new Vector2((Float) properties.get("x") / 48, (Float) properties.get("y") / 48);
         interactionSize = new Vector2((Float) properties.get("width") / 48, (Float) properties.get("height") / 48);
+        visible = (Boolean) properties.get("visible");
         scoreModifier = (Integer) properties.get("scoreModifier");
+        if (properties.get("key")!=null){
+            key = (String) properties.get("key");
+            super.addKey(key);
+        }
+        if (properties.get("lock")!=null){
+            lock = (String) properties.get("lock");
+        }
 
     }
     public int getScoreModifier(){
@@ -44,17 +55,41 @@ public class Event extends Item {
         screen.spawnInteractionMessage(interactionMessage);
     }
     @Override
-    public void render(SpriteBatch batch){
-        batch.draw(interactionImage, interactionPosition.x, interactionPosition.y, interactionSize.x, interactionSize.y);
+    public void render(SpriteBatch batch) {
+            batch.draw(interactionImage, interactionPosition.x, interactionPosition.y, interactionSize.x, interactionSize.y);
     }
 
 
 
     public boolean activate(final GameScreen screen, Player player, Item item){
-        this.disable();
-        this.hide();
-        screen.spawnInteractionMessage(interactionMessage);
-        return true;
+        if (lock!=null) {
+            if (player.hasKey(lock)) {
+                super.setSolid(false);
+                this.setSolid(false);
+                if (!used) {
+                    used = true;
+                    this.toggleVisibility();
+                    screen.spawnInteractionMessage(interactionMessage);
+                    return true;
+                }
+            }
+        }
+        else {
+            if (!used) {
+                used = true;
+                this.toggleVisibility();
+                screen.spawnInteractionMessage(interactionMessage);
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean isVisible(){
+        return visible;
+    }
+    private void toggleVisibility() {
+        visible = !visible;
     }
 
 
