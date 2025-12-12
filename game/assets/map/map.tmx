@@ -590,7 +590,7 @@
   <object id="184" x="2112" y="1776" width="96" height="96">
    <properties>
     <property name="interactionImagePath" value="item/door.png"/>
-    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="interactionMessage" value=""/>
     <property name="lock" value="key1"/>
     <property name="scoreModifier" type="int" value="0"/>
     <property name="solid" type="bool" value="true"/>
@@ -610,7 +610,7 @@
   <object id="186" x="3168" y="1152" width="96" height="96">
    <properties>
     <property name="interactionImagePath" value="item/door.png"/>
-    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="interactionMessage" value=""/>
     <property name="lock" value="key2"/>
     <property name="scoreModifier" type="int" value="0"/>
     <property name="solid" type="bool" value="true"/>

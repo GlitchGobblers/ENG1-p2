@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -36,6 +37,7 @@ import io.github.glitchgobblers.entities.Entity;
 import io.github.glitchgobblers.entities.Item;
 import io.github.glitchgobblers.entities.Player;
 import io.github.glitchgobblers.events.Event;
+import io.github.glitchgobblers.events.EventTracker;
 import java.util.ArrayList;
 
 public class GameScreen implements Screen {
@@ -75,6 +77,7 @@ public class GameScreen implements Screen {
   private Dean dean;
   private Item exit;
   private final ArrayList<Entity> entities = new ArrayList<>();
+  private EventTracker eventTracker;
 
   private Label hiddenText;
   private Label negativeText;
@@ -119,6 +122,7 @@ public class GameScreen implements Screen {
     interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
     mapManager = new MapManager(camera);
     mapManager.loadMap("map/map.tmx");
+    EventCounter.reset();
 
     quackSfx = Gdx.audio.newSound(Gdx.files.internal("audio/duck_quack.mp3"));
     paperSfx = Gdx.audio.newSound(Gdx.files.internal("audio/paper_rustle.wav"));
@@ -133,8 +137,12 @@ public class GameScreen implements Screen {
     dean.hide();
 
     MapObjects interactables = mapManager.getMap().getLayers().get("Events").getObjects();
+    eventTracker = new EventTracker();
     for (int index = 0; index < interactables.getCount(); index++) {
-      entities.add(new Event(interactables.get(index).getProperties()));
+      MapObject mapObject = interactables.get(index);
+      Event event = new Event(mapObject);
+      entities.add(event);
+      eventTracker.register(event);
     }
 
     game.fontBorderedSmall.setUseIntegerPositions(false);
@@ -472,6 +480,9 @@ public class GameScreen implements Screen {
   private void postLogic() {
     if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
       int finalScore = game.calculateFinalScore();
+      if (eventTracker != null && eventTracker.allEventsTriggered()) {
+        game.achievements.markAllEventsCompleted(game);
+      }
       game.setScreen(new WinScreen(game, finalScore, game.playerName));
 
       dispose();
@@ -575,6 +586,12 @@ public class GameScreen implements Screen {
     Label label = new Label(text, new Label.LabelStyle(game.fontBorderedSmall, Color.WHITE.cpy()));
     label.setPosition(interfaceCamera.viewportWidth, label.getHeight(), Align.right);
     messages.add(label);
+  }
+
+  public void onEventTriggered(Event event) {
+    if (eventTracker != null) {
+      eventTracker.onEventTriggered(event, game);
+    }
   }
 
     public Texture getDoorframeTexture() {
