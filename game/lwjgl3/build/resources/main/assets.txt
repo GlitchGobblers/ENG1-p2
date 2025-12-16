@@ -11,7 +11,11 @@ character/player_left.png
 character/player_right.png
 character/player_up.png
 character/yeti.png
+item/DecafCoffee.png
+item/ExamSign.png
+item/SpeedCoffee.png
 item/checkin_code.png
+item/deans_key.png
 item/door.png
 item/doorframe.png
 item/exit.png

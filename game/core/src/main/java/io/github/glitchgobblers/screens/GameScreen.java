@@ -298,10 +298,16 @@ public class GameScreen implements Screen {
 
     // move only if game isn't paused
     if (!game.isPaused()) {
+      player.update(delta, this);
       player.doMove(delta, true);
       if (dean.isEnabled()) {
         dean.calculateMovement(player);
         dean.doMove(delta);
+      }
+    }
+    if (!game.isPaused()) {
+      for (Entity e : entities) {
+        e.update(delta);
       }
     }
 

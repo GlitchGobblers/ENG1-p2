@@ -14,6 +14,7 @@ public class Event extends Item {
   private int counter = 0;
 
   private final String interactionMessage;
+  private final String lockedMessage;
   private final Texture interactionImage;
   private final Vector2 interactionPosition;
   private final Vector2 interactionSize;
@@ -27,29 +28,37 @@ public class Event extends Item {
   private String key = null;
   private String lock = null;
   private boolean win = false;
+  private Float speedMultiplier = null;
+  private Float speedDuration = null;
+  private Float barrierDuration = null;
+  private float barrierTimeLeft = 0f;
+  private boolean barrierCountingDown = false;
+
 
   public Event(MapProperties properties) {
     super(new Texture((String) properties.get("interactionImagePath")),
-        (Float) properties.get("x") / 48,
-        (Float) properties.get("y") / 48,
-        (Float) properties.get("width") / 48,
-        (Float) properties.get("height") / 48,
-        (Boolean) properties.get("visible"),
-        (Boolean) properties.get("solid")
+      (Float) properties.get("x") / 48,
+      (Float) properties.get("y") / 48,
+      (Float) properties.get("width") / 48,
+      (Float) properties.get("height") / 48,
+      (Boolean) properties.get("visible"),
+      (Boolean) properties.get("solid")
     );
 
     interactionMessage = (String) properties.get("interactionMessage");
+    String lm = (String) properties.get("lockedMessage");
+    lockedMessage = (lm != null) ? lm : "This door is locked";
 
     String interactionImagePath = (String) properties.get("interactionImagePath");
     interactionImage = new Texture(interactionImagePath);
 
     interactionPosition = new Vector2(
-        (Float) properties.get("x") / 48,
-        (Float) properties.get("y") / 48
+      (Float) properties.get("x") / 48,
+      (Float) properties.get("y") / 48
     );
     interactionSize = new Vector2(
-        (Float) properties.get("width") / 48,
-        (Float) properties.get("height") / 48
+      (Float) properties.get("width") / 48,
+      (Float) properties.get("height") / 48
     );
 
     visible = (Boolean) properties.get("visible");
@@ -67,6 +76,30 @@ public class Event extends Item {
 
     if (properties.get("win") != null) {
       win = (Boolean) properties.get("win");
+    }
+    if (properties.get("speedMultiplier") != null) {
+      speedMultiplier = (Float) properties.get("speedMultiplier");
+    }
+    if (properties.get("speedDuration") != null) {
+      speedDuration = (Float) properties.get("speedDuration");
+    }
+    if (properties.get("barrierDuration") != null) {
+      barrierDuration = (Float) properties.get("barrierDuration");
+    }
+  }
+  @Override
+  public void update(float delta) {
+    if (!barrierCountingDown) return;
+
+    barrierTimeLeft -= delta;
+
+    if (barrierTimeLeft <= 0f) {
+      barrierCountingDown = false;
+      barrierTimeLeft = 0f;
+
+      super.setSolid(false);
+      toggleVisibility();
+      disable();
     }
   }
 
@@ -102,7 +135,26 @@ public class Event extends Item {
       game.setScreen(new WinScreen(game, game.calculateFinalScore(), game.playerName));
     }
 
-    if (lock != null) {
+    if (barrierDuration != null) {
+      if (!barrierCountingDown) {
+        barrierCountingDown = true;
+        barrierTimeLeft = barrierDuration;
+
+        this.toggleVisibility();
+        this.setSolid(true);
+        super.setSolid(true);
+
+        screen.spawnInteractionMessage(interactionMessage);
+      }
+      return false;
+    }
+
+    if (lock != null && !player.hasKey(lock)) {
+      screen.spawnInteractionMessage(lockedMessage);
+      return false;
+    }
+
+    if (lock != null && player.hasKey(lock)) {
       if (player.hasKey(lock)) {
         super.setSolid(false);
         this.setSolid(false);
@@ -113,6 +165,9 @@ public class Event extends Item {
       used = true;
       this.toggleVisibility();
       screen.spawnInteractionMessage(interactionMessage);
+      if (speedMultiplier != null && speedDuration != null) {
+        player.applySpeedBoost(speedMultiplier, speedDuration);
+      }
       return true;
     }
 
@@ -120,7 +175,7 @@ public class Event extends Item {
   }
 
   @Override
-  public boolean isVisible(){
+  public boolean isVisible() {
     return visible;
   }
 

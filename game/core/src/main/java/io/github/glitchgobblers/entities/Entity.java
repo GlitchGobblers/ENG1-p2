@@ -16,7 +16,7 @@ import io.github.glitchgobblers.InputHelper;
  * name.
  */
 public abstract class Entity extends Sprite {
-  private final float speed;
+  private float speed;
   private boolean solid;
   private Vector2 movement;
   private final Rectangle hitbox;
@@ -136,6 +136,16 @@ public abstract class Entity extends Sprite {
 
   public float getSpeedThisFrame(float delta) {
     return speed * delta;
+  }
+  public float getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
+  }
+
+  public void update(float delta) {
   }
 
   void setSolid(boolean solid) {
