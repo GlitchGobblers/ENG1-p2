@@ -5,7 +5,6 @@ import java.util.UUID;
 public final class identity {
   private static final String DEFAULT_NAME = "Player";
 
-
   private static final String playthroughId = UUID.randomUUID().toString();
   private static String name = DEFAULT_NAME;
 
