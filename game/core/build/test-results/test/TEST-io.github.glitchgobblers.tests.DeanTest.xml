@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="io.github.glitchgobblers.tests.DeanTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-12-11T12:00:00.089Z" hostname="MSI" time="0.066">
-  <properties/>
-  <testcase name="CalculateMovement()" classname="io.github.glitchgobblers.tests.DeanTest" time="0.066"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

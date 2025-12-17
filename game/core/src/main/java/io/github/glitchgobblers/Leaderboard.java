@@ -37,14 +37,22 @@ public class Leaderboard {
     @Override
     public int compareTo(Entry o) {
       int s = Integer.compare(o.score, this.score);
-      if (s != 0) return s;
+
+      if (s != 0) {
+        return s;
+      }
+
       return Long.compare(o.ts, this.ts);
     }
   }
 
+  // we have to suppress this, we can't fix it
+  @SuppressWarnings("unchecked")
   public Array<Entry> load() {
     FileHandle fh = Gdx.files.local(FILE_NAME);
-    if (!fh.exists()) return new Array<>();
+    if (!fh.exists()) {
+      return new Array<>();
+    }
 
     String raw = fh.readString("UTF-8");
     Array<Entry> entries;
@@ -56,7 +64,9 @@ public class Leaderboard {
       return new Array<>(); // do not save() on failure
     }
 
-    if (entries == null) entries = new Array<>();
+    if (entries == null) {
+      entries = new Array<>();
+    }
 
     entries = mergeById(entries);
     entries.sort();
@@ -68,7 +78,9 @@ public class Leaderboard {
     ObjectMap<String, Entry> map = new ObjectMap<>();
 
     for (Entry e : entries) {
-      if (e == null || e.id == null || e.id.isEmpty()) continue;
+      if (e == null || e.id == null || e.id.isEmpty()) {
+        continue;
+      }
 
       Entry existing = map.get(e.id);
       if (existing == null) {
@@ -80,7 +92,10 @@ public class Leaderboard {
           existing.name = (e.name == null || e.name.isEmpty()) ? existing.name : e.name;
         } else if (e.score == existing.score && e.ts > existing.ts) {
           existing.ts = e.ts;
-          if (e.name != null && !e.name.isEmpty()) existing.name = e.name;
+
+          if (e.name != null && !e.name.isEmpty()) {
+            existing.name = e.name;
+          }
         } else if (e.ts > existing.ts && e.name != null && !e.name.isEmpty()) {
           existing.name = e.name;
           existing.ts = e.ts;
@@ -93,14 +108,18 @@ public class Leaderboard {
 
   private void save(Array<Entry> entries) {
     entries.sort();
-    while (entries.size > 100) entries.pop();
+    while (entries.size > 100) {
+      entries.pop();
+    }
 
     String jsonOut = json.prettyPrint(json.toJson(entries, Array.class, Entry.class));
     Gdx.files.local(FILE_NAME).writeString(jsonOut, false, "UTF-8");
   }
 
   public void submit(String id, String name, int score) {
-    if (id == null || id.isEmpty()) return;
+    if (id == null || id.isEmpty()) {
+      return;
+    }
 
     Array<Entry> entries = load();
 
@@ -132,10 +151,14 @@ public class Leaderboard {
   public Array<Entry> top(int n) {
     Array<Entry> entries = load();
     entries.sort();
-    if (entries.size <= n) return entries;
+    if (entries.size <= n) {
+      return entries;
+    }
 
     Array<Entry> out = new Array<>(n);
-    for (int i = 0; i < n; i++) out.add(entries.get(i));
+    for (int i = 0; i < n; i++) {
+      out.add(entries.get(i));
+    }
     return out;
   }
 }
