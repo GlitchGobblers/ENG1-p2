@@ -33,15 +33,22 @@ public class AchievementManager {
     loadProgress();
   }
 
-  //return immutable copy of achievements to display in UI.
+  /**
+   * @return immutable copy of achievements to display in UI.
+   */
   public List<Achievement> getAchievements() {
     List<Achievement> list = new ArrayList<>(achievements.size);
     achievements.forEach(list::add);
     return list;
   }
 
-
-  //Unlock an achievement by id. If newly unlocked, persists and queues a popup.
+  /**
+   * Unlock an achievement by id. If newly unlocked, persists and queues a popup.
+   *
+   * @param id the id of the achievement to unlock
+   * @param game the game instance
+   * @return <code>true</code> for success, <code>false</code> for failure (already unlocked or not found)
+   */
   public boolean unlock(String id, YettiGame game) {
     Achievement achievement = find(id);
     if (achievement == null || achievement.isUnlocked()) {
@@ -59,8 +66,15 @@ public class AchievementManager {
     return achievement != null && achievement.isUnlocked();
   }
 
-
-  //Render and advance queued popups. Safe to call from any screen.
+  /**
+   * Render and advance queued popups. Safe to call from any screen.
+   *
+   * @param game
+   * @param batch
+   * @param projection
+   * @param font
+   * @param delta
+   */
   public void renderPopups(YettiGame game, SpriteBatch batch, Matrix4 projection, BitmapFont font, float delta) {
     if (popups.isEmpty()) {
       return;
