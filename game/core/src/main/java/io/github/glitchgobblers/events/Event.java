@@ -26,6 +26,7 @@ public class Event extends Item {
   private boolean used = false;
 
   private final boolean startsVisible;
+  private final EventType eventType;
   private boolean visible = true;
   private String key = null;
   private String lock = null;
@@ -47,6 +48,7 @@ public class Event extends Item {
     startsVisible = props.visible;
     visible = props.visible;
     interactionMessage = props.interactionMessage;
+    eventType = props.eventType;
 
     String lm = props.lockedMessage;
     lockedMessage = (lm != null) ? lm : "This door is locked";
@@ -68,6 +70,11 @@ public class Event extends Item {
     }
 
     win = props.win;
+
+    speedMultiplier = (props.speedMultiplier != 0f) ? props.speedMultiplier : null;
+    speedDuration   = (props.speedDuration   != 0f) ? props.speedDuration   : null;
+    barrierDuration = (props.barrierDuration != 0f) ? props.barrierDuration : null;
+
   }
 
   @Override
@@ -106,15 +113,19 @@ public class Event extends Item {
   }
 
   public boolean isHiddenEvent() {
-    return !startsVisible;
+    return eventType == EventType.HIDDEN;
   }
 
   public boolean isPositiveEvent() {
-    return scoreModifier > 0;
+    return eventType == EventType.POSITIVE;
   }
 
   public boolean isNegativeEvent() {
-    return scoreModifier < 0;
+    return eventType == EventType.NEGATIVE;
+  }
+
+  public EventType getEventType() {
+    return eventType;
   }
 
   public void showInteractionMessage(GameScreen screen) {
@@ -209,7 +220,7 @@ public class Event extends Item {
 
     props.interactionImagePath = properties.get("interactionImagePath", "", String.class);
     props.interactionMessage = properties.get("interactionMessage", "", String.class);
-    props.interactionMessage = properties.get("lockedMessage", "", String.class);
+    props.lockedMessage = properties.get("lockedMessage", "", String.class);
 
     props.scoreModifier = properties.get("scoreModifier", 0, Integer.class);
 
@@ -217,6 +228,9 @@ public class Event extends Item {
     props.lock = properties.containsKey("lock") ? properties.get("lock", String.class) : null;
 
     props.win = properties.get("win", false, Boolean.class);
+
+    String rawType = properties.get("eventType", "", String.class);
+    props.eventType = parseEventType(rawType, props.visible, props.scoreModifier);
 
     if (properties.containsKey("speedMultiplier")) {
       props.speedMultiplier = properties.get("speedMultiplier", Float.class);
@@ -256,5 +270,17 @@ public class Event extends Item {
     float speedMultiplier;
     float speedDuration;
     float barrierDuration;
+    EventType eventType;
+  }
+  private static EventType parseEventType(String rawType, boolean visible, int scoreModifier) {
+    if (rawType != null) {
+      String t = rawType.trim().toLowerCase();
+      switch (t) {
+        case "positive": return EventType.POSITIVE;
+        case "negative": return EventType.NEGATIVE;
+        case "hidden":   return EventType.HIDDEN;
+      }
+    }
+    return null;
   }
 }

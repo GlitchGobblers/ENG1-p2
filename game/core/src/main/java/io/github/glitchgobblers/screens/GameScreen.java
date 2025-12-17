@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
   private static final float riseSpeed   = 60f;
   private static final float UI_PADDING_TOP = 12f;
 
-  private static final int TIMER_LENGTH = 60; // 300s = 5min
+  private static final int TIMER_LENGTH = 300; // 300s = 5min
 
   private Texture playerTexUp;
   private Texture playerTexDown;

@@ -402,6 +402,7 @@
   </object>
   <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
     <property name="scoreModifier" type="int" value="100"/>
@@ -411,6 +412,7 @@
   </object>
   <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
+    <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
     <property name="scoreModifier" type="int" value="-50"/>
@@ -420,6 +422,7 @@
   </object>
   <object id="184" x="2112" y="1776" width="96" height="96">
    <properties>
+    <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/door.png"/>
     <property name="interactionMessage" value="Escaped the lecture!"/>
     <property name="lock" value="key1"/>
@@ -462,6 +465,7 @@
   </object>
   <object id="188" name="longBoi" x="2880" y="624" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
     <property name="scoreModifier" type="int" value="100"/>
@@ -471,6 +475,7 @@
   </object>
   <object id="189" name="waterSpill" x="192" y="1296" width="96" height="101">
    <properties>
+    <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
     <property name="scoreModifier" type="int" value="-50"/>
@@ -489,6 +494,7 @@
   </object>
   <object id="191" name="longBoi" x="99.6667" y="1585.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
     <property name="scoreModifier" type="int" value="100"/>
@@ -498,6 +504,7 @@
   </object>
   <object id="197" name="SpeedBoost" x="1705.67" y="1429.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/SpeedCoffee.png"/>
     <property name="interactionMessage" value="WOAH THIS COFFEE IS STONG"/>
     <property name="scoreModifier" type="int" value="0"/>
@@ -509,6 +516,7 @@
   </object>
   <object id="198" name="SpeedBoost" x="799.667" y="2551.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/SpeedCoffee.png"/>
     <property name="interactionMessage" value="WOAH THIS COFFEE IS STONG"/>
     <property name="scoreModifier" type="int" value="0"/>
@@ -518,8 +526,9 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="200" name="SpeedBoost" x="137.667" y="645.333" width="88.6667" height="97.3333">
+  <object id="200" name="slowDown" x="137.667" y="645.333" width="88.6667" height="97.3333">
    <properties>
+    <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/DecafCoffee.png"/>
     <property name="interactionMessage" value="its a trap DECAF!!!"/>
     <property name="scoreModifier" type="int" value="-30"/>
@@ -532,6 +541,7 @@
   <object id="201" name="Exam Room" x="3269.25" y="1864.17" width="426.833" height="105">
    <properties>
     <property name="barrierDuration" type="float" value="5"/>
+    <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/ExamSign.png"/>
     <property name="interactionMessage" value="Exam in progress! Wait till finished"/>
     <property name="scoreModifier" type="int" value="-50"/>
@@ -541,6 +551,7 @@
   </object>
   <object id="205" name="Yetti Barrier" x="2879.07" y="794.011" width="144" height="141" rotation="360">
    <properties>
+    <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/hungryYeti.png"/>
     <property name="interactionMessage" value="The yeti let you pass"/>
     <property name="lock" value="key3"/>
@@ -562,6 +573,7 @@
   </object>
   <object id="207" name="longBoi" x="3951.67" y="2206.33" width="75.6667" height="92.3333">
    <properties>
+    <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="Found long boi!!"/>
     <property name="scoreModifier" type="int" value="100"/>
