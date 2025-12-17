@@ -7,8 +7,8 @@ import io.github.glitchgobblers.screens.GameScreen;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-  private static final float PLAYER_SPEED = 6f; // Normal value
-  // private static final float PLAYER_SPEED = 25f;  // for testing when you dont want to be slow
+ private static final float PLAYER_SPEED = 6f; // Normal value
+  //private static final float PLAYER_SPEED = 25f;  // for testing when you dont want to be slow
 
   private final float baseSpeed = PLAYER_SPEED;
   private float speedBoostTimeLeft = 0f;

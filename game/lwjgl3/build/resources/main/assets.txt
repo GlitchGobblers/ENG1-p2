@@ -19,6 +19,8 @@ item/deans_key.png
 item/door.png
 item/doorframe.png
 item/exit.png
+item/fish.png
+item/hungryYeti.png
 item/long_boi.png
 item/water_spill.png
 leaderboard.json

@@ -43,8 +43,9 @@ public class GameScreen implements Screen {
   private final Stage stage;
   private static final float textDuration = 2f;
   private static final float riseSpeed   = 60f;
+  private static final float UI_PADDING_TOP = 12f;
 
-  private static final int TIMER_LENGTH = 300; // 300s = 5min
+  private static final int TIMER_LENGTH = 60; // 300s = 5min
 
   private Texture playerTexUp;
   private Texture playerTexDown;
@@ -114,7 +115,9 @@ public class GameScreen implements Screen {
     pauseTexture = new Texture("ui/pause.png");
 
     camera = new  OrthographicCamera();
-    camera.setToOrtho(false, 90, 60);
+    camera.setToOrtho(false, 90, 60 + UI_PADDING_TOP);
+    camera.position.y -= UI_PADDING_TOP / 2f;
+    camera.update();
     interfaceCamera = new  OrthographicCamera();
     interfaceCamera.setToOrtho(false, scaled(16), scaled(9));
     mapManager = new MapManager(camera);
@@ -128,7 +131,7 @@ public class GameScreen implements Screen {
 
     player = new Player(playerTexDown, 55, 25);
     // exit = new Item(new WinEvent(), "exit", exitTexture, 80, 54, 2, 2.2f);
-    dean = new Dean(yetiTexture, -2, 4.5f);
+    dean = new Dean(yetiTexture, 3, 57f);
     dean.disable();
     dean.hide();
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="203">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="208">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -135,8 +135,8 @@
  </layer>
  <layer id="31" name="details" width="90" height="60">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1401,1402,1403,1404,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1497,1498,1499,1500,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,1014,1007,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1401,1402,1403,1404,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,1062,1055,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1497,1498,1499,1500,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1593,1594,1595,1596,0,0,0,1671,1672,1673,1674,0,0,0,0,1671,1672,1673,1674,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1767,1768,1769,1770,0,0,0,0,1767,1768,1769,1770,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1863,1864,1865,1866,0,0,0,0,1863,1864,1865,1866,0,0,0,
@@ -200,7 +200,7 @@
  <layer id="33" name="detailsTop" width="90" height="60">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,861,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1984,1985,1986,1987,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2080,2081,2082,2083,0,0,0,0,0,0,0,
@@ -529,7 +529,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="201" name="waterSpill" x="3269.25" y="1864.17" width="426.833" height="105">
+  <object id="201" name="Exam Room" x="3269.25" y="1864.17" width="426.833" height="105">
    <properties>
     <property name="barrierDuration" type="float" value="5"/>
     <property name="interactionImagePath" value="item/ExamSign.png"/>
@@ -537,6 +537,36 @@
     <property name="scoreModifier" type="int" value="-50"/>
     <property name="solid" type="bool" value="true"/>
     <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="205" name="Yetti Barrier" x="2879.07" y="794.011" width="144" height="141" rotation="360">
+   <properties>
+    <property name="interactionImagePath" value="item/hungryYeti.png"/>
+    <property name="interactionMessage" value="The yeti let you pass"/>
+    <property name="lock" value="key3"/>
+    <property name="lockedMessage" value="If you want to pass get me food"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="206" name="yeti food" x="111.833" y="113.667" width="92.3333" height="63.6667">
+   <properties>
+    <property name="interactionImagePath" value="item/fish.png"/>
+    <property name="interactionMessage" value="You found the yeti's snack"/>
+    <property name="key" value="key3"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="207" name="longBoi" x="3951.67" y="2206.33" width="75.6667" height="92.3333">
+   <properties>
+    <property name="interactionImagePath" value="item/long_boi.png"/>
+    <property name="interactionMessage" value="Found long boi!!"/>
+    <property name="scoreModifier" type="int" value="100"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
