@@ -36,7 +36,6 @@ public class Event extends Item {
   private float barrierTimeLeft = 0f;
   private boolean barrierCountingDown = false;
 
-
   public Event(MapObject mapObject) {
     this(mapObject, parseProperties(mapObject));
   }
@@ -44,25 +43,19 @@ public class Event extends Item {
   private Event(MapObject mapObject, ParsedEventProps props) {
     super(new Texture(props.interactionImagePath), props.x, props.y, props.width, props.height, !props.visible, props.solid);
 
-    interactionMessage = (String) properties.get("interactionMessage");
-    String lm = (String) properties.get("lockedMessage");
-    lockedMessage = (lm != null) ? lm : "This door is locked";
-
-    interactionPosition = new Vector2(
-      (Float) properties.get("x") / 48,
-      (Float) properties.get("y") / 48
-    );
-    interactionSize = new Vector2(
-      (Float) properties.get("width") / 48,
-      (Float) properties.get("height") / 48
-    );
-
     eventId = resolveEventId(mapObject, props.x, props.y);
     startsVisible = props.visible;
     visible = props.visible;
+    interactionMessage = props.interactionMessage;
+
+    String lm = props.lockedMessage;
+    lockedMessage = (lm != null) ? lm : "This door is locked";
+
     interactionImage = new Texture(props.interactionImagePath);
+
     interactionPosition = new Vector2(props.x, props.y);
     interactionSize = new Vector2(props.width, props.height);
+
     scoreModifier = props.scoreModifier;
 
     if (props.key != null) {
@@ -75,23 +68,13 @@ public class Event extends Item {
     }
 
     win = props.win;
-
-    if (properties.get("speedMultiplier") != null) {
-      speedMultiplier = (Float) properties.get("speedMultiplier");
-    }
-
-    if (properties.get("speedDuration") != null) {
-      speedDuration = (Float) properties.get("speedDuration");
-    }
-
-    if (properties.get("barrierDuration") != null) {
-      barrierDuration = (Float) properties.get("barrierDuration");
-    }
   }
 
   @Override
   public void update(float delta) {
-    if (!barrierCountingDown) return;
+    if (!barrierCountingDown) {
+      return;
+    }
 
     barrierTimeLeft -= delta;
 
@@ -213,18 +196,40 @@ public class Event extends Item {
   private static ParsedEventProps parseProperties(MapObject mapObject) {
     MapProperties properties = mapObject.getProperties();
     ParsedEventProps props = new ParsedEventProps();
+
     props.x = properties.get("x", 0f, Float.class) / 48f;
     props.y = properties.get("y", 0f, Float.class) / 48f;
+
     props.width = properties.get("width", 0f, Float.class) / 48f;
     props.height = properties.get("height", 0f, Float.class) / 48f;
+
     props.visible = properties.get("visible", true, Boolean.class);
+
     props.solid = properties.get("solid", false, Boolean.class);
+
     props.interactionImagePath = properties.get("interactionImagePath", "", String.class);
     props.interactionMessage = properties.get("interactionMessage", "", String.class);
+    props.interactionMessage = properties.get("lockedMessage", "", String.class);
+
     props.scoreModifier = properties.get("scoreModifier", 0, Integer.class);
+
     props.key = properties.containsKey("key") ? properties.get("key", String.class) : null;
     props.lock = properties.containsKey("lock") ? properties.get("lock", String.class) : null;
+
     props.win = properties.get("win", false, Boolean.class);
+
+    if (properties.containsKey("speedMultiplier")) {
+      props.speedMultiplier = properties.get("speedMultiplier", Float.class);
+    }
+
+    if (properties.containsKey("speedDuration")) {
+      props.speedDuration = (Float) properties.get("speedDuration");
+    }
+
+    if (properties.containsKey("barrierDuration")) {
+      props.barrierDuration = (Float) properties.get("barrierDuration");
+    }
+
     return props;
   }
 
@@ -243,9 +248,13 @@ public class Event extends Item {
     boolean solid;
     String interactionImagePath;
     String interactionMessage;
+    String lockedMessage;
     int scoreModifier;
     String key;
     String lock;
     boolean win;
+    float speedMultiplier;
+    float speedDuration;
+    float barrierDuration;
   }
 }
