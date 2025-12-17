@@ -31,6 +31,7 @@ public class Item extends Entity {
       used = true;
       player.inventory.add(key);
       event.modifyScore(game);
+      screen.onEventTriggered(event);
     }
   }
 
