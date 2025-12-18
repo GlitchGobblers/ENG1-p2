@@ -392,6 +392,7 @@
  <objectgroup id="34" name="Events">
   <object id="175" name="checkinCode" x="2161.33" y="1233.33" width="92.3333" height="63.6667">
    <properties>
+    <property name="Audio" value="audio/paper_rustle.wav"/>
     <property name="interactionImagePath" value="item/checkin_code.png"/>
     <property name="interactionMessage" value="Got the checkin code!"/>
     <property name="key" value="key1"/>
@@ -402,6 +403,7 @@
   </object>
   <object id="177" name="Yetti Coin" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -412,6 +414,7 @@
   </object>
   <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
+    <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
@@ -422,6 +425,7 @@
   </object>
   <object id="184" x="2112" y="1776" width="96" height="96">
    <properties>
+    <property name="Audio" value="audio/dorm_door_opening.wav"/>
     <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/door.png"/>
     <property name="interactionMessage" value="Escaped the lecture!"/>
@@ -444,6 +448,7 @@
   </object>
   <object id="186" x="3168" y="1152" width="96" height="96">
    <properties>
+    <property name="Audio" value="audio/dorm_door_opening.wav"/>
     <property name="interactionImagePath" value="item/door.png"/>
     <property name="interactionMessage" value="The exit should be just ahead"/>
     <property name="lock" value="key2"/>
@@ -455,6 +460,7 @@
   </object>
   <object id="187" name="deanKey" x="1098" y="552" width="92.3333" height="63.6667">
    <properties>
+    <property name="Audio" value="audio/Keys.wav"/>
     <property name="interactionImagePath" value="item/deans_key.png"/>
     <property name="interactionMessage" value="You've stolen the Dean's key!!!"/>
     <property name="key" value="key2"/>
@@ -465,6 +471,7 @@
   </object>
   <object id="189" name="waterSpill" x="192" y="1296" width="96" height="101">
    <properties>
+    <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
@@ -475,6 +482,7 @@
   </object>
   <object id="191" name="longBoi" x="99.6667" y="1585.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/duck_quack.mp3"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
     <property name="interactionMessage" value="You found the secret long boi!!"/>
@@ -483,8 +491,9 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="197" name="SpeedBoost" x="1705.67" y="1429.33" width="88.6667" height="97.3333">
+  <object id="197" name="SpeedBoost" x="1701.67" y="1433.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/Drinking.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/SpeedCoffee.png"/>
     <property name="interactionMessage" value="WOAH THIS COFFEE IS STONG"/>
@@ -497,6 +506,7 @@
   </object>
   <object id="198" name="SpeedBoost" x="799.667" y="2551.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/Drinking.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/SpeedCoffee.png"/>
     <property name="interactionMessage" value="WOAH THIS COFFEE IS STONG"/>
@@ -509,6 +519,7 @@
   </object>
   <object id="200" name="slowDown" x="137.667" y="645.333" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/Drinking.wav"/>
     <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/DecafCoffee.png"/>
     <property name="interactionMessage" value="its a trap DECAF!!!"/>
@@ -521,6 +532,7 @@
   </object>
   <object id="201" name="Exam Room" x="3269.25" y="1864.17" width="426.833" height="105">
    <properties>
+    <property name="Audio" value="audio/DoorSlam.wav"/>
     <property name="barrierDuration" type="float" value="5"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/ExamSign.png"/>
@@ -532,6 +544,7 @@
   </object>
   <object id="205" name="Yetti Barrier" x="2879.07" y="794.011" width="144" height="141" rotation="360">
    <properties>
+    <property name="Audio" value="audio/deep_growl_1.wav"/>
     <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/hungryYeti.png"/>
     <property name="interactionMessage" value="The yeti let you pass"/>
@@ -554,6 +567,7 @@
   </object>
   <object id="208" name="Yetti Coin" x="3933.67" y="2199.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -564,6 +578,7 @@
   </object>
   <object id="209" name="Yetti Coin" x="3823.67" y="1891.33" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -574,6 +589,7 @@
   </object>
   <object id="211" name="Yetti Coin" x="2897.67" y="629.333" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -584,6 +600,7 @@
   </object>
   <object id="212" name="Yetti Coin" x="1713.67" y="91.3333" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -594,6 +611,7 @@
   </object>
   <object id="213" name="Yetti Coin" x="2659.67" y="99.3333" width="88.6667" height="97.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -604,6 +622,7 @@
   </object>
   <object id="214" name="Yetti Coin" x="637.667" y="1679.33" width="78.6667" height="91.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -614,6 +633,7 @@
   </object>
   <object id="215" name="Yetti Coin" x="3769.67" y="633.333" width="76.6667" height="77.3333">
    <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
     <property name="interactionImagePath" value="item/coin.png"/>
     <property name="interactionMessage" value="You found a yeti coin"/>
@@ -625,6 +645,7 @@
   <object id="216" x="1820" y="2496" width="96" height="96">
    <properties>
     <property name="AlwaysLocked" type="bool" value="true"/>
+    <property name="Audio" value="audio/Denied.mp3"/>
     <property name="eventType" value="negative"/>
     <property name="interactionImagePath" value="item/door.png"/>
     <property name="interactionMessage" value="Dam the door is still locked, I dont think it does open"/>
@@ -635,7 +656,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="217" name="checkinCode" x="2316.5" y="2118.83" width="92.3333" height="63.6667">
+  <object id="217" name="KeyCard" x="2316.5" y="2118.83" width="92.3333" height="63.6667">
    <properties>
     <property name="interactionImagePath" value="item/KeyCard.png"/>
     <property name="interactionMessage" value="Found a key card!"/>

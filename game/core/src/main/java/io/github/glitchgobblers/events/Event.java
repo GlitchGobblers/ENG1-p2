@@ -10,6 +10,8 @@ import io.github.glitchgobblers.entities.Item;
 import io.github.glitchgobblers.entities.Player;
 import io.github.glitchgobblers.screens.GameScreen;
 import io.github.glitchgobblers.screens.WinScreen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 
 public class Event extends Item {
   private int counter = 0;
@@ -37,6 +39,8 @@ public class Event extends Item {
   private Float barrierDuration = null;
   private float barrierTimeLeft = 0f;
   private boolean barrierCountingDown = false;
+  private Sound sfx;
+  private String Audio;
 
   public Event(MapObject mapObject) {
     this(mapObject, parseProperties(mapObject));
@@ -60,6 +64,12 @@ public class Event extends Item {
     interactionSize = new Vector2(props.width, props.height);
 
     scoreModifier = props.scoreModifier;
+
+    Audio = props.Audio;
+    if (Audio != null && !Audio.isBlank()) {
+      sfx = Gdx.audio.newSound(Gdx.files.internal(Audio));
+    }
+
 
     if (props.key != null) {
       key = props.key;
@@ -130,6 +140,11 @@ public class Event extends Item {
     return eventType;
   }
 
+  private void playSfx() {
+    if (sfx != null) sfx.play(1.0f);
+  }
+
+
   public void showInteractionMessage(GameScreen screen) {
     if (interactionMessage != null && !interactionMessage.isBlank()) {
       screen.spawnInteractionMessage(interactionMessage);
@@ -155,7 +170,7 @@ public class Event extends Item {
       game.setScreen(new WinScreen(game, game.calculateFinalScore(), game.playerName));
     }
 
-    if (barrierDuration != null) {
+    if (barrierDuration != null && !used) {
       if (!barrierCountingDown) {
         barrierCountingDown = true;
         barrierTimeLeft = barrierDuration;
@@ -165,12 +180,15 @@ public class Event extends Item {
         super.setSolid(true);
 
         screen.spawnInteractionMessage(interactionMessage);
+        playSfx();
       }
-      return false;
+      used = true;
+      return true;
     }
 
     if (lock != null && !player.hasKey(lock)) {
       screen.spawnInteractionMessage(lockedMessage);
+      playSfx();
       return false;
     }
 
@@ -180,6 +198,7 @@ public class Event extends Item {
         used = true;
         if (interactionMessage != null && !interactionMessage.isBlank()) {
           screen.spawnInteractionMessage(interactionMessage);
+          playSfx();
         }
         return true;
       }
@@ -202,6 +221,7 @@ public class Event extends Item {
       if (interactionMessage != null && !interactionMessage.isBlank()) {
         screen.spawnInteractionMessage(interactionMessage);
       }
+      playSfx();
 
       if (speedMultiplier != null && speedDuration != null) {
         player.applySpeedBoost(speedMultiplier, speedDuration);
@@ -244,6 +264,7 @@ public class Event extends Item {
 
     props.key = properties.containsKey("key") ? properties.get("key", String.class) : null;
     props.lock = properties.containsKey("lock") ? properties.get("lock", String.class) : null;
+    props.Audio = properties.get("Audio", "", String.class);
 
     props.win = properties.get("win", false, Boolean.class);
 
@@ -290,6 +311,7 @@ public class Event extends Item {
     float barrierDuration;
     EventType eventType;
     boolean AlwaysLocked;
+    String Audio;
   }
   private static EventType parseEventType(String rawType, boolean visible, int scoreModifier) {
     if (rawType != null) {

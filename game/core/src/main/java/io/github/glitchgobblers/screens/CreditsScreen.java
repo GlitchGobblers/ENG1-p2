@@ -88,7 +88,7 @@ public class CreditsScreen implements Screen {
         scaled(9f), scaled(4f)
     );
     addCreditHyperlinkLabel(
-        "Deep Growl 1 (CC0 1.0)", "https://freesound.org/people/noahpardo/sounds/345733/ ",
+        "Deep Growl 1 (CC0 1.0)", "https://freesound.org/people/noahpardo/sounds/345733/",
         scaled(9f), scaled(3f)
     );
   }

@@ -1,6 +1,11 @@
 Roboto-OFL.txt
 Roboto.ttf
 achievements.txt
+audio/CoinSound.wav
+audio/Denied.mp3
+audio/DoorSlam.wav
+audio/Drinking.wav
+audio/Keys.wav
 audio/cartoon_quick_slip.wav
 audio/deep_growl_1.wav
 audio/dorm_door_opening.wav
