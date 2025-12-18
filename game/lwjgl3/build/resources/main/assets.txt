@@ -14,6 +14,7 @@ character/yeti.png
 item/Coin.png
 item/DecafCoffee.png
 item/ExamSign.png
+item/KeyCard.png
 item/SpeedCoffee.png
 item/checkin_code.png
 item/deans_key.png

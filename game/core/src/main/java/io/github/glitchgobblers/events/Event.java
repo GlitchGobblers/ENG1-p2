@@ -30,6 +30,7 @@ public class Event extends Item {
   private boolean visible = true;
   private String key = null;
   private String lock = null;
+  private final boolean AlwaysLocked;
   private boolean win = false;
   private Float speedMultiplier = null;
   private Float speedDuration = null;
@@ -74,6 +75,7 @@ public class Event extends Item {
     speedMultiplier = (props.speedMultiplier != 0f) ? props.speedMultiplier : null;
     speedDuration   = (props.speedDuration   != 0f) ? props.speedDuration   : null;
     barrierDuration = (props.barrierDuration != 0f) ? props.barrierDuration : null;
+    AlwaysLocked = props.AlwaysLocked;
 
   }
 
@@ -172,7 +174,22 @@ public class Event extends Item {
       return false;
     }
 
-    if (lock != null && player.hasKey(lock)) {
+    if (AlwaysLocked && lock != null && player.hasKey(lock)) {
+
+      if (!used) {
+        used = true;
+        if (interactionMessage != null && !interactionMessage.isBlank()) {
+          screen.spawnInteractionMessage(interactionMessage);
+        }
+        return true;
+      }
+      if (interactionMessage != null && !interactionMessage.isBlank()) {
+        screen.spawnInteractionMessage(interactionMessage);
+      }
+      return false;
+    }
+
+    if (!AlwaysLocked && lock != null && player.hasKey(lock)) {
       if (player.hasKey(lock)) {
         super.setSolid(false);
         this.setSolid(false);
@@ -221,6 +238,7 @@ public class Event extends Item {
     props.interactionImagePath = properties.get("interactionImagePath", "", String.class);
     props.interactionMessage = properties.get("interactionMessage", "", String.class);
     props.lockedMessage = properties.get("lockedMessage", "", String.class);
+    props.AlwaysLocked = properties.get("AlwaysLocked", false, Boolean.class);
 
     props.scoreModifier = properties.get("scoreModifier", 0, Integer.class);
 
@@ -271,6 +289,7 @@ public class Event extends Item {
     float speedDuration;
     float barrierDuration;
     EventType eventType;
+    boolean AlwaysLocked;
   }
   private static EventType parseEventType(String rawType, boolean visible, int scoreModifier) {
     if (rawType != null) {
