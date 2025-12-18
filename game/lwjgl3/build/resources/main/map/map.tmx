@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="208">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="215">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -400,19 +400,19 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="177" name="longBoi" x="105.333" y="2400" width="88.6667" height="97.3333">
+  <object id="177" name="Yetti Coin" x="105.333" y="2400" width="88.6667" height="97.3333">
    <properties>
     <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/long_boi.png"/>
-    <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="int" value="100"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
     <property name="solid" type="bool" value="false"/>
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
   <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
    <properties>
-    <property name="eventType" value="negative"/>
+    <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
     <property name="scoreModifier" type="int" value="-50"/>
@@ -463,19 +463,9 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="188" name="longBoi" x="2880" y="624" width="88.6667" height="97.3333">
-   <properties>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/long_boi.png"/>
-    <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="int" value="100"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
   <object id="189" name="waterSpill" x="192" y="1296" width="96" height="101">
    <properties>
-    <property name="eventType" value="negative"/>
+    <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
     <property name="interactionMessage" value="You slipped on a water spill"/>
     <property name="scoreModifier" type="int" value="-50"/>
@@ -483,23 +473,14 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="190" name="longBoi" x="3801.33" y="1872" width="88.6667" height="97.3333">
-   <properties>
-    <property name="interactionImagePath" value="item/long_boi.png"/>
-    <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="int" value="100"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
   <object id="191" name="longBoi" x="99.6667" y="1585.33" width="88.6667" height="97.3333">
    <properties>
-    <property name="eventType" value="positive"/>
+    <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/long_boi.png"/>
-    <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="int" value="100"/>
+    <property name="interactionMessage" value="You found the secret long boi!!"/>
+    <property name="scoreModifier" type="int" value="250"/>
     <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
   <object id="197" name="SpeedBoost" x="1705.67" y="1429.33" width="88.6667" height="97.3333">
@@ -571,12 +552,62 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="207" name="longBoi" x="3951.67" y="2206.33" width="75.6667" height="92.3333">
+  <object id="208" name="Yetti Coin" x="3933.67" y="2199.33" width="88.6667" height="97.3333">
    <properties>
     <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/long_boi.png"/>
-    <property name="interactionMessage" value="Found long boi!!"/>
-    <property name="scoreModifier" type="int" value="100"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="209" name="Yetti Coin" x="3823.67" y="1891.33" width="88.6667" height="97.3333">
+   <properties>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="211" name="Yetti Coin" x="2897.67" y="629.333" width="88.6667" height="97.3333">
+   <properties>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="212" name="Yetti Coin" x="1713.67" y="91.3333" width="88.6667" height="97.3333">
+   <properties>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="213" name="Yetti Coin" x="2659.67" y="99.3333" width="88.6667" height="97.3333">
+   <properties>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="214" name="Yetti Coin" x="637.667" y="1679.33" width="78.6667" height="91.3333">
+   <properties>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
     <property name="solid" type="bool" value="false"/>
     <property name="visible" type="bool" value="true"/>
    </properties>

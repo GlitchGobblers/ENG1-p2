@@ -11,6 +11,7 @@ character/player_left.png
 character/player_right.png
 character/player_up.png
 character/yeti.png
+item/Coin.png
 item/DecafCoffee.png
 item/ExamSign.png
 item/SpeedCoffee.png
