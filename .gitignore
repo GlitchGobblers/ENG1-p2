@@ -166,5 +166,7 @@ Thumbs.db
 ## Keep the build artifacts out of source control
 /game/lwjgl3/build
 /game/core/build/
+/game/core/build/reports
 /game/build
+/game/core/build/test-results
 /build
