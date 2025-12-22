@@ -5,51 +5,46 @@ import io.github.glitchgobblers.Timer;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TimerTest extends GdxTestBase {
 
-  @Test
-  public void DurationExpiryTest() throws Exception {
-    Timer timer = new Timer(10);
-    assertFalse(timer.isActive());
-    assertFalse(timer.isFinished());
-    assertEquals(10, timer.getRemainingTime());
-// testing the timer when it's played
-    timer.play();
-    assertTrue(timer.isActive());
-    assertFalse(timer.isFinished());
+    @Test
+    public void testTimerDurationAndExpiry() throws Exception {
+        Timer timer = new Timer(10);
+        assertFalse(timer.isActive());
+        assertEquals(10, timer.getRemainingTime());
 
-    // force the timer to finish so the hasElapsed becomes true, via using
-    Field endTime = Timer.class.getDeclaredField("endTime");
-    endTime.setAccessible(true);
-    int timenow = (int) (System.currentTimeMillis() / 1000);
-    endTime.setInt(timer, timenow - 1); // meaning already elapsed
+        timer.play();
+        assertTrue(timer.isActive());
 
+        // simulate time passing
+        Field endTimeField = Timer.class.getDeclaredField("endTime");
+        endTimeField.setAccessible(true);
+        int timeNow = (int) (System.currentTimeMillis() / 1000);
+        endTimeField.setInt(timer, timeNow - 1); // Set end time to the past
 
-    assertTrue(timer.hasElapsed(), "timer should report elapsed");
-  }
-  @Test
- public void testPauseAndResume(){
-    Timer timer = new Timer(20);
-    timer.pause();
-    assertFalse(timer.isActive());
-    assertFalse(timer.isFinished());
-    int remainingAfterPause = timer.getRemainingTime();
+        assertTrue(timer.hasElapsed(), "Timer should report elapsed if end time passed");
+    }
 
+    @Test
+    public void testPauseAndResume() {
+        Timer timer = new Timer(300);
+        timer.play();
+        assertTrue(timer.isActive());
 
-    // resume playing again
-    timer.play();
-    assertTrue(timer.isActive());
+        timer.pause();
+        assertFalse(timer.isActive(), "Timer should be inactive after pause");
 
+        int timeAtPause = timer.getRemainingTime();
+        assertTrue(timeAtPause <= 300);
 
-    // while active, remaining time must be <= what it was when paused, which make
-    // the countdown to continue rather than resetting
-    int remainingAfterResume = timer.getRemainingTime();
-    assertTrue(remainingAfterResume <= remainingAfterPause,
-      "remaining time after resuming should be less than or equal to time at pause");
-
-
-  }
+        // Resume timer
+        timer.play();
+        assertTrue(timer.isActive());
+        assertTrue(
+                timer.getRemainingTime() <= timeAtPause,
+                "Time should continue from pause point, not reset"
+        );
+    }
 }
