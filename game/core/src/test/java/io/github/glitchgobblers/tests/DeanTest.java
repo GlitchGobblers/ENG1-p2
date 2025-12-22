@@ -10,24 +10,22 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeanTest extends GdxTestBase {
+    @Test
+    public void testDeanPursuitLogic() {
+        //mock texture
+        Texture tex = Mockito.mock(Texture.class);
+        Mockito.when(tex.getWidth()).thenReturn(32);
+        Mockito.when(tex.getHeight()).thenReturn(32);
 
-@Test
-  public void CalculateMovement(){
-  //first create fake texture for the player and the dean
-  Texture tex = Mockito.mock(Texture.class);
-  Mockito.when(tex.getWidth()).thenReturn(32);
-  Mockito.when(tex.getHeight()).thenReturn(32);
+        //spawn Dean at (10, 10) and Player at (0, 10)
+        Dean dean = new Dean(tex, 10, 10);
+        Player player = new Player(tex, 0, 10);
 
-  Dean dean =new Dean(tex,0,0); //dean at position 0
-  Player player = new Player(tex,-1,0); // player at the left
-  dean.calculateMovement(player);
-  dean.doMove(1f);// dean moves toward the player
-  assertTrue(dean.getX()<0,"dean should move left when the player is in the left");
+        dean.calculateMovement(player);
+        dean.doMove(1f); //move for 1s
 
-
-}
-
-
-
+        assertTrue(dean.getX() < 10, "Dean should move left towards player");
+        assertEquals(10, dean.getY(), 0.1f, "Dean should stay on same Y axis");
+    }
 }
 
