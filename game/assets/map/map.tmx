@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="218">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="229">
  <tileset firstgid="1" source="CoolSchool_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="CoolSchool_tileset.tsx"/>
@@ -390,13 +390,12 @@
 </data>
  </layer>
  <objectgroup id="34" name="Events">
-  <object id="175" name="checkinCode" x="2161.33" y="1233.33" width="92.3333" height="63.6667">
+  <object id="175" name="Anti slip Shoes" x="97.9967" y="1867.33" width="94.3333" height="87.6667">
    <properties>
-    <property name="Audio" value="audio/paper_rustle.wav"/>
-    <property name="interactionImagePath" value="item/checkin_code.png"/>
-    <property name="interactionMessage" value="Got the checkin code!"/>
-    <property name="key" value="key1"/>
-    <property name="scoreModifier" type="int" value="0"/>
+    <property name="interactionImagePath" value="item/SlipShoes.png"/>
+    <property name="interactionMessage" value="Non Slip shoes? I wonder how they help"/>
+    <property name="key" value="Water"/>
+    <property name="scoreModifier" type="int" value="200"/>
     <property name="solid" type="bool" value="false"/>
     <property name="visible" type="bool" value="true"/>
    </properties>
@@ -417,7 +416,9 @@
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
-    <property name="interactionMessage" value="You slipped on a water spill"/>
+    <property name="interactionMessage" value="Wow these anti slip shoes really work!"/>
+    <property name="lock" value="Water"/>
+    <property name="lockedMessage" value="Its too Slippery to get past"/>
     <property name="scoreModifier" type="int" value="-50"/>
     <property name="solid" type="bool" value="true"/>
     <property name="visible" type="bool" value="false"/>
@@ -474,7 +475,9 @@
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
     <property name="interactionImagePath" value="item/water_spill.png"/>
-    <property name="interactionMessage" value="You slipped on a water spill"/>
+    <property name="interactionMessage" value="Wow these anti slip shoes really work"/>
+    <property name="lock" value="Water"/>
+    <property name="lockedMessage" value="Its too Slippery to get past"/>
     <property name="scoreModifier" type="int" value="-50"/>
     <property name="solid" type="bool" value="true"/>
     <property name="visible" type="bool" value="false"/>
@@ -631,7 +634,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="215" name="Yetti Coin" x="3769.67" y="633.333" width="76.6667" height="77.3333">
+  <object id="215" name="Yetti Coin" x="1753.92" y="877.333" width="76.6667" height="77.3333">
    <properties>
     <property name="Audio" value="audio/CoinSound.wav"/>
     <property name="eventType" value="positive"/>
@@ -662,6 +665,133 @@
     <property name="interactionMessage" value="Found a key card!"/>
     <property name="key" value="key4"/>
     <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="218" name="checkinCode" x="2171.17" y="1224.17" width="92.3333" height="63.6667">
+   <properties>
+    <property name="Audio" value="audio/paper_rustle.wav"/>
+    <property name="interactionImagePath" value="item/checkin_code.png"/>
+    <property name="interactionMessage" value="Got the checkin code!"/>
+    <property name="key" value="key1"/>
+    <property name="scoreModifier" type="int" value="0"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="219" name="waterSpill" x="2305.25" y="843.5" width="99.5" height="107">
+   <properties>
+    <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
+    <property name="eventType" value="hidden"/>
+    <property name="interactionImagePath" value="item/water_spill.png"/>
+    <property name="interactionMessage" value="Wow these anti slip shoes really work"/>
+    <property name="lock" value="Water"/>
+    <property name="lockedMessage" value="Its too Slippery to get past"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="220" name="waterSpill" x="3899.25" y="1097.5" width="121.5" height="101">
+   <properties>
+    <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
+    <property name="eventType" value="hidden"/>
+    <property name="interactionImagePath" value="item/water_spill.png"/>
+    <property name="interactionMessage" value="Wow these anti slip shoes really work!"/>
+    <property name="lock" value="Water"/>
+    <property name="lockedMessage" value="Its too Slippery to get past"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="221" name="waterSpill" x="1929.25" y="765.5" width="273.5" height="101">
+   <properties>
+    <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
+    <property name="eventType" value="hidden"/>
+    <property name="interactionImagePath" value="item/water_spill.png"/>
+    <property name="interactionMessage" value="Wow these anti slip shoes really work!"/>
+    <property name="lock" value="Water"/>
+    <property name="lockedMessage" value="Its too Slippery to get past"/>
+    <property name="scoreModifier" type="int" value="-50"/>
+    <property name="solid" type="bool" value="true"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="222" name="Yetti Coin" x="3767.67" y="631.333" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="223" name="Yetti Coin" x="1753.67" y="861.333" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="224" name="Yetti Coin" x="1813.92" y="878.333" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="225" name="Yetti Coin" x="1737.67" y="866.833" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="226" name="Yetti Coin" x="1800.17" y="865.583" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="227" name="Yetti Coin" x="1802.67" y="861.583" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="228" name="Yetti Coin" x="1802.92" y="883.083" width="76.6667" height="77.3333">
+   <properties>
+    <property name="Audio" value="audio/CoinSound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
     <property name="solid" type="bool" value="false"/>
     <property name="visible" type="bool" value="true"/>
    </properties>

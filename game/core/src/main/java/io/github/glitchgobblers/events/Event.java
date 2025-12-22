@@ -13,6 +13,8 @@ import io.github.glitchgobblers.screens.WinScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
+import java.util.Objects;
+
 public class Event extends Item {
   private int counter = 0;
   private final String eventId;
@@ -187,6 +189,14 @@ public class Event extends Item {
     }
 
     if (lock != null && !player.hasKey(lock)) {
+      if (Objects.equals(lock, "Water")){
+        if (!used) {
+          used = true;
+          this.makeVisible();
+          screen.spawnInteractionMessage(lockedMessage);
+          return true;
+        }
+      }
       screen.spawnInteractionMessage(lockedMessage);
       playSfx();
       return false;
@@ -239,6 +249,10 @@ public class Event extends Item {
 
   private void toggleVisibility() {
     visible = !visible;
+  }
+
+  private void makeVisible() {
+    visible = true;
   }
 
   private static ParsedEventProps parseProperties(MapObject mapObject) {
