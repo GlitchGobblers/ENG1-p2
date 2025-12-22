@@ -147,7 +147,7 @@ public class NamingScreen implements Screen {
 
   private void confirm() {
     String raw = nameField.getText();
-    String cleaned = sanitize(raw);
+    String cleaned = sanitise(raw);
 
     if (cleaned.isEmpty()) {
       errorText = "Name can't be empty.";
@@ -161,7 +161,7 @@ public class NamingScreen implements Screen {
     dispose();
   }
 
-  private String sanitize(String s) {
+  private String sanitise(String s) {
     if (s == null) return "";
     String t = s.replaceAll("\\p{Cntrl}", "").trim();
     if (t.length() > MAX_LEN) t = t.substring(0, MAX_LEN);

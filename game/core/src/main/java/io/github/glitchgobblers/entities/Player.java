@@ -39,6 +39,11 @@ public class Player extends Entity {
     return inventory.contains(lock);
   }
 
+  /** Allow events and tests to add keys to the player's inventory. */
+  public void addKey(String key) {
+    inventory.add(key);
+  }
+
 /*
   public boolean hasUsedItem(String itemID) {
     return inventory.stream().anyMatch(i -> i.ID.equals(itemID));

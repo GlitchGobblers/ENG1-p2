@@ -65,11 +65,11 @@ public class LoseScreen implements Screen {
     root.defaults().pad(8);
     stage.addActor(root);
 
-    int penalizedScore = Math.max(0, baseScore / 3); // nerfed score to punish players for losing
+    int penalisedScore = Math.max(0, baseScore / 3); // nerfed score to punish players for losing
 
     root.add(new Label("YOU LOSE!", titleStyle)).colspan(2).align(Align.center);
     root.row();
-    root.add(new Label("Score: " + penalizedScore, textStyle)).colspan(2).align(Align.center);
+    root.add(new Label("Score: " + penalisedScore, textStyle)).colspan(2).align(Align.center);
     root.row();
     root.add(new Label("Saved for: " + playerName, textStyle)).colspan(2).align(Align.center);
     root.row().padTop(12);
@@ -77,7 +77,7 @@ public class LoseScreen implements Screen {
     if (!scoreSaved) {
       String id = identity.getOrCreateId();
       identity.setName(playerName);
-      leaderboard.submit(id, playerName, penalizedScore);
+      leaderboard.submit(id, playerName, penalisedScore);
       scoreSaved = true;
     }
 
