@@ -44,14 +44,15 @@ jobs:
         with:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
+          show: all
       - name: Upload test summary
         shell: bash
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
-      - name: Upload test summary artifact
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-        with:
-          name: test-summary.md
-          path: test-summary.md
+#      - name: Upload test summary artifact
+#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+#        with:
+#          name: test-summary.md
+#          path: test-summary.md
 
   release:
     runs-on: ubuntu-latest
