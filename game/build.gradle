@@ -7,18 +7,8 @@ buildscript {
     maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
   }
   dependencies {
-
-
   }
 }
-
-plugins {
-  // Use the Checkstyle plugin to enforce style
-  id 'checkstyle'
-}
-
-// Define the version for the Checkstyle tool
-def checkstyleVersion = '10.4'
 
 allprojects {
   apply plugin: 'eclipse'
@@ -33,9 +23,37 @@ allprojects {
   }
 }
 
+subprojects {
+  version = "$projectVersion"
+  ext.appName = 'YettiGame'
+  repositories {
+    mavenCentral()
+//    maven { url 'https://s01.oss.sonatype.org' }
+    // You may want to remove the following line if you have errors downloading dependencies.
+    mavenLocal()
+//    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+//    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
+    maven { url 'https://jitpack.io' }
+  }
+}
+
 configure(subprojects) {
   apply plugin: 'java-library'
+  apply plugin: 'checkstyle'
+
   sourceCompatibility = 17
+
+  checkstyle {
+    // Use a specific version compatible with Java 17
+    toolVersion = '10.12.5'
+    configFile = resources.text.fromArchiveEntry(configurations.checkstyle.first(), 'google_checks.xml').asFile()
+
+    // Stop the build if checkstyle fails (default is true)
+    ignoreFailures = false
+
+    showViolations = true
+  }
 
   // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
   // The article can be helpful when using assets.txt in your project.
@@ -59,46 +77,6 @@ configure(subprojects) {
 
   compileJava {
     options.incremental = true
-  }
-}
-
-subprojects {
-  version = "$projectVersion"
-  ext.appName = 'YettiGame'
-
-  // --- Checkstyle Configuration START ---
-
-  // 1. Define a configuration to hold the Checkstyle rule dependency
-  configurations {
-    checkstyleRules
-  }
-
-  // 2. Add the dependency containing the style rules file (e.g., google_checks.xml)
-  dependencies {
-    // ... same as before ...
-    checkstyleRules("com.puppycrawl.tools:checkstyle:${checkstyleVersion}") {
-      transitive = false
-    }
-  }
-
-  // 3. Configure the Checkstyle task
-  checkstyle {
-    toolVersion "${checkstyleVersion}"
-    // Load the rule file 'google_checks.xml' from the dependency archive
-    config = resources.text.fromArchiveEntry(configurations.checkstyleRules, 'google_checks.xml')
-  }
-
-  // --- Checkstyle Configuration END ---
-
-  repositories {
-    mavenCentral()
-//    maven { url 'https://s01.oss.sonatype.org' }
-    // You may want to remove the following line if you have errors downloading dependencies.
-    mavenLocal()
-//    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-//    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
-    maven { url 'https://jitpack.io' }
   }
 }
 

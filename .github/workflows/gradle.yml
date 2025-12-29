@@ -37,8 +37,8 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
         if: startsWith(matrix.os, 'ubuntu')
         with:
-          name: checkstyle-report
-          path: game/build/reports/checkstyle
+          name: main.html
+          path: game/core/build/reports/checkstyle
       - name: Test Summary
         uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 #v2.4
         with:
