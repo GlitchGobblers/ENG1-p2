@@ -18,29 +18,29 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6.0.1
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e #v5.1.0
         with:
           java-version: '17'
           distribution: 'temurin'
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
       - name: Build with Gradle Wrapper
         run: cd game && ./gradlew build
       - name: Upload library JAR
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
         with:
           name: lib-${{ matrix.os }}.jar
           path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
       - name: Upload Checkstyle report
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
         if: startsWith(matrix.os, 'ubuntu')
         with:
           name: checkstyle-report
           path: game/build/reports/checkstyle
       - name: Test Summary
-        uses: test-summary/action@v2.4
+        uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 #v2.4
         with:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Download All Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 #v7.0.0
         with:
           path: ./artifacts # This downloads all jars into subfolders
 
@@ -70,6 +70,6 @@ jobs:
           cp artifacts/lib-macos-latest.jar/YettiGame-1.0.0.jar release_files/YettiGame-macos.jar
 
       - name: Release
-        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b #v2.5.0
         with:
           files: release_files/*.jar
