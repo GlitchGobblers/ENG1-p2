@@ -43,7 +43,6 @@ public class Player extends Entity {
   public void addKey(String key) {
     inventory.add(key);
   }
-
 /*
   public boolean hasUsedItem(String itemID) {
     return inventory.stream().anyMatch(i -> i.ID.equals(itemID));

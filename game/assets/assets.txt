@@ -16,6 +16,7 @@ character/player_left.png
 character/player_right.png
 character/player_up.png
 character/yeti.png
+item/Backpack.png
 item/EnergyDrink.png
 item/NonSlips.png
 item/checkin_code.png
