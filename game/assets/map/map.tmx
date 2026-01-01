@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="229">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="232">
  <tileset firstgid="1" source="cool_school_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="cool_school_tileset.tsx"/>
@@ -601,7 +601,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="212" name="Yetti Coin" x="1713.67" y="91.3333" width="88.6667" height="97.3333">
+  <object id="212" name="Yetti Coin" x="1728" y="96" width="88.6667" height="97.3333">
    <properties>
     <property name="Audio" value="audio/coin_sound.wav"/>
     <property name="eventType" value="positive"/>
@@ -794,6 +794,32 @@
     <property name="scoreModifier" type="int" value="75"/>
     <property name="solid" type="bool" value="false"/>
     <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="229" name="EnergyDrink" x="3123.67" y="433.33" width="96" height="96">
+   <properties>
+    <property name="Audio" value="audio/drinking.wav"/>
+    <property name="eventType" value="hidden"/>
+    <property name="interactionImagePath" value="item/EnergyDrink.png"/>
+    <property name="interactionMessage" value="You found an Energy Drink"/>
+    <property name="scoreModifier" type="int" value="125"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="speedDuration" type="float" value="7"/>
+    <property name="speedMultiplier" type="float" value="4.5"/>
+    <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="231" name="EnergyDrink" x="1296" y="1488" width="96" height="96">
+   <properties>
+    <property name="Audio" value="audio/drinking.wav"/>
+    <property name="eventType" value="hidden"/>
+    <property name="interactionImagePath" value="item/EnergyDrink.png"/>
+    <property name="interactionMessage" value="You found an Energy Drink"/>
+    <property name="scoreModifier" type="int" value="125"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="speedDuration" type="float" value="7"/>
+    <property name="speedMultiplier" type="float" value="4.5"/>
+    <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
