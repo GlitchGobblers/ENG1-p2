@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="232">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="90" height="60" tilewidth="48" tileheight="48" infinite="0" nextlayerid="35" nextobjectid="247">
  <tileset firstgid="1" source="cool_school_tilesetbigger.tsx"/>
  <tileset firstgid="385" source="coolschool_A4bigger.tsx"/>
  <tileset firstgid="399" source="cool_school_tileset.tsx"/>
@@ -390,9 +390,9 @@
 </data>
  </layer>
  <objectgroup id="34" name="Events">
-  <object id="175" name="Anti slip Shoes" x="97.9967" y="1867.33" width="94.3333" height="87.6667">
+  <object id="175" name="Anti slip Shoes" x="97.9967" y="1867.33" width="96" height="96">
    <properties>
-    <property name="interactionImagePath" value="item/slip_shoes.png"/>
+    <property name="interactionImagePath" value="item/NonSlips.png"/>
     <property name="interactionMessage" value="Non Slip shoes? I wonder how they help"/>
     <property name="key" value="Water"/>
     <property name="scoreModifier" type="int" value="200"/>
@@ -400,18 +400,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="177" name="Yetti Coin" x="105.333" y="2400" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="183" name="waterSpill" x="2880" y="2352" width="149.5" height="149">
+  <object id="183" name="waterSpill" x="2880" y="2352" width="144" height="144">
    <properties>
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
@@ -459,7 +448,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="187" name="deanKey" x="1098" y="552" width="92.3333" height="63.6667">
+  <object id="187" name="deanKey" x="1098" y="552" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/keys.wav"/>
     <property name="interactionImagePath" value="item/deans_key.png"/>
@@ -470,7 +459,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="189" name="waterSpill" x="192" y="1296" width="96" height="101">
+  <object id="189" name="waterSpill" x="192" y="1296" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
@@ -483,7 +472,7 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="191" name="longBoi" x="99.6667" y="1585.33" width="88.6667" height="97.3333">
+  <object id="191" name="longBoi" x="96" y="1584" width="96" height="120">
    <properties>
     <property name="Audio" value="audio/duck_quack.mp3"/>
     <property name="eventType" value="hidden"/>
@@ -494,7 +483,7 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="197" name="SpeedBoost" x="1701.67" y="1433.33" width="88.6667" height="97.3333">
+  <object id="197" name="SpeedBoost" x="1701.67" y="1433.33" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/drinking.wav"/>
     <property name="eventType" value="positive"/>
@@ -507,7 +496,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="198" name="SpeedBoost" x="799.667" y="2551.33" width="88.6667" height="97.3333">
+  <object id="198" name="SpeedBoost" x="799.667" y="2551.33" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/drinking.wav"/>
     <property name="eventType" value="positive"/>
@@ -520,7 +509,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="200" name="slowDown" x="137.667" y="645.333" width="88.6667" height="97.3333">
+  <object id="200" name="slowDown" x="137.667" y="645.333" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/drinking.wav"/>
     <property name="eventType" value="negative"/>
@@ -533,7 +522,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="201" name="Exam Room" x="3269.25" y="1864.17" width="426.833" height="105">
+  <object id="201" name="Exam Room" x="3312" y="1872" width="384" height="96">
    <properties>
     <property name="Audio" value="audio/door_slam.wav"/>
     <property name="barrierDuration" type="float" value="5"/>
@@ -545,7 +534,7 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="205" name="Yetti Barrier" x="2879.07" y="794.011" width="144" height="141" rotation="360">
+  <object id="205" name="Yetti Barrier" x="2888" y="776" width="128" height="159" rotation="360">
    <properties>
     <property name="Audio" value="audio/deep_growl_1.wav"/>
     <property name="eventType" value="negative"/>
@@ -558,7 +547,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="206" name="yeti food" x="111.833" y="113.667" width="92.3333" height="63.6667">
+  <object id="206" name="yeti food" x="96" y="96" width="96" height="96">
    <properties>
     <property name="interactionImagePath" value="item/fish.png"/>
     <property name="interactionMessage" value="You found the yeti's snack"/>
@@ -568,73 +557,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="208" name="Yetti Coin" x="3933.67" y="2199.33" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="209" name="Yetti Coin" x="3823.67" y="1891.33" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="211" name="Yetti Coin" x="2897.67" y="629.333" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="212" name="Yetti Coin" x="1728" y="96" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="213" name="Yetti Coin" x="2659.67" y="99.3333" width="88.6667" height="97.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="214" name="Yetti Coin" x="637.667" y="1679.33" width="78.6667" height="91.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="215" name="Yetti Coin" x="1753.92" y="877.333" width="76.6667" height="77.3333">
+  <object id="212" name="Yetti Coin" x="1728" y="96" width="64" height="64">
    <properties>
     <property name="Audio" value="audio/coin_sound.wav"/>
     <property name="eventType" value="positive"/>
@@ -659,7 +582,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="217" name="key_card" x="2316.5" y="2118.83" width="92.3333" height="63.6667">
+  <object id="217" name="key_card" x="2316.5" y="2118.83" width="128" height="64">
    <properties>
     <property name="interactionImagePath" value="item/key_card.png"/>
     <property name="interactionMessage" value="Found a key card!"/>
@@ -669,7 +592,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="218" name="checkinCode" x="2171.17" y="1224.17" width="92.3333" height="63.6667">
+  <object id="218" name="checkinCode" x="2112" y="1248" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/paper_rustle.wav"/>
     <property name="interactionImagePath" value="item/checkin_code.png"/>
@@ -680,7 +603,7 @@
     <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="219" name="waterSpill" x="2305.25" y="843.5" width="99.5" height="107">
+  <object id="219" name="waterSpill" x="2304" y="720" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
@@ -693,7 +616,7 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="220" name="waterSpill" x="3899.25" y="1097.5" width="121.5" height="101">
+  <object id="220" name="waterSpill" x="3936" y="1104" width="96" height="96">
    <properties>
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
@@ -706,7 +629,7 @@
     <property name="visible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="221" name="waterSpill" x="1929.25" y="765.5" width="273.5" height="101">
+  <object id="221" name="waterSpill" x="1920" y="768" width="288.5" height="96">
    <properties>
     <property name="Audio" value="audio/cartoon_quick_slip.wav"/>
     <property name="eventType" value="hidden"/>
@@ -717,83 +640,6 @@
     <property name="scoreModifier" type="int" value="-50"/>
     <property name="solid" type="bool" value="true"/>
     <property name="visible" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="222" name="Yetti Coin" x="3767.67" y="631.333" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="223" name="Yetti Coin" x="1753.67" y="861.333" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="224" name="Yetti Coin" x="1813.92" y="878.333" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="225" name="Yetti Coin" x="1737.67" y="866.833" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="226" name="Yetti Coin" x="1800.17" y="865.583" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="227" name="Yetti Coin" x="1802.67" y="861.583" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="228" name="Yetti Coin" x="1802.92" y="883.083" width="76.6667" height="77.3333">
-   <properties>
-    <property name="Audio" value="audio/coin_sound.wav"/>
-    <property name="eventType" value="positive"/>
-    <property name="interactionImagePath" value="item/coin.png"/>
-    <property name="interactionMessage" value="You found a yeti coin"/>
-    <property name="scoreModifier" type="int" value="75"/>
-    <property name="solid" type="bool" value="false"/>
-    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
   <object id="229" name="EnergyDrink" x="3123.67" y="433.33" width="96" height="96">
@@ -820,6 +666,160 @@
     <property name="speedDuration" type="float" value="7"/>
     <property name="speedMultiplier" type="float" value="4.5"/>
     <property name="visible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="232" name="Yetti Coin" x="1760" y="864" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="234" name="Yetti Coin" x="1856" y="864" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="235" name="Yetti Coin" x="1776" y="896" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="236" name="Yetti Coin" x="1872" y="896" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="237" name="Yetti Coin" x="1802" y="864" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="238" name="Yetti Coin" x="1824" y="896" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="239" name="Yetti Coin" x="1728" y="896" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="240" name="Yetti Coin" x="2914" y="652" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="241" name="Yetti Coin" x="3766" y="642" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="242" name="Yetti Coin" x="3836" y="1912" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="243" name="Yetti Coin" x="3946" y="2228" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="244" name="Yetti Coin" x="116" y="2414" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="245" name="Yetti Coin" x="640" y="1702" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="246" name="Yetti Coin" x="2676" y="118" width="64" height="64">
+   <properties>
+    <property name="Audio" value="audio/coin_sound.wav"/>
+    <property name="eventType" value="positive"/>
+    <property name="interactionImagePath" value="item/coin.png"/>
+    <property name="interactionMessage" value="You found a yeti coin"/>
+    <property name="scoreModifier" type="int" value="75"/>
+    <property name="solid" type="bool" value="false"/>
+    <property name="visible" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

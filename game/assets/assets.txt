@@ -17,6 +17,7 @@ character/player_right.png
 character/player_up.png
 character/yeti.png
 item/EnergyDrink.png
+item/NonSlips.png
 item/checkin_code.png
 item/coin.png
 item/deans_key.png
@@ -29,7 +30,6 @@ item/fish.png
 item/hungry_yeti.png
 item/key_card.png
 item/long_boi.png
-item/slip_shoes.png
 item/speed_coffee.png
 item/water_spill.png
 leaderboard.json
