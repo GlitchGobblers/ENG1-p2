@@ -24,10 +24,18 @@ public class Item extends Entity {
   public void interact(YettiGame game,
                        GameScreen screen,
                        Player player,
-                       Event event) {
-    boolean justUsed = event.activate(screen, player, this, game);
+                       Event event,
+                       int time) {
+      boolean justUsed;
+      if (time < event.getLastInteraction() -2) {
+          justUsed = event.activate(screen, player, this, game, time);
+      }
+      else{
+          justUsed = false;
+      }
 
-    if (justUsed) {
+
+      if (justUsed) {
       used = true;
       player.inventory.add(key);
       event.modifyScore(game);

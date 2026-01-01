@@ -43,7 +43,7 @@ public class Event extends Item {
   private boolean barrierCountingDown = false;
   private Sound sfx;
   private String Audio;
-
+  private int lastInteraction = 300;
   public Event(MapObject mapObject) {
     this(mapObject, parseProperties(mapObject));
   }
@@ -167,8 +167,9 @@ public class Event extends Item {
     this.counter += 1;
   }
 
-  public boolean activate(final GameScreen screen, Player player, Item item, YettiGame game) {
-    if (win) {
+  public boolean activate(final GameScreen screen, Player player, Item item, YettiGame game, int time) {
+      lastInteraction = time;
+      if (win) {
       game.setScreen(new WinScreen(game, game.calculateFinalScore(), game.playerName));
     }
 
@@ -306,7 +307,11 @@ public class Event extends Item {
     return base + "@" + x + "," + y;
   }
 
-  private static class ParsedEventProps {
+    public int getLastInteraction() {
+      return lastInteraction;
+    }
+
+    private static class ParsedEventProps {
     float x;
     float y;
     float width;

@@ -333,7 +333,7 @@ public class GameScreen implements Screen {
 
         // Check for interaction with items
         if (e instanceof Item item) {
-          item.interact(game, this, player, (Event) e);
+          item.interact(game, this, player, (Event) e, game.timer.getRemainingTime());
         }
       }
     });
