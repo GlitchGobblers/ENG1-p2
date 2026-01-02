@@ -7,12 +7,14 @@ import io.github.glitchgobblers.GdxTestBase;
 import io.github.glitchgobblers.YettiGame;
 import io.github.glitchgobblers.entities.Item;
 import io.github.glitchgobblers.entities.Player;
+import io.github.glitchgobblers.events.Event;
 import io.github.glitchgobblers.screens.GameScreen;
+import io.github.glitchgobblers.screens.WinScreen;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class EventSystemTest extends GdxTestBase {
 
@@ -75,4 +77,32 @@ public class EventSystemTest extends GdxTestBase {
             return hasKey;
         }
     }
+
+    @Test
+    public void testWinEventOpenWinScreen() throws Exception  {
+
+        YettiGame game = new YettiGame();
+        // Mock the dependencies( screen, player)
+        GameScreen screen = Mockito.mock(GameScreen.class);
+        Player player = Mockito.mock(Player.class);
+        game.timer = new io.github.glitchgobblers.Timer(0);
+        game.viewport = new com.badlogic.gdx.utils.viewport.FitViewport(16, 9);
+        game.batch = Mockito.mock(com.badlogic.gdx.graphics.g2d.SpriteBatch.class);
+
+
+       // start game on gameScreen
+        game.setScreen(screen);
+      // mock the event, run its real methods run and force it to be a win event
+        Event event = mock(Event.class, CALLS_REAL_METHODS);
+        var winField = Event.class.getDeclaredField("win");
+        winField.setAccessible(true);
+        winField.set(event, true);
+        //trigger event
+        event.activate(screen, player, null, game,0);
+        // game should now switch to win screen
+        assertTrue(game.getScreen() instanceof WinScreen);
+    }
+
+
+
 }

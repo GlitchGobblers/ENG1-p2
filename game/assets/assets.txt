@@ -1,6 +1,5 @@
 Roboto-OFL.txt
 Roboto.ttf
-achievements.txt
 audio/cartoon_quick_slip.wav
 audio/coin_sound.wav
 audio/deep_growl_1.wav

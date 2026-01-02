@@ -21,4 +21,5 @@ public class ScoreLogicTest extends GdxTestBase {
 
         assertEquals(600, result, "Score should equal collected points + remaining seconds");
     }
+
 }
