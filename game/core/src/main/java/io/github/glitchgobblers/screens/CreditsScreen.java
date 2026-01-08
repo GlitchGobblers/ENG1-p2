@@ -50,7 +50,7 @@ public class CreditsScreen implements Screen {
         scaled(0.5f), scaled(7f)
     );
     addCreditHyperlinkLabel(
-        "Cool School tileset (CC0 1.0)", "https://opengameart.org/content/cool-school-tileset",
+        "Door Slam (Attribution 4)", "https://freesound.org/people/bennstir/sounds/80929/",
         scaled(0.5f), scaled(6f)
     );
     addCreditHyperlinkLabel(
@@ -58,38 +58,12 @@ public class CreditsScreen implements Screen {
         scaled(0.5f), scaled(5f)
     );
     addCreditHyperlinkLabel(
-        "Free Pixel Character (CC0 1.0)", "https://kettoman.itch.io/free-pixel-character-base-pack-32x32-top-down-farmer-animations",
+        "Roboto (Open Font License 1.1)", "https://github.com/googlefonts/roboto-3-classic/",
         scaled(0.5f), scaled(4f)
     );
     addCreditHyperlinkLabel(
-        "Roboto (Open Font License 1.1)", "https://github.com/googlefonts/roboto-3-classic/",
-        scaled(0.5f), scaled(3f)
-    );
-    addCreditHyperlinkLabel(
         "(Roboto copyright notice)", "https://github.com/googlefonts/roboto-3-classic/blob/main/OFL.txt",
-        scaled(1.5f), scaled(2f)
-    );
-
-    // Right column
-    addCreditHyperlinkLabel(
-        "Duck Quack (CC0 1.0)", "https://freesound.org/people/Tabby+Gus./sounds/515408/",
-        scaled(9f), scaled(7f)
-    );
-    addCreditHyperlinkLabel(
-        "Paper Rustle (CC0 1.0)", "https://freesound.org/people/BenjaminNelan/sounds/353125/",
-        scaled(9f), scaled(6f)
-    );
-    addCreditHyperlinkLabel(
-        "dorm door opening (CC0 1.0)", "https://freesound.org/people/pagancow/sounds/15419/",
-        scaled(9f), scaled(5f)
-    );
-    addCreditHyperlinkLabel(
-        "Cartoon Quick Zip (CC0 1.0)", "https://freesound.org/people/se2001/sounds/541506/",
-        scaled(9f), scaled(4f)
-    );
-    addCreditHyperlinkLabel(
-        "Deep Growl 1 (CC0 1.0)", "https://freesound.org/people/noahpardo/sounds/345733/",
-        scaled(9f), scaled(3f)
+        scaled(1.5f), scaled(3f)
     );
   }
 
