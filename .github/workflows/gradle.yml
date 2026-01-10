@@ -19,40 +19,45 @@ jobs:
 
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6.0.1
+
       - name: Set up JDK 17
         uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e #v5.1.0
         with:
           java-version: '17'
           distribution: 'temurin'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
+
       - name: Build with Gradle Wrapper
         run: cd game && ./gradlew build
+
+      - name: Create Native Builds
+        run: java -jar packr-all.jar ./.github/workflows/packr-${{ matrix.os }}.json
+
       - name: Upload library JAR
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
         with:
           name: lib-${{ matrix.os }}.jar
           path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
+
       - name: Upload Checkstyle report
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
         if: startsWith(matrix.os, 'ubuntu')
         with:
           name: main.html
           path: game/core/build/reports/checkstyle
+
       - name: Test Summary
         uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 #v2.4
         with:
           paths: "game/core/build/test-results/test/TEST-*.xml"
           output: test-summary.md
           show: all
+
       - name: Upload test summary
         shell: bash
         run: cat test-summary.md >> $GITHUB_STEP_SUMMARY
-#      - name: Upload test summary artifact
-#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-#        with:
-#          name: test-summary.md
-#          path: test-summary.md
 
   release:
     runs-on: ubuntu-latest
@@ -63,17 +68,12 @@ jobs:
       contents: write
 
     steps:
-      - name: Download All Artifacts
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 #v7.0.0
-        with:
-          path: ./artifacts # This downloads all jars into subfolders
-
       - name: Prepare for Release
         run: |
           mkdir release_files
-          cp artifacts/lib-ubuntu-latest.jar/YettiGame-1.0.0.jar release_files/YettiGame-linux.jar
-          cp artifacts/lib-windows-latest.jar/YettiGame-1.0.0.jar release_files/YettiGame-windows.jar
-          cp artifacts/lib-macos-latest.jar/YettiGame-1.0.0.jar release_files/YettiGame-macos.jar
+          cp out-linux/YettiGame release_files/YettiGame
+          cp out-windows/YettiGame.exe release_files/YettiGame.exe
+          cp out-mac/YettiGame release_files/YettiGame
 
       - name: Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b #v2.5.0

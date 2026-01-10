@@ -1,0 +1,10 @@
+{
+    "platform": "linux64",
+    "jdk": "./jdks/OpenJDK17U-jre_x64_linux_hotspot_17.0.17_10.tar.gz",
+    "executable": "YettiGame",
+    "classpath": [
+        "./game/lwjgl3/build/libs/YettiGame-1.0.0.jar"
+    ],
+    "mainclass": "io.github.glitchgobblers.lwjgl3.Lwjgl3Launcher",
+    "output": "out-linux"
+}
