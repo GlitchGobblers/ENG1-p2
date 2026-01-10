@@ -16,7 +16,7 @@ public class Player extends Entity {
   final ArrayList<String> inventory = new ArrayList<>();
 
   public Player(Texture tex, float x, float y) {
-    super(tex, x, y, 0.9f, 1.6f, PLAYER_SPEED, false, false);
+    super(tex, x, y, 0.8f, 1.4f, PLAYER_SPEED, false, false);
   }
 
   public void applySpeedBoost(float multiplier, float durationSeconds) {

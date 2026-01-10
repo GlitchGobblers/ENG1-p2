@@ -119,6 +119,8 @@ public class GameScreen implements Screen {
 
     camera = new  OrthographicCamera();
     camera.setToOrtho(false, 90, 60 + UI_PADDING_TOP);
+    camera.zoom = 0.2f;
+    camera.update();
     camera.position.y -= UI_PADDING_TOP / 2f;
     camera.update();
     interfaceCamera = new  OrthographicCamera();
@@ -316,6 +318,7 @@ public class GameScreen implements Screen {
         dean.doMove(delta);
       }
     }
+    updateCameraFollow();
     if (!game.isPaused()) {
       for (Entity e : entities) {
         e.update(delta);
@@ -386,7 +389,6 @@ public class GameScreen implements Screen {
   // draws map and entities to screen
   private void draw(float delta) {
     ScreenUtils.clear(0f, 0f, 0f, 1f);
-    camera.update();
 
     // draw map
     mapManager.render();
@@ -603,7 +605,16 @@ public class GameScreen implements Screen {
     }
   }
 
-    public Texture getDoorframeTexture() {
+  private void updateCameraFollow() {
+    float targetX = player.getX() + player.getWidth() * 0.5f;
+    float targetY = player.getY() + player.getHeight() * 0.5f;
+
+    camera.position.set(targetX, targetY, 0f);
+    camera.update();
+  }
+
+
+  public Texture getDoorframeTexture() {
         return doorframeTexture;
     }
 
