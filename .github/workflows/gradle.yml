@@ -35,18 +35,18 @@ jobs:
       - name: Create Native Builds
         run: java -jar packr-all.jar ./.github/workflows/packr-${{ matrix.os }}.json
 
-      - name: Upload library JAR
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-        with:
-          name: lib-${{ matrix.os }}.jar
-          path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
-
-      - name: Upload Checkstyle report
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-        if: startsWith(matrix.os, 'ubuntu')
-        with:
-          name: main.html
-          path: game/core/build/reports/checkstyle
+#      - name: Upload library JAR
+#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+#        with:
+#          name: lib-${{ matrix.os }}.jar
+#          path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
+#
+#      - name: Upload Checkstyle report
+#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+#        if: startsWith(matrix.os, 'ubuntu')
+#        with:
+#          name: main.html
+#          path: game/core/build/reports/checkstyle
 
       - name: Test Summary
         uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 #v2.4
