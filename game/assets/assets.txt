@@ -32,7 +32,6 @@ item/key_card.png
 item/long_boi.png
 item/speed_coffee.png
 item/water_spill.png
-leaderboard.json
 map/atlas_48x.png
 map/atlas_48x.tsx
 map/atlas_48xbigger.png

@@ -172,3 +172,5 @@ Thumbs.db
 /game/build
 /game/core/build/test-results
 /build
+
+/game/assets/leaderboard.json
