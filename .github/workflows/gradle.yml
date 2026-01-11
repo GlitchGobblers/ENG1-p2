@@ -35,18 +35,32 @@ jobs:
       - name: Create Native Builds
         run: java -jar packr-all.jar ./.github/workflows/packr-${{ matrix.os }}.json
 
-#      - name: Upload library JAR
-#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-#        with:
-#          name: lib-${{ matrix.os }}.jar
-#          path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
-#
-#      - name: Upload Checkstyle report
-#        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
-#        if: startsWith(matrix.os, 'ubuntu')
-#        with:
-#          name: main.html
-#          path: game/core/build/reports/checkstyle
+      - name: Upload library JAR
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+        with:
+          name: lib-${{ matrix.os }}.jar
+          path: game/lwjgl3/build/libs/YettiGame-1.0.0.jar
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+        if: startsWith(matrix.os, 'windows')
+        with:
+          name: YettiGame-${{ matrix.os }}
+          path: out-${{ matrix.os }}/YettiGame.exe
+
+      - name: Upload Non-Windows build
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+        if: "!startsWith(matrix.os, 'windows')"
+        with:
+          name: YettiGame-${{ matrix.os }}
+          path: out-${{ matrix.os }}/YettiGame
+
+      - name: Upload Checkstyle report
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f #v6.0.0
+        if: startsWith(matrix.os, 'ubuntu')
+        with:
+          name: main.html
+          path: game/core/build/reports/checkstyle
 
       - name: Test Summary
         uses: test-summary/action@31493c76ec9e7aa675f1585d3ed6f1da69269a86 #v2.4
@@ -68,12 +82,17 @@ jobs:
       contents: write
 
     steps:
+      - name: Download All Artifacts
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 #v7.0.0
+        with:
+          path: ./artifacts # This downloads all jars into subfolders
+
       - name: Prepare for Release
         run: |
           mkdir release_files
-          cp out-linux/YettiGame release_files/YettiGame
-          cp out-windows/YettiGame.exe release_files/YettiGame.exe
-          cp out-mac/YettiGame release_files/YettiGame
+          cp artifacts/YettiGame-ubuntu-latest release_files/YettiGame-linux
+          cp artifacts/YettiGame-windows-latest.exe release_files/YettiGame.exe
+          cp artifacts/YettiGame-macos-latest release_files/YettiGame-macos
 
       - name: Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b #v2.5.0

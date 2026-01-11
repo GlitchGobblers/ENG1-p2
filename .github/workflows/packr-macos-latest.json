@@ -6,5 +6,5 @@
         "./game/lwjgl3/build/libs/YettiGame-1.0.0.jar"
     ],
     "mainclass": "io.github.glitchgobblers.lwjgl3.Lwjgl3Launcher",
-    "output": "out-mac"
+    "output": "out-macos-latest"
 }
