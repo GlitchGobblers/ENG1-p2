@@ -489,23 +489,23 @@ public class GameScreen implements Screen {
 
   // Used for logic that should happen after rendering, normally screen changes
   private void postLogic() {
-    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-      int finalScore = game.calculateFinalScore();
-      if (eventTracker != null && eventTracker.allEventsTriggered()) {
-        game.achievements.markAllEventsCompleted(game);
-      }
-      game.setScreen(new WinScreen(game, finalScore, game.playerName));
+//    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+//      int finalScore = game.calculateFinalScore();
+//      if (eventTracker != null && eventTracker.allEventsTriggered()) {
+//        game.achievements.markAllEventsCompleted(game);
+//      }
+//      game.setScreen(new WinScreen(game, finalScore, game.playerName));
+//
+//      dispose();
+//      return;
+//    }
 
-      dispose();
-      return;
-    }
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-      int finalScore = game.calculateFinalScore();
-      game.setScreen(new LoseScreen(game, finalScore, game.playerName));
-      dispose();
-      return;
-    }
+//    if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+//      int finalScore = game.calculateFinalScore();
+//      game.setScreen(new LoseScreen(game, finalScore, game.playerName));
+//      dispose();
+//      return;
+//    }
 
     // Dean collision
     if (player.collidedWith(dean) && dean.isEnabled()) {
